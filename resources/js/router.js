@@ -9,17 +9,17 @@ Vue.use(Router)
 
 const routes = [
 	{
-		path: '/OAT_laravel/vue',
+		path: '/OAT_laravel_vue/vue',
 		name: 'vue',
 		component: firstPage
 	},
 	{
-		path: '/OAT_laravel/my-new-vue-route',
+		path: '/OAT_laravel_vue/my-new-vue-route',
 		name: 'first',
 		component: firstPage
 	},
 	{
-		path: '/OAT_laravel/my-new-vue-route-2',
+		path: '/OAT_laravel_vue/my-new-vue-route-2',
 		name: 'second',
 		component: secondPage
 	}	
