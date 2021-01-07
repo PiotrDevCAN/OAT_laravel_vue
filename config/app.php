@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'UKI Overtime Approval Tool (OAT)'),
 
     /*
     |--------------------------------------------------------------------------
@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool) env('APP_DEBUG', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'https://soiwapi-new.icds.ibm.com/OAT_laravel'),
 
     'asset_url' => env('ASSET_URL', null),
 
@@ -174,7 +174,26 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
+        App\Providers\DB2IBMServiceProvider::class,
+        App\Providers\BluePagesServiceProvider::class,
+        App\Providers\BlueGroupsServiceProvider::class,
+        App\Providers\BlueGroupsManageServiceProvider::class,
+        
+        /*
+         * laravel-collective Providers
+         */
+        Collective\Html\HtmlServiceProvider::class,
+        
+        /*
+         * Adldap2-Laravel Provider
+         */
+//         Adldap\Laravel\AdldapServiceProvider::class,
+//         Adldap\Laravel\AdldapAuthServiceProvider::class,
+        
+        /*
+         * ixudra/curl Providers
+         */
+        Ixudra\Curl\CurlServiceProvider::class,
     ],
 
     /*
@@ -226,7 +245,17 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
+        'Form' => Collective\Html\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
+        'Curl' => Ixudra\Curl\Facades\Curl::class,
+//         'Adldap' => Adldap\Laravel\Facades\Adldap::class,
+        'BluePages' => App\Helpers\BluePages\Facades\BluePages::class,
+        'BlueGroups' => App\Helpers\BlueGroups\Facades\BlueGroups::class,
+        'BlueGroupsManage' => App\Helpers\BlueGroupsManage\Facades\BlueGroupsManage::class,
+        
     ],
 
+    'user_bg' => env('USER_BG', 'OAT_User'),
+    'admin_bg' => env('USER_BG', 'OAT_Admin'),
+    
 ];

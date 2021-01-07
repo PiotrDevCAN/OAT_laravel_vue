@@ -14,14 +14,5 @@ use App\Http\Controllers\Index;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-    
-// Home VUE
-Route::get('/vue', [Index::class, 'vue'])
-    ->name('homeVue');
-
-// VUE
-Route::any('{slug}', [Index::class, 'vue'])
-    ->name('anyVue');
+// Vue
+Route::get('/{any}', [Index::class, 'index'])->where('any', '.*');

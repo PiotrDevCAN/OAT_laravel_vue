@@ -9,12 +9,16 @@
     "license": "MIT",
     "require": {
         "php": "^7.3",
+        "adldap2/adldap2-laravel": "^6.1",
+        "cooperl/laravel-db2": "^8.0",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "ixudra/curl": "^6.21",
         "laravel/framework": "^8.0",
         "laravel/tinker": "^2.0",
-        "laravel/ui": "^3.1"
+        "laravel/ui": "^3.1",
+        "laravelcollective/html": "^6.1"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",

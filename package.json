@@ -22,5 +22,17 @@
         "sass-loader": "^8.0.0",
         "vue": "^2.5.17",
         "vue-template-compiler": "^2.6.10"
+    },
+    "dependencies": {
+        "@carbon/icons-vue": "^10.22.0",
+        "@carbon/layout": "^10.15.0",
+        "@carbon/pictograms-react": "^11.0.0",
+        "@carbon/themes": "^10.24.0",
+        "@carbon/type": "^10.18.0",
+        "@carbon/vue": "^2.35.0",
+        "carbon-components": "^10.25.0",
+        "es6-promise": "^4.2.8",
+        "vue-router": "^3.4.9",
+        "vuex": "^3.6.0"
     }
 }

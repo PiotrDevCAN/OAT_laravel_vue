@@ -8,7 +8,8 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
+    <script>window.Laravel = {csrfToken: '{{ csrf_token() }}'}</script>
+    
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
@@ -21,35 +22,21 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
+
+  <script>
+    // window.title = '{{ config('app.name', 'Laravel') }}'
+    // Vue.prototype.$appName = 'My App from LARAVEL'
+  </script>
+  
+    <noscript>
+      <strong>
+		    We're sorry but OAT Tool doesn't work properly without JavaScript enabled. Please enable it to continue.
+	    </strong>
+    </noscript>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                    </ul>
-                </div>
-            </div>
-        </nav>
-
-        <main class="py-4">
-        
-        	<example-component />
-            
-        </main>
+      <App
+        app-name="{{ config('app.name', 'Laravel') }}"
+      ></App>
     </div>
     <script src="{{ asset('js/app.js') }}" defer></script>
 </body>

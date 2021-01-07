@@ -38,9 +38,24 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'users-ldap',
         ],
-
+        
+        'guest' => [
+            'driver' => 'session',
+            'provider' => 'bluegroups-guest',
+        ],
+        
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'bluegroups-admin',
+        ],
+        
+//         'web-default' => [
+//             'driver' => 'session',
+//             'provider' => 'users',
+//         ],
+        
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
@@ -67,14 +82,31 @@ return [
 
     'providers' => [
         'users' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+           'driver' => 'eloquent',
+           'model' => App\Models\User::class,
         ],
-
+        
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
+        
+        'users-ldap' => [
+            'driver' => 'ldap', // Changed from 'eloquent'
+            'model' => App\Models\User::class,
+        ],
+        
+        'bluepages-user' => [
+            'driver' => 'bluepages-provider',
+        ],
+        
+        'bluegroups-guest' => [
+            'driver' => 'bluegroups-guest-provider',
+        ],
+        
+        'bluegroups-admin' => [
+            'driver' => 'bluegroups-admin-provider',
+        ],
     ],
 
     /*
