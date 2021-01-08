@@ -115,7 +115,15 @@
         created() {
             if (this.loadData) {
                 this.loading = true;
-                store.dispatch(this.dataGetter).then(() => {
+
+                var data = {
+                    requestType: this.type
+                };
+
+                console.log('DataTable data');
+                console.log(data);
+
+                store.dispatch(this.fetchRequests, data).then(() => {
                     this.loading = false;
                     this.paginationParams.numberOfItems = 1000;
                 });

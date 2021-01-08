@@ -68,6 +68,21 @@ export default {
                     commit('setTribeLeaders', data.tribeLeaders);
                 });
         },
+        fetchRequests({ commit }) {
+            const baseURI = '/OAT_laravel_vue/api/request/list';
+            
+            console.log('requests commit');
+            console.log(commit);
+
+            var data = {
+                requestType: "awaiting"
+            };
+
+            return axios.post(baseURI, data)
+                .then(response => {
+                    commit('setAwaiting', response.data.data);
+                });
+        },
 
         fetchAwaitingRequests({ commit }) {
             const baseURI = '/OAT_laravel_vue/api/request/list';

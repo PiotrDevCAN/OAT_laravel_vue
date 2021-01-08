@@ -28,7 +28,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 // Overtime Requests
 Route::prefix('request')->name('api.request.')->group(function () {
     
-    Route::get('filters', [OvertimeRequests::class, 'filters'])
+    Route::post('filters', [OvertimeRequests::class, 'filters'])
         ->name('filters');
 
     Route::match(['get', 'post'], 'list', [OvertimeRequests::class, 'list'])

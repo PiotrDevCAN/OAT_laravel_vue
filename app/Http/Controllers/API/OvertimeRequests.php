@@ -75,6 +75,32 @@ class OvertimeRequests extends Controller
     public function list(Request $request)
     {
         $draw = $request->post('draw', 1);
+
+        $columns = array(
+            "Ref",
+            "Account",
+            "Service Line",
+            "Reason",
+            "Title",
+            "Details",
+            "Week Ending",
+            "Name",
+            "Serial",
+            "Country",
+            "Hours",
+            "Status",
+            "1st Level Approval",
+            "2nd Level Approval",
+            "3rd Level Approval",
+            "Requestor",
+            "Approval",
+            "Squad Leader",
+            "Tribe Leader",
+            "Pre",
+            "Post",
+            "Claim Acc",
+            "Created"
+        );
         
         $start = $request->post('start', 0);
         $length = $request->post('length', OvertimeRequest::$limit);
@@ -119,6 +145,7 @@ class OvertimeRequests extends Controller
         
         $resourceCollection->additional([
             'draw' => $draw,
+            'columns' => $columns,
             'recordsTotal' => $recordsTotal,
             'recordsFiltered' => $recordsFiltered
         ]);
