@@ -9,51 +9,51 @@
             <cv-column :lg="4">
                 <cv-select label="Account">
                     <cv-select-option disabled selected hidden>Choose an option</cv-select-option>
-                    <cv-select-option v-bind:key="account" v-for="account in accounts" :value="account">{{ account }}</cv-select-option>
+                    <cv-select-option v-bind:key="row" v-for="row in accounts" :value="row.account">{{ row.account }}</cv-select-option>
                 </cv-select>
                 <cv-select label="Reason">
                     <cv-select-option disabled selected hidden>Choose an option</cv-select-option>
-                    <cv-select-option v-bind:key="reason" v-for="reason in reasons" :value="reason">{{ reason }}</cv-select-option>
+                    <cv-select-option v-bind:key="row" v-for="row in reasons" :value="row.reason">{{ row.reason }}</cv-select-option>
                 </cv-select>
                 <cv-select label="Name">
                     <cv-select-option disabled selected hidden>Choose an option</cv-select-option>
-                    <cv-select-option v-bind:key="name" v-for="name in names" :value="name">{{ name }}</cv-select-option>
+                    <cv-select-option v-bind:key="row" v-for="row in names" :value="row.name">{{ row.name }}</cv-select-option>
                 </cv-select>
                 <cv-select label="Type">
                     <cv-select-option disabled selected hidden>Choose an option</cv-select-option>
-                    <cv-select-option v-bind:key="type" v-for="type in types" :value="type">{{ type }}</cv-select-option>
+                    <cv-select-option v-bind:key="row" v-for="row in types" :value="row.approvaltype">{{ row.approvaltype }}</cv-select-option>
                 </cv-select>
             </cv-column>
             <cv-column :lg="4">
                 <cv-select label="Service Line">
                     <cv-select-option disabled selected hidden>Choose an option</cv-select-option>
-                    <cv-select-option v-bind:key="type" v-for="type in types" :value="type">{{ type }}</cv-select-option>
+                    <cv-select-option v-bind:key="row" v-for="row in competencies" :value="row.competency">{{ row.competency }}</cv-select-option>
                 </cv-select>
                 <cv-select label="Status">
                     <cv-select-option disabled selected hidden>Choose an option</cv-select-option>
-                    <cv-select-option v-bind:key="type" v-for="type in types" :value="type">{{ type }}</cv-select-option>
+                    <cv-select-option v-bind:key="row" v-for="row in statuses" :value="row.status">{{ row.status }}</cv-select-option>
                 </cv-select>
                 <cv-select label="Requestor">
                     <cv-select-option disabled selected hidden>Choose an option</cv-select-option>
-                    <cv-select-option v-bind:key="type" v-for="type in types" :value="type">{{ type }}</cv-select-option>
+                    <cv-select-option v-bind:key="row" v-for="row in requestors" :value="row.requestor">{{ row.requestor }}</cv-select-option>
                 </cv-select>
                 <cv-select label="Location">
                     <cv-select-option disabled selected hidden>Choose an option</cv-select-option>
-                    <cv-select-option v-bind:key="type" v-for="type in types" :value="type">{{ type }}</cv-select-option>
+                    <cv-select-option v-bind:key="row" v-for="row in locations" :value="row.location">{{ row.location }}</cv-select-option>
                 </cv-select>
             </cv-column>
             <cv-column :lg="4">
                 <cv-select label="Weekend >=">
                     <cv-select-option disabled selected hidden>Choose an option</cv-select-option>
-                    <cv-select-option v-bind:key="type" v-for="type in types" :value="type">{{ type }}</cv-select-option>
+                    <cv-select-option v-bind:key="row" v-for="row in weekendStart" :value="row.weekendstart">{{ row.weekendstart }}</cv-select-option>
                 </cv-select>
                 <cv-select label="Weekend <=">
                     <cv-select-option disabled selected hidden>Choose an option</cv-select-option>
-                    <cv-select-option v-bind:key="type" v-for="type in types" :value="type">{{ type }}</cv-select-option>
+                    <cv-select-option v-bind:key="row" v-for="row in weekendEnd" :value="row.weekendend">{{ row.weekendend }}</cv-select-option>
                 </cv-select>
                 <cv-select label="Import">
                     <cv-select-option disabled selected hidden>Choose an option</cv-select-option>
-                    <cv-select-option v-bind:key="type" v-for="type in types" :value="type">{{ type }}</cv-select-option>
+                    <cv-select-option v-bind:key="row" v-for="row in imports" :value="row.import">{{ row.import }}</cv-select-option>
                 </cv-select>
             </cv-column>
         </cv-row>
@@ -66,19 +66,19 @@
             <cv-column :lg="4">
                 <cv-select label="1st Level Approver">
                     <cv-select-option disabled selected hidden>Choose an option</cv-select-option>
-                    <cv-select-option v-bind:key="type" v-for="type in types" :value="type">{{ type }}</cv-select-option>
+                    <cv-select-option v-bind:key="row" v-for="row in firstApprovers" :value="row.approver_first_level">{{ row.approver_first_level }}</cv-select-option>
                 </cv-select>
             </cv-column>
             <cv-column :lg="4">
                 <cv-select label="2nd Level Approver">
                     <cv-select-option disabled selected hidden>Choose an option</cv-select-option>
-                    <cv-select-option v-bind:key="type" v-for="type in types" :value="type">{{ type }}</cv-select-option>
+                    <cv-select-option v-bind:key="row" v-for="row in secondApprovers" :value="row.approver_second_level">{{ row.approver_second_level }}</cv-select-option>
                 </cv-select>
             </cv-column>
             <cv-column :lg="4">
                 <cv-select label="3rd Level Approver">
                     <cv-select-option disabled selected hidden>Choose an option</cv-select-option>
-                    <cv-select-option v-bind:key="type" v-for="type in types" :value="type">{{ type }}</cv-select-option>
+                    <cv-select-option v-bind:key="row" v-for="row in thirdApprovers" :value="row.approver_third_level">{{ row.approver_third_level }}</cv-select-option>
                 </cv-select>
             </cv-column>
         </cv-row>
@@ -91,19 +91,19 @@
             <cv-column :lg="4">
                 <cv-select label="Approval Mode">
                     <cv-select-option disabled selected hidden>Choose an option</cv-select-option>
-                    <cv-select-option v-bind:key="type" v-for="type in types" :value="type">{{ type }}</cv-select-option>
+                    <cv-select-option v-bind:key="row" v-for="row in approvalModes" :value="row.approval_mode">{{ row.approval_mode }}</cv-select-option>
                 </cv-select>
             </cv-column>
             <cv-column :lg="4">
                 <cv-select label="Squad Leader">
                     <cv-select-option disabled selected hidden>Choose an option</cv-select-option>
-                    <cv-select-option v-bind:key="type" v-for="type in types" :value="type">{{ type }}</cv-select-option>
+                    <cv-select-option v-bind:key="row" v-for="row in squadLeaders" :value="row.approver_squad_leader">{{ row.approver_squad_leader }}</cv-select-option>
                 </cv-select>
             </cv-column>
             <cv-column :lg="4">
                 <cv-select label="Tribe Leader">
                     <cv-select-option disabled selected hidden>Choose an option</cv-select-option>
-                    <cv-select-option v-bind:key="type" v-for="type in types" :value="type">{{ type }}</cv-select-option>
+                    <cv-select-option v-bind:key="row" v-for="row in tribeLeaders" :value="row.approver_tribe_leader">{{ row.approver_tribe_leader }}</cv-select-option>
                 </cv-select>
             </cv-column>
         </cv-row>
