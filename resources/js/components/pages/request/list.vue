@@ -17,7 +17,7 @@
                 </cv-select>
                 <cv-select label="Name">
                     <cv-select-option disabled selected hidden>Choose an option</cv-select-option>
-                    <cv-select-option v-bind:key="row" v-for="row in names" :value="row.name">{{ row.name }}</cv-select-option>
+                    <cv-select-option v-bind:key="row" v-for="row in names" :value="row.worker">{{ row.worker }}</cv-select-option>
                 </cv-select>
                 <cv-select label="Type">
                     <cv-select-option disabled selected hidden>Choose an option</cv-select-option>
