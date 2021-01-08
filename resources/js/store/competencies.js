@@ -3,7 +3,7 @@ export default {
         competencies: []
     },
     init() {
-        const baseURI = 'http://localhost/OAT_laravel_vue/api/competency/list';
+        const baseURI = '/OAT_laravel_vue/api/competency/list';
         this.$http
             .get(baseURI)
             .then((response) => {

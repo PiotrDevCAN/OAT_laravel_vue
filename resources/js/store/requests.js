@@ -39,7 +39,7 @@ export default {
     actions: {
 
         fetchFiltesData({ commit }) {
-            const baseURI = 'http://localhost/OAT_laravel_vue/api/request/filters';
+            const baseURI = '/OAT_laravel_vue/api/request/filters';
             return axios.get(baseURI)
                 .then(response => {
 
@@ -70,21 +70,21 @@ export default {
         },
 
         fetchAwaitingRequests({ commit }) {
-            const baseURI = 'http://localhost/OAT_laravel_vue/api/request/list';
+            const baseURI = '/OAT_laravel_vue/api/request/list';
             return axios.get(baseURI)
                 .then(response => {
                     commit('setAwaiting', response.data.data);
                 });
         },
         fetchApprovedRequests({ commit }) {
-            const baseURI = 'http://localhost/OAT_laravel_vue/api/request/list';
+            const baseURI = '/OAT_laravel_vue/api/request/list';
             return axios.get(baseURI)
                 .then(response => {
                     commit('setApporved', response.data.data);
                 });
         },
         fetchOtherRequests({ commit }) {
-            const baseURI = 'http://localhost/OAT_laravel_vue/api/request/list';
+            const baseURI = '/OAT_laravel_vue/api/request/list';
             return axios.get(baseURI)
                 .then(response => {
                     commit('setOther', response.data.data);

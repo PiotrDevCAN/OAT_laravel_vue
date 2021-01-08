@@ -3,7 +3,7 @@ export default {
         logs: []
     },
     init() {
-        const baseURI = 'http://localhost/OAT_laravel_vue/api/log/list';
+        const baseURI = '/OAT_laravel_vue/api/log/list';
         this.$http
             .get(baseURI)
             .then((response) => {

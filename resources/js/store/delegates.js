@@ -3,7 +3,7 @@ export default {
         delegates: []
     },
     init() {
-        const baseURI = 'http://localhost/OAT_laravel_vue/api/delegate/list';
+        const baseURI = '/OAT_laravel_vue/api/delegate/list';
         this.$http
             .get(baseURI)
             .then((response) => {

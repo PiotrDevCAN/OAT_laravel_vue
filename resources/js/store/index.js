@@ -28,7 +28,7 @@ export default new Vuex.Store({
     },
     /*
     init() {
-        const baseURI = 'http://localhost/OAT_laravel_vue/api/request/list';
+        const baseURI = '/OAT_laravel_vue/api/request/list';
         this.$http
             .get(baseURI)
             .then((response) => {

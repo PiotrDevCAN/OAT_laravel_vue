@@ -3,7 +3,7 @@ export default {
         accounts: []
     },
     init() {
-        const baseURI = 'http://localhost/OAT_laravel_vue/api/account/list';
+        const baseURI = '/OAT_laravel_vue/api/account/list';
         this.$http
             .get(baseURI)
             .then((response) => {
