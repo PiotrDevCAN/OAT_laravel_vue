@@ -12,14 +12,36 @@ class OvertimeRequestResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    /*
     public function toArray($request)
     {
         return [
+            'reference' => trim($this->reference),
+            'account' => trim($this->account),
+            'competency' => trim($this->competency),
+            'nature' => trim($this->nature),
+            'title' => trim($this->title),
+            'details' => trim($this->details),
+            'week_ending' => trim($this->weekenddate),
+            'worker' => trim($this->worker),
+            'serial' => trim($this->serial),
+            'country' => trim($this->country),
+            'hours' => trim($this->hours),
+            'status' => trim($this->status),
+            '1st Level Approval' => trim($this->approver_first_level),
+            '2nd Level Approval' => trim($this->approver_second_level),
+            '3rd Level Approval' => trim($this->approver_third_level),
+            'requestor' => trim($this->requestor),
+            'approval' => trim($this->approval_mode),
+            'squad_leader' => trim($this->approver_squad_leader),
+            'tribe_leader' => trim($this->approver_tribe_leader),
+            'pre' => trim($this->supercedes),
+            'post' => trim($this->supercededby),
+            'claim Acc' => trim($this->claim_acc_id),
+            'created_ts' => trim($this->created_ts)
+            /*
             'id' => $this->resource['id'],
             'name' => $this->resource['name'],
             'reference' => $this->resource['reference'],
-            /*
             'reference' => trim($this->reference),
             'requestor' => trim($this->requestor),
             'requested' => trim($this->requested),
@@ -54,16 +76,8 @@ class OvertimeRequestResource extends JsonResource
             'approval_third_level_via' => trim($this->approval_third_level_via),
             'approval_mode' => trim($this->approval_mode),
             'approver_squad_leader' => trim($this->approver_squad_leader),
-            'approver_tribe_leader' => trim($this->approver_tribe_leader),
-            'urls' => [
-                'item' => route('request.show', ['overtimeRequest' => $this->reference]),
-                'approve' => route('api.request.approve', ['overtimeRequest' => $this->reference]),
-                'reject' => route('api.request.reject', ['overtimeRequest' => $this->reference]),
-                'change_flow' => route('api.request.changeFlow', ['overtimeRequest' => $this->reference])
-            ]
-            */
-            /*
+            'approver_tribe_leader' => trim($this->approver_tribe_leader)
+            */      
         ];
-    }  
-    */ 
+    }
 }

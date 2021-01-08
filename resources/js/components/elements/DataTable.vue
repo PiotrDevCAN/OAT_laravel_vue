@@ -14,6 +14,9 @@
         :helper-text="helperText"
         :data="dataTableData"
         :pagination="paginationParams"
+
+        :has-expand-all="hasExpandAll"
+
         @search="onFilter"
         @pagination="actionOnPagination"
         @row-select-change="actionRowSelectChange"
@@ -45,6 +48,13 @@
         </template>
 
         <data-table-batch-actions slot="batch-actions"/>
+
+        <template v-if="use_expandingSlottedData" slot="data">
+            <cv-data-table-row v-for="(row, rowIndex) in internalData" :key="`${rowIndex}`" :value="`${rowIndex}`" :expanded="rowIndex === rowExpanded" aria-label-expand-row="Go large" aria-label-collapse-row="Go small">
+                <cv-data-table-cell v-for="(cell, cellIndex) in row" :key="`${cellIndex}`" :value="`${cellIndex}`" v-html="cell"></cv-data-table-cell>
+                <template slot="expandedContent">A variety of content types can live here. Be sure to follow Carbon design guidelines for spacing and alignment.</template>
+            </cv-data-table-row>
+        </template>
 
     </cv-data-table>
 </template>
@@ -91,7 +101,10 @@
                 paginationParams: {
                     numberOfItems: 0,
                     pageSizes: [5, 10, 15, 20, 25]
-                }
+                },
+                use_expandingSlottedData: true,
+                rowExpanded: -1,
+                hasExpandAll: false
             }
         },
         computed: {

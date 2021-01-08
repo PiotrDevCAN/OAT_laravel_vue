@@ -123,9 +123,7 @@ class OvertimeRequests extends Controller
             'recordsFiltered' => $recordsFiltered
         ]);
         
-        return $resourceCollection;
-        
-        // return response()->json($resourceCollection);
+        return $resourceCollection;        
     }
     
     /**
