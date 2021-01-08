@@ -68,16 +68,9 @@ export default {
                     commit('setTribeLeaders', data.tribeLeaders);
                 });
         },
-        fetchRequests({ commit }) {
+        // in {} is a key available in an passed array
+        fetchRequests({ commit }, data ) {
             const baseURI = '/OAT_laravel_vue/api/request/list';
-            
-            console.log('requests commit');
-            console.log(commit);
-
-            var data = {
-                requestType: "awaiting"
-            };
-
             return axios.post(baseURI, data)
                 .then(response => {
                     commit('setAwaiting', response.data.data);

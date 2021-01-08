@@ -151,15 +151,15 @@
                 <section style="margin: 10px 0;">
                     <cv-content-switcher-content owner-id="csb-awaiting">
                         <data-table-skeleton :loading="loadingAwaiting" :columns="columns" title="Awaiting Overtime Requests List" helper-text="helperText"/>
-                        <data-table :dataGetter="getAwaiting" type="awaiting" :columns="columns" title="Awaiting Overtime Requests List" helper-text="helperText" :loadData="loadAwaiting"/>
+                        <data-table type="awaiting" :columns="columns" title="Awaiting Overtime Requests List" helper-text="helperText" :loadData="loadAwaiting"/>
                     </cv-content-switcher-content>
                     <cv-content-switcher-content owner-id="csb-approved">
                         <data-table-skeleton :loading="loadingApproved" :columns="columns" title="Approved Overtime Requests List" helper-text="helperText"/>
-                        <data-table :dataGetter="getApproved" type="approved" :columns="columns" title="Approved Overtime Requests List" helper-text="helperText" :loadData="loadApproved"/>
+                        <data-table type="approved" :columns="columns" title="Approved Overtime Requests List" helper-text="helperText" :loadData="loadApproved"/>
                     </cv-content-switcher-content>
                     <cv-content-switcher-content owner-id="csb-other">
                         <data-table-skeleton :loading="loadingOther" :columns="columns" title="Other Overtime Requests List" helper-text="helperText"/>
-                        <data-table :dataGetter="getOther" type="other" :columns="columns" title="Other Overtime Requests List" helper-text="helperText" :loadData="loadOther"/>                        
+                        <data-table type="other" :columns="columns" title="Other Overtime Requests List" helper-text="helperText" :loadData="loadOther"/>                        
                     </cv-content-switcher-content>
                 </section>
             </cv-column>

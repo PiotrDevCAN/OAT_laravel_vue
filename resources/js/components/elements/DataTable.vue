@@ -77,8 +77,7 @@
             loadData: Boolean,
             columns: Array,
             title: String,
-            helperText: String,
-            dataGetter: String
+            helperText: String
         },
         data() {
             return {
@@ -120,10 +119,7 @@
                     requestType: this.type
                 };
 
-                console.log('DataTable data');
-                console.log(data);
-
-                store.dispatch(this.fetchRequests, data).then(() => {
+                store.dispatch('fetchRequests', data).then(() => {
                     this.loading = false;
                     this.paginationParams.numberOfItems = 1000;
                 });
