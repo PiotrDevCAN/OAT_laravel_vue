@@ -52,8 +52,7 @@ class Delegate extends BaseModel
     {
         $data = Cache::remember('Delegate.user_intranets', 33660, function()
         {
-            return DB::table('Delegate')
-                ->select('user_intranet')
+            return self::select('user_intranet')
                 ->where('user_intranet', '<>', '')
                 ->distinct()
                 ->get();
@@ -66,8 +65,7 @@ class Delegate extends BaseModel
     {
         $data = Cache::remember('Delegate.delegate_intranets', 33660, function()
         {
-            return DB::table('Delegate')
-                ->select('delegate_intranet')
+            return self::select('delegate_intranet')
                 ->where('delegate_intranet', '<>', '')
                 ->distinct()
                 ->get();
@@ -80,8 +78,7 @@ class Delegate extends BaseModel
     {
         $data = Cache::remember('Delegate.delegateNotesids', 33660, function()
         {
-            return DB::table('Delegate')
-                ->select('delegate_notesid')
+            return self::select('delegate_notesid')
                 ->where('delegate_notesid', '<>', '')
                 ->distinct()
                 ->get();

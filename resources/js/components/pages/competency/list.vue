@@ -76,9 +76,6 @@
         components: {
             DataTable
         },
-        props: {
-            testProperty: String
-        },
         data() {
             return {
 
