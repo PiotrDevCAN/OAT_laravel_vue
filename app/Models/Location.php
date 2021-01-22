@@ -69,17 +69,17 @@ class Location extends BaseModel
         return $data;
     }
     
-    public static function getWithPredicates($predicates)
+    public static function getWithPredicates($predicates, $page = 1)
     {
         $columns = array(
             'location', 'shore'
         );
         
-        $data = Cache::remember('Location.getWithPredicates'.serialize($predicates), 33660, function() use ($predicates, $columns)
+        $data = Cache::remember('Location.getWithPredicates'.serialize($predicates).$page.static::$limit, 33660, function() use ($predicates, $columns)
         {
             return self::select($columns)
                 ->where($predicates)
-                ->get();
+                ->paginate(static::$limit);
         });
         
         return $data;
