@@ -163,7 +163,7 @@ class Account extends BaseModel
     public static function getWithPredicates($predicates, $page = 1)
     {
         $columns = array(
-            'account', 'approver', 'verified', 'location'
+            'account', 'approver', 'last_updater', 'last_updated', 'verified', 'location'
         );
         
         $data = Cache::remember('Account.getWithPredicates'.serialize($predicates).$page.static::$limit, 33660, function() use ($predicates, $columns)

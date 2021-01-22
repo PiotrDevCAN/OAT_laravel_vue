@@ -33,6 +33,12 @@ class Logs extends Controller
     {
         $draw = $request->post('draw', 1);
         
+        $columns = array(
+            'Log Entry', 
+            'Last Updater', 
+            'Last Updated'
+        );
+
         $start = $request->post('start', 0);
         $length = $request->post('length', Log::$limit);
         
@@ -49,6 +55,7 @@ class Logs extends Controller
         
         $resourceCollection->additional([
             'draw' => $draw,
+            'columns' => $columns,
             'recordsTotal' => $records->total(),
             'recordsFiltered' => $records->total()
         ]);

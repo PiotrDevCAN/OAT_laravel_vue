@@ -96,7 +96,7 @@ class Competency extends BaseModel
     public static function getWithPredicates($predicates, $page = 1)
     {
         $columns = array(
-            'competency', 'approver'
+            'competency', 'approver', 'last_updater', 'last_updated'
         );
         
         $data = Cache::remember('Competency.getWithPredicates'.serialize($predicates).$page.static::$limit, 33660, function() use ($predicates, $columns)

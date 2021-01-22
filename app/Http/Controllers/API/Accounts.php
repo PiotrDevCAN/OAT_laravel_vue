@@ -36,29 +36,12 @@ class Accounts extends Controller
         $draw = $request->post('draw', 1);
 
         $columns = array(
-            "Ref",
-            "Account",
-            "Service Line",
-            "Reason",
-            "Title",
-            "Details",
-            "Week Ending",
-            "Name",
-            "Serial",
-            "Country",
-            "Hours",
-            "Status",
-            "1st Level Approval",
-            "2nd Level Approval",
-            "3rd Level Approval",
-            "Requestor",
-            "Approval",
-            "Squad Leader",
-            "Tribe Leader",
-            "Pre",
-            "Post",
-            "Claim Acc",
-            "Created"
+            'Account', 
+            'Approver', 
+            'Last Updater', 
+            'Last Updated', 
+            'Verified', 
+            'Location'
         );
         
         $start = $request->post('start', 0);
