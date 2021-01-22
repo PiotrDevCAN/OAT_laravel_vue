@@ -12,6 +12,9 @@ import router from './router';
 import store from "./store";
 import axios from 'axios';
 
+import upperFirst from 'lodash/upperFirst'
+import camelCase from 'lodash/camelCase'
+
 import 'carbon-components/css/carbon-components.css';
 import CarbonComponentsVue from '@carbon/vue/src/index';
 
@@ -40,6 +43,8 @@ Vue.use(CarbonComponentsVue);
 // Vue.prototype.$blogName = 'LogRocket'
 Vue.prototype.$http = axios
 
+Vue.prototype.$prototypeVariableExample = 'Prototype Variable Example'
+
 // store object
 // this.$store
 
@@ -49,28 +54,77 @@ Vue.prototype.$http = axios
 // parent object
 // this.$parent
 
-const app = new Vue({
+// Load components globally
+// Vue.component - registers component globall
+// components: { - registers component locally - locally registered components are not also available in subcomponents
+
+const requireComponent = require.context(
+  // The relative path of the components folder
+  './components',
+  // Whether or not to look in subfolders
+  false,
+  // The regular expression used to match base component filenames
+  // /Base[A-Z]\w+\.(vue|js)$/
+  // /.*\.vue$/
+  /[A-Z]\w+\.(vue|js)$/
+)
+
+requireComponent.keys().forEach(fileName => {
+
+  // Get component config
+  const componentConfig = requireComponent(fileName)
+
+  // Get PascalCase name of component
+  const componentName = upperFirst(
+    camelCase(
+      // Gets the file name regardless of folder depth
+      fileName
+        .split('/')
+        .pop()
+        .replace(/\.\w+$/, '')
+    )
+  )
+
+  // Register component globally
+  Vue.component(
+    componentName,
+    // Look for the component options on `.default`, which will
+    // exist if the component was exported with `export default`,
+    // otherwise fall back to module's root.
+    componentConfig.default || componentConfig
+  )
+})
+
+var vm = new Vue({
   el: '#app',
   router,
   store,
   components: {
-    App,
+    App
   },
-  data: {
-    // windowTitle: window.title,
-    // instanceTestValue1: 'default test value 1',
-    // instanceTestValue2: 'default test value 2'
+  // props: {
+  //   rootTestProp: String
+  // },
+  // data() {
+  //   return {
+  //     rootTestData1: 'root Test Data 1 value'
+  //   }
+  // },
+  computed: {
+    appUrl() {
+      return window.appUrl
+    },
+    appName() {
+      return window.appName
+    }
   },
-  beforeCreate: function() {
-    // console.log(this.windowTitle)
-    // console.log(this.instanceTestValue1)
-    // console.log(this.instanceTestValue2)
+  created: function() {
+    // console.log('app.js created')
   },
-  create: function() {
-    // console.log(this.windowTitle)
-    // console.log(this.instanceTestValue1)
-    // console.log(this.instanceTestValue2)
+  mounted: function() {
+    // console.log('app.js mounted')
   }
 })
 
-export default app;
+// export default app;
+export default vm;

@@ -9,6 +9,21 @@ use App\Http\Resources\LogResourceCollection;
 
 class Logs extends Controller
 {
+    public function filters()
+    {
+        $logEntries = Log::logEntries();
+        $lastUpdates = Log::lastUpdates();
+        $lastUpdaters = Log::lastUpdaters();
+
+        $records = array(
+            'logEntries' => $logEntries,
+            'lastUpdates' => $lastUpdates,
+            'lastUpdaters' => $lastUpdaters
+        );
+
+        return response()->json($records);
+    }
+
     /**
      * Display a listing of the resource.
      *

@@ -8,6 +8,19 @@ use App\Models\Competency;
 
 class Competencies extends Controller
 {
+    public function filters()
+    {
+        $competencies = Competency::competencies();
+        $approvers = Competency::approvers(); 
+
+        $records = array(
+            'competencies' => $competencies,
+            'approvers' => $approvers
+        );
+
+        return response()->json($records);
+    }
+
     /**
      * Store a newly created resource in storage.
      *

@@ -1,215 +1,355 @@
 <template>
+
+    <!-- : is v-bind Shorthand -->
+    <!-- @ is v-on Shorthand -->
+
     <cv-grid>
         <cv-row>
-            <cv-column :lg="12">
-                <h3>List Filters</h3>
+            <cv-column v-bind:key="index" v-for="(row, index) in filters" :lg="row.lg">
+                <h3 v-if="row.header">{{ row.header }}</h3>
+                <div v-bind:key="selectsIndex" v-for="(select, selectsIndex) in row.selects" >
+                    <cv-select v-if="getFilterMapStateById(select.id)" v-model="select.selected" v-on:change="updateLists" :label="select.label">
+                        <cv-select-option disabled selected hidden>{{ filtersDefaultValue }}</cv-select-option>
+                        <cv-select-option v-bind:key="optionIndex" v-for="(option, name, optionIndex ) in getFilterMapDataById(select.id)" :value="option[select.dataKey]">{{ option[select.dataKey] }}</cv-select-option>
+                    </cv-select>
+                    <div v-else>
+                        <label class="bx--label">{{ select.label }}</label>
+                        <cv-skeleton-text></cv-skeleton-text>
+                    </div>
+                </div>
             </cv-column>
         </cv-row>
+
         <cv-row>
-            <cv-column>
-                <cv-select label="Last Updated">
-                    <cv-select-option disabled selected hidden>Choose an option</cv-select-option>
-                    <cv-select-option value="cv-select-option3">cv-select-option 3</cv-select-option>
-                    <cv-select-option value="cv-select-option4">cv-select-option 4</cv-select-option>
-                </cv-select>
-            </cv-column>
-            <cv-column>
-                <cv-select label="Last Updater">
-                    <cv-select-option disabled selected hidden>Choose an option</cv-select-option>
-                    <cv-select-option value="cv-select-option3">cv-select-option 3</cv-select-option>
-                    <cv-select-option value="cv-select-option4">cv-select-option 4</cv-select-option>
-                </cv-select>
-            </cv-column> 
-        </cv-row>
-        <cv-row>
-            <cv-column :lg="12">
-                <cv-button-set>
-                    <cv-button kind="primary" @click="submitForm">Apply filters</cv-button>
-                    <cv-button kind="secondary" @click="resetForm">Reset filters</cv-button>
+            <cv-column v-bind:key="index" v-for="(row, index) in actionButtons" :lg="row.lg">
+                <h3 v-if="row.header">{{ row.header }}</h3>
+                <cv-button-set v-else>
+                    <cv-button v-bind:key="buttonIndex" v-for="(button, buttonIndex) in row.buttons" :kind="button.kind" v-on:click="button.action">{{ button.label }}</cv-button>
                 </cv-button-set>
             </cv-column>
         </cv-row>
 
         <cv-row>
-            <cv-column :lg="12">
-                <cv-data-table-skeleton
-                    v-if="loading"
-                    :columns="columns"
-                    :title="title"
-                    :helper-text="helperText"
-                    :rows="10"
-                />
+            <cv-column v-bind:key="index" v-for="(row, index) in summary" :lg="row.lg">
+                <h3 v-if="row.header">{{ row.header }}</h3>
+                <div v-bind:key="inputsIndex" v-for="(input, inputsIndex) in row.inputs" >
+                    <div v-if="getLoadedMapByType(input.type)">
+                        <cv-text-input v-if="row.type === 'amount'" :value="getRecordsCountByType(input.type)" :label="input.label"></cv-text-input>
+                        <cv-text-input v-else-if="row.type === 'hours'" :value="getHoursCountByType(input.type)" :label="input.label"></cv-text-input>
+                    </div>
+                    <div v-else>
+                        <label class="bx--label">{{ input.label }}</label>
+                        <cv-skeleton-text></cv-skeleton-text>
+                    </div>
+                </div>
+            </cv-column>
+        </cv-row>
 
-                <cv-data-table                    
-                    ref="table"
-                    v-model="rowSelects" 
-                    :row-size="rowSize"
-                    :auto-width="autoWidth"
-                    :sortable="sortable"
-                    :title="title"
-                    :action-bar-aria-label="actionBarAriaLabel"
-                    :batch-cancel-label="batchCancelLabel"
-                    :zebra="zebra"
-                    :columns="columns"
-                    :overflow-menu="sampleOverflowMenu"
-                    :helper-text="helperText" 
-                    :data="data" 
-                    :pagination="{ numberOfItems: 23, pageSizes: [5, 10, 15, 20, 25]  }" 
-                    @search="onFilter"                   
-                    @pagination="actionOnPagination"                    
-                    @row-select-change="actionRowSelectChange"
-                    @sort="onSort"
-                    @overflow-menu-click="onOverflowMenuClick"                     
-                >
-                    <template v-if="use_actions" slot="actions">
-                        <cv-data-table-action @click="action1">
-                            <svg fill-rule="evenodd" height="16" name="download" role="img" viewBox="0 0 14 16" width="14" aria-label="Download" alt="Download">
-                                <title>Download</title>
-                                <path d="M7.506 11.03l4.137-4.376.727.687-5.363 5.672-5.367-5.67.726-.687 4.14 4.374V0h1v11.03z"></path>
-                                <path d="M13 15v-2h1v2a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1v-2h1v2h16z"></path>
-                            </svg>
-                        </cv-data-table-action>
-                        <cv-data-table-action @click="action2">
-                            <svg fill-rule="evenodd" height="16" name="edit" role="img" viewBox="0 0 16 16" width="16" aria-label="Edit" alt="Edit">
-                                <title>Edit</title>
-                                <path d="M7.926 3.38L1.002 9.72V16h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"></path>
-                            </svg>
-                        </cv-data-table-action>
-                        <cv-data-table-action @click="action3">
-                            <svg fill-rule="evenodd" height="16" name="settings" role="img" viewBox="0 0 15 16" width="15" aria-label="Settings" alt="Settings">
-                                <title>Settings</title>
-                                <path d="M7.53 10.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zm0 1a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z"></path>
-                                <path d="M6.268 2.636l-.313.093c-.662.198-1.28.52-1.822.946l-.255.2-1.427-.754-1.214 1.735 1.186 1.073-.104.31a5.493 5.493 0 0 0-.198 2.759l.05.274L1 10.33l1.214 1.734 1.06-.56.262.275a5.5 5.5 0 0 0 2.42 1.491l.316.093L6.472 15H8.59l.204-1.636.313-.093a5.494 5.494 0 0 0 2.21-1.28l.26-.248 1.09.576 1.214-1.734-1.08-.977.071-.29a5.514 5.514 0 0 0-.073-2.905l-.091-.302 1.15-1.041-1.214-1.734-1.3.687-.257-.22a5.487 5.487 0 0 0-1.98-1.074l-.313-.093L8.59 1H6.472l-.204 1.636zM5.48.876A1 1 0 0 1 6.472 0H8.59a1 1 0 0 1 .992.876l.164.997a6.486 6.486 0 0 1 1.761.954l.71-.375a1 1 0 0 1 1.286.31l1.215 1.734a1 1 0 0 1-.149 1.316l-.688.622a6.514 6.514 0 0 1 .067 2.828l.644.581a1 1 0 0 1 .148 1.316l-1.214 1.734a1 1 0 0 1-1.287.31l-.464-.245c-.6.508-1.286.905-2.029 1.169l-.164.997A1 1 0 0 1 8.59 16H6.472a1 1 0 0 1-.992-.876l-.165-.997a6.499 6.499 0 0 1-2.274-1.389l-.399.211a1 1 0 0 1-1.287-.31L.181 10.904A1 1 0 0 1 .329 9.59l.764-.69a6.553 6.553 0 0 1 .18-2.662l-.707-.64a1 1 0 0 1-.148-1.315l1.214-1.734a1 1 0 0 1 1.287-.31l.86.454a6.482 6.482 0 0 1 1.576-.819L5.48.876z"></path>
-                            </svg>
-                        </cv-data-table-action>
-                        <cv-button small @click="actionNew">Add new</cv-button>
-                    </template>
-                    <template v-if="use_batchActions" slot="batch-actions">
-                        <cv-button @click="onBatchAction1">
-                            Delete
-                            <TrashCan16 class="bx--btn__icon"/>
-                        </cv-button>
-                        <cv-button @click="onBatchAction2">
-                            Save
-                            <Save16 class="bx--btn__icon"/>
-                        </cv-button>
-                        <cv-button @click="onBatchAction3">
-                            Download
-                            <Download16 class="bx--btn__icon"/>
-                        </cv-button>
-                    </template>
-                </cv-data-table>
+        <cv-row>
+            <cv-column :lg="12">
+                <br/>
+                <cv-content-switcher v-on:selected="actionSelected" :light="true" :size="size">
+                    <cv-content-switcher-button :owner-id="getOwnerId(table.id)" :selected="isSelected(table.id)" v-bind:key="index" v-for="(table, index) in dataTables">{{ table.label }}</cv-content-switcher-button>
+                </cv-content-switcher>
+                <section style="margin: 10px 0;">
+                    <cv-content-switcher-content :owner-id="getOwnerId(table.id)" v-bind:key="index" v-for="(table, index) in dataTables" >
+                        <data-table :columns="getColumnsMapByType(table.id)" :type="table.id" :data-table-data="getRecordsMapByType(table.id)" :title="table.title" :helper-text="table.helperText" :loading="getLoadingMapByType(table.id)" :loaded="getLoadedMapByType(table.id)"/>
+                    </cv-content-switcher-content>                    
+                </section>
             </cv-column>
         </cv-row>
     </cv-grid>
 </template>
 
 <script>
-    import TrashCan16 from '@carbon/icons-vue/es/trash-can/16';
-    import Save16 from '@carbon/icons-vue/es/save/16';
-    import Download16 from '@carbon/icons-vue/es/download/16';
-    
+    import store from '../../../store/'
+
+    import { mapState } from 'vuex'
+    import { mapMutations } from 'vuex'
+    import { mapActions } from 'vuex'
+    import { mapGetters } from 'vuex'
+
+    import DataTable from '../../elements/DataTable'
+
     export default {
-        components: { 
-            TrashCan16, 
-            Save16, 
-            Download16
+        name: 'logList',
+        components: {
+            DataTable
+        },
+        props: {
+            testProperty: String
         },
         data() {
             return {
-                pageHeader: 'Logs List',
 
-                awaitingAmount: 0,
-                approvedAmount: 0,
-                otherAmount: 0,
-                awaitingHours: 0,
-                approvedHours: 0,
-                otherHours: 0,
-                
-                sampleOverflowMenu: [],
-
-                rowSelects: [],
-                rowSize: "",
-                autoWidth: false,
-                sortable: false,
-                title: "Logs List",
-                actionBarAriaLabel: "Custom action bar aria label",
-                batchCancelLabel: "Cancel",
-                zebra: false,
-                columns: [
-                    "Name",
-                    "Protocol",
-                    "Port",
-                    "Rule",
-                    "Attached Groups",
-                    "Status"
+                // filters settings
+                filtersDefaultValue: 'Choose an option',
+                filters: [
+                    {
+                        lg: 12,
+                        header: 'List Filters'
+                    },
+                    {
+                        lg: 4,
+                        selects: [
+                            { id: 'logEntries', dataKey: 'log_entry', label: 'Log Entry' }
+                        ]
+                    },
+                    {
+                        lg: 4,
+                        selects: [
+                            { id: 'lastUpdates', dataKey: 'last_updated', label: 'Last Updated' }
+                        ]
+                    },
+                    {
+                        lg: 4,
+                        selects: [
+                            { id: 'lastUpdaters', dataKey: 'last_updater', label: 'Last Updater' }
+                        ]
+                    }
                 ],
-                data: this.$store.state.data,
-                use_actions: true,
-                use_batchActions: true,
-                helperText: "List below provides a possibility to approve or reject selected items"                
-            }  
+
+                actionButtons: [
+                    {
+                        lg: 12,
+                        header: 'Action Buttons'
+                    },
+                    {
+                        lg: 12,
+                        buttons: [
+                            { id: 'applyFilters', label: 'Apply filters', kind: 'primary', action: this.submitForm },
+                            { id: 'resetFilters', label: 'Reset filters', kind: 'secondary', action: this.resetForm }
+                        ]
+                    }
+                ],
+
+                summaryDefaultValue: 10,
+                summary: [
+                    {
+                        lg: 12,
+                        header: 'Summary'
+                    },
+                    {
+                        lg: 6,
+                        type: 'amount',
+                        inputs: [
+                            { id: 'awaitingAmount', type: 'log', label: 'Awaiting Approval Requests', value: '0' }
+                        ]
+                    },
+                    {
+                        lg: 6,
+                        type: 'hours',
+                        inputs: [
+                            { id: 'awaitingHours', type: 'log', label: 'Awaiting Approval Hours', value: '0' }
+                        ]
+                    }
+                ],
+
+                dataTables: [
+                    {
+                        id: 'log',
+                        title: 'Logs List',
+                        label: 'Logs',
+                        helperText: 'List below provides a possibility to approve or reject selected items'
+                    }
+                ],
+
+                pageHeader: 'Request List',
+                size: 'xl'
+            }
+        },
+        /*
+        watch: {
+
+            // whenever question changes, this function will run
+            // question: function (newQuestion, oldQuestion) {
+            //     this.answer = 'Waiting for you to stop typing...'
+            //     this.debouncedGetAnswer()
+            // },
+        },
+        */
+        // computed variables are cached !!!
+        computed: {
+
+            // accountsLength() {
+            //     return this.getFilterMapDataById('accounts').length
+            // },
+
+            ...mapState(
+                {
+                    // loadingFilters: state => state.requests.loadingFilters
+                }
+            ),
+
+            /*
+            // without aliases
+            ...mapGetters([
+                'firstName',
+                'lastName',
+            ]),
+            */
+
+            // with aliases
+            ...mapGetters({
+
+                getFilterMapDataById: 'logs/getFilterDataById',
+                getFilterMapStateById: 'logs/getFilterLoadedStateById',
+                getFilterMapSelectedById: 'logs/getFilterSelectedValueById',
+
+                getColumnsMapByType: 'logs/getColumnsByType',
+                getRecordsMapByType: 'logs/getRecordsByType',
+                getLoadingMapByType: 'logs/getLoadingByType',
+                getLoadedMapByType: 'logs/getLoadedByType',
+
+                getRecordsCountByType: 'logs/getRecordsCountByType',
+                getHoursCountByType: 'logs/getRecordsHoursCountByType'
+            })
+        },
+        beforCreate() {
+            // console.log('List Component before create.')
+        },
+        created() {
+            // console.log('List Component created.')
+
+            // dispatch with a payload
+            /*
+            store.dispatch('incrementAsync', {
+                amount: 10
+            })
+            */
+
+            // dispatch with an object
+            /*
+            store.dispatch({
+                type: 'incrementAsync',
+                amount: 10
+            })
+            */
+
+            // fetch fiters
+            this.getFiltersData().then(() => {
+            
+            })
+
+            // store.dispatch('fetchFiltersData').then(() => {
+            //     this.loading = false 
+            // })
+
+        },
+        beforeMount() {
+            // console.log('List Component before mount.')
+        },
+        mounted() {
+            // console.log('List Component mounted.')
+        },
+        beforeUpdate() {
+            // console.log('List Component before update.')
+        }, 
+        updated() {
+            // console.log('List Component updated.')
+        },
+        beforeDestroy() {
+            // console.log('List Component before destroy.')
+        }, 
+        destroyed() {
+            // console.log('List Component destroyed.')
         },
         methods: {
 
-            actionChange() {
+            // walkaround replaced by getters map
+            /*
+            getObjectPropertyByName (property) {
+                if (this[property] !== undefined ) {              
+                    return this[property]
+                }
+                return
+            },
+            */
 
+            // walkaround replaced by getters map
+            /*
+            getObjectDataPropertyByName: function (property) {
+                if (this.$data.hasOwnProperty(property)) {
+                    return this.$data[property]
+                }
+                return
+            },
+            */
+
+            /*
+            ...mapActions([
+                'increment', // map `this.increment()` to `this.$store.dispatch('increment')`
+
+                // `mapActions` also supports payloads:
+                'incrementBy' // map `this.incrementBy(amount)` to `this.$store.dispatch('incrementBy', amount)`
+            ]),
+            */
+            ...mapActions({
+                // add: 'increment' // map `this.add()` to `this.$store.dispatch('increment')`
+                getFiltersData: 'logs/fetchFiltersData',
+                getTableData: 'logs/fetchTableData'
+            }),
+
+            /*
+            ...mapMutations([
+                'search', // map `this.increment()` to `this.$store.commit('search')`
+
+                // `mapMutations` also supports payloads:
+                'searchBy' // map `this.incrementBy(amount)` to `this.$store.commit('searchBy', amount)`
+                ]),
+                ...mapMutations({
+                find: 'search' // map `this.add()` to `this.$store.commit('search')`
+            })
+            */
+
+            // An arrow function without this 
+            getOwnerId: type => {
+                return 'csb-'+type
+            },
+
+            updateLists() {
+                alert('we need to update lists content')
+                this.summaryDefaultValue = 'aaa'
             },
 
             submitForm() {
-                this.modelValue = 'submitted'
+                alert('apply filters and refresh lists')
             },
             resetForm() {
-                this.modelValue = 'reset'
+                alert('reset filters and refresh lists')
             },
-            actionSubmit() {
+            
+            loadTable: function (type) {
+                var loaded = this.getLoadedMapByType(type)
+                if (loaded === false) {
+                    this.getTableData(type).then(() => {
 
-            },
-
-            action1() {
-
-            },
-            action2() {
-
-            },
-            action3() {
-
-            },
-            actionNew() {
-
-            },
-            onBatchAction1() {
-
-            },
-            onBatchAction2() {
-
-            },
-            onBatchAction3() {
-
+                    })
+                }
             },
 
-            onFilter() {
-
+            // content switcher
+            actionSelected: function (type) {
+                switch(type) {
+                    case 'csb-log':
+                        this.loadTable('log')
+                        return true
+                    break
+                    default:
+                        return false
+                }
             },
-            actionOnPagination() {
-
-            },
-            actionRowSelectChange() {
-
-            },
-            onSort() {
-
-            },
-            onOverflowMenuClick() {
-
-            },
-
-            actionSelected() {
-
+            
+            isSelected: function (type) {
+                switch(type) {
+                    case 'log':
+                        this.loadTable('log')
+                        return true
+                    break
+                    default:
+                        return false
+                }
             }
-        },
-        mounted() {
-            // console.log('My first Component mounted.')
         }
     }
 </script>

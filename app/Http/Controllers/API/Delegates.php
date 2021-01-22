@@ -8,6 +8,21 @@ use App\Models\Delegate;
 
 class Delegates extends Controller
 {
+    public function filters()
+    {
+        $userIntranets = Delegate::userIntranets();
+        $delegateIntranets = Delegate::delegateIntranets();
+        $delegateNotesids = Delegate::delegateNotesids();
+
+        $records = array(
+            'userIntranets' => $userIntranets,
+            'delegateIntranets' => $delegateIntranets,
+            'delegateNotesIds' => $delegateNotesids
+        );
+
+        return response()->json($records);
+    }
+
     /**
      * Store a newly created resource in storage.
      *

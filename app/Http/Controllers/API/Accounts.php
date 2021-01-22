@@ -8,6 +8,23 @@ use App\Models\Account;
 
 class Accounts extends Controller
 {
+    public function filters()
+    {
+        $accounts = Account::accounts();
+        $approvers = Account::approvers();
+        $verifieds = Account::verified();
+        $locations = Account::locations();
+
+        $records = array(
+            'accounts' => $accounts,
+            'approvers' => $approvers,
+            'verifieds' => $verifieds,
+            'locations' => $locations
+        );
+
+        return response()->json($records);
+    }
+
     /**
      * Store a newly created resource in storage.
      *

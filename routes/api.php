@@ -7,6 +7,7 @@ use App\Http\Controllers\API\Accounts;
 use App\Http\Controllers\API\Delegates;
 use App\Http\Controllers\API\Competencies;
 use App\Http\Controllers\API\Logs;
+use App\Http\Controllers\API\Locations;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +28,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 // Overtime Requests
 Route::prefix('request')->name('api.request.')->group(function () {
-    
+
     Route::post('filters', [OvertimeRequests::class, 'filters'])
         ->name('filters');
 
@@ -59,6 +60,13 @@ Route::prefix('request')->name('api.request.')->group(function () {
 
 // Accounts
 Route::prefix('account')->name('api.account.')->group(function () {
+
+    Route::post('filters', [Accounts::class, 'filters'])
+        ->name('filters');
+
+    Route::match(['get', 'post'], 'list', [Accounts::class, 'list'])
+        ->middleware('throttle:60,1')
+        ->name('list');
     
     Route::get('store', [Accounts::class, 'store'])
         ->name('store');
@@ -75,6 +83,13 @@ Route::prefix('account')->name('api.account.')->group(function () {
 
 // Delegates
 Route::prefix('delegate')->name('api.delegate.')->group(function () {
+
+    Route::post('filters', [Delegates::class, 'filters'])
+        ->name('filters');
+
+    Route::match(['get', 'post'], 'list', [Delegates::class, 'list'])
+        ->middleware('throttle:60,1')
+        ->name('list');
     
     Route::get('store', [Delegates::class, 'store'])
         ->name('store');
@@ -91,6 +106,13 @@ Route::prefix('delegate')->name('api.delegate.')->group(function () {
 
 // Competencies
 Route::prefix('competency')->name('api.competency.')->group(function () {
+
+    Route::post('filters', [Competencies::class, 'filters'])
+        ->name('filters');
+
+    Route::match(['get', 'post'], 'list', [Competencies::class, 'list'])
+        ->middleware('throttle:60,1')
+        ->name('list');
     
     Route::get('store', [Competencies::class, 'store'])
         ->name('store');
@@ -105,9 +127,35 @@ Route::prefix('competency')->name('api.competency.')->group(function () {
         ->name('destroy');
 });
 
+// Locations
+Route::prefix('location')->name('api.location.')->group(function () {
+
+    Route::post('filters', [Locations::class, 'filters'])
+        ->name('filters');
+
+    Route::match(['get', 'post'], 'list', [Locations::class, 'list'])
+        ->middleware('throttle:60,1')
+        ->name('list');
+    
+    Route::get('store', [Locations::class, 'store'])
+        ->name('store');
+
+    Route::get('show/{location}/{approver}', [Locations::class, 'show'])
+        ->name('show');
+
+    Route::get('update/{location}/{approver}', [Locations::class, 'update'])
+        ->name('update');
+
+    Route::get('destroy/{location}/{approver}', [Locations::class, 'destroy'])
+        ->name('destroy');
+});
+
 // Logs
 Route::prefix('log')->name('api.log.')->group(function () {
-    
+
+    Route::post('filters', [Logs::class, 'filters'])
+        ->name('filters');
+
     Route::match(['get', 'post'], 'list', [Logs::class, 'list'])
         ->middleware('throttle:60,1')
         ->name('list');

@@ -1,166 +1,60 @@
 <template>
+
+    <!-- : is v-bind Shorthand -->
+    <!-- @ is v-on Shorthand -->
+
     <cv-grid>
         <cv-row>
-            <cv-column :lg="12">
-                <h3>List Filters</h3>
+            <cv-column v-bind:key="index" v-for="(row, index) in filters" :lg="row.lg">
+                <h3 v-if="row.header">{{ row.header }}</h3>
+                <div v-bind:key="selectsIndex" v-for="(select, selectsIndex) in row.selects" >
+                    <cv-select v-if="getFilterMapStateById(select.id)" v-model="select.selected" v-on:change="updateLists" :label="select.label">
+                        <cv-select-option disabled selected hidden>{{ filtersDefaultValue }}</cv-select-option>
+                        <cv-select-option v-bind:key="optionIndex" v-for="(option, name, optionIndex ) in getFilterMapDataById(select.id)" :value="option[select.dataKey]">{{ option[select.dataKey] }}</cv-select-option>
+                    </cv-select>
+                    <div v-else>
+                        <label class="bx--label">{{ select.label }}</label>
+                        <cv-skeleton-text></cv-skeleton-text>
+                    </div>
+                </div>
             </cv-column>
         </cv-row>
+
         <cv-row>
-            <cv-column :lg="4">
-                <cv-select label="Account">
-                    <cv-select-option disabled selected hidden>Choose an option</cv-select-option>
-                    <cv-select-option v-bind:key="row" v-for="row in accounts" :value="row.account">{{ row.account }}</cv-select-option>
-                </cv-select>
-                <cv-select label="Reason">
-                    <cv-select-option disabled selected hidden>Choose an option</cv-select-option>
-                    <cv-select-option v-bind:key="row" v-for="row in reasons" :value="row.reason">{{ row.reason }}</cv-select-option>
-                </cv-select>
-                <cv-select label="Name">
-                    <cv-select-option disabled selected hidden>Choose an option</cv-select-option>
-                    <cv-select-option v-bind:key="row" v-for="row in names" :value="row.worker">{{ row.worker }}</cv-select-option>
-                </cv-select>
-                <cv-select label="Type">
-                    <cv-select-option disabled selected hidden>Choose an option</cv-select-option>
-                    <cv-select-option v-bind:key="row" v-for="row in types" :value="row.approvaltype">{{ row.approvaltype }}</cv-select-option>
-                </cv-select>
-            </cv-column>
-            <cv-column :lg="4">
-                <cv-select label="Service Line">
-                    <cv-select-option disabled selected hidden>Choose an option</cv-select-option>
-                    <cv-select-option v-bind:key="row" v-for="row in competencies" :value="row.competency">{{ row.competency }}</cv-select-option>
-                </cv-select>
-                <cv-select label="Status">
-                    <cv-select-option disabled selected hidden>Choose an option</cv-select-option>
-                    <cv-select-option v-bind:key="row" v-for="row in statuses" :value="row.status">{{ row.status }}</cv-select-option>
-                </cv-select>
-                <cv-select label="Requestor">
-                    <cv-select-option disabled selected hidden>Choose an option</cv-select-option>
-                    <cv-select-option v-bind:key="row" v-for="row in requestors" :value="row.requestor">{{ row.requestor }}</cv-select-option>
-                </cv-select>
-                <cv-select label="Location">
-                    <cv-select-option disabled selected hidden>Choose an option</cv-select-option>
-                    <cv-select-option v-bind:key="row" v-for="row in locations" :value="row.location">{{ row.location }}</cv-select-option>
-                </cv-select>
-            </cv-column>
-            <cv-column :lg="4">
-                <cv-select label="Weekend >=">
-                    <cv-select-option disabled selected hidden>Choose an option</cv-select-option>
-                    <cv-select-option v-bind:key="row" v-for="row in weekendStart" :value="row.weekendstart">{{ row.weekendstart }}</cv-select-option>
-                </cv-select>
-                <cv-select label="Weekend <=">
-                    <cv-select-option disabled selected hidden>Choose an option</cv-select-option>
-                    <cv-select-option v-bind:key="row" v-for="row in weekendEnd" :value="row.weekendend">{{ row.weekendend }}</cv-select-option>
-                </cv-select>
-                <cv-select label="Import">
-                    <cv-select-option disabled selected hidden>Choose an option</cv-select-option>
-                    <cv-select-option v-bind:key="row" v-for="row in imports" :value="row.import">{{ row.import }}</cv-select-option>
-                </cv-select>
-            </cv-column>
-        </cv-row>
-        <cv-row>
-            <cv-column :lg="12">
-                <h3>Approvers</h3>
-            </cv-column>
-        </cv-row>
-        <cv-row>
-            <cv-column :lg="4">
-                <cv-select label="1st Level Approver">
-                    <cv-select-option disabled selected hidden>Choose an option</cv-select-option>
-                    <cv-select-option v-bind:key="row" v-for="row in firstApprovers" :value="row.approver_first_level">{{ row.approver_first_level }}</cv-select-option>
-                </cv-select>
-            </cv-column>
-            <cv-column :lg="4">
-                <cv-select label="2nd Level Approver">
-                    <cv-select-option disabled selected hidden>Choose an option</cv-select-option>
-                    <cv-select-option v-bind:key="row" v-for="row in secondApprovers" :value="row.approver_second_level">{{ row.approver_second_level }}</cv-select-option>
-                </cv-select>
-            </cv-column>
-            <cv-column :lg="4">
-                <cv-select label="3rd Level Approver">
-                    <cv-select-option disabled selected hidden>Choose an option</cv-select-option>
-                    <cv-select-option v-bind:key="row" v-for="row in thirdApprovers" :value="row.approver_third_level">{{ row.approver_third_level }}</cv-select-option>
-                </cv-select>
-            </cv-column>
-        </cv-row>
-        <cv-row>
-            <cv-column :lg="12">
-                <h3>Approval Flow</h3>
-            </cv-column>
-        </cv-row>
-        <cv-row>
-            <cv-column :lg="4">
-                <cv-select label="Approval Mode">
-                    <cv-select-option disabled selected hidden>Choose an option</cv-select-option>
-                    <cv-select-option v-bind:key="row" v-for="row in approvalModes" :value="row.approval_mode">{{ row.approval_mode }}</cv-select-option>
-                </cv-select>
-            </cv-column>
-            <cv-column :lg="4">
-                <cv-select label="Squad Leader">
-                    <cv-select-option disabled selected hidden>Choose an option</cv-select-option>
-                    <cv-select-option v-bind:key="row" v-for="row in squadLeaders" :value="row.approver_squad_leader">{{ row.approver_squad_leader }}</cv-select-option>
-                </cv-select>
-            </cv-column>
-            <cv-column :lg="4">
-                <cv-select label="Tribe Leader">
-                    <cv-select-option disabled selected hidden>Choose an option</cv-select-option>
-                    <cv-select-option v-bind:key="row" v-for="row in tribeLeaders" :value="row.approver_tribe_leader">{{ row.approver_tribe_leader }}</cv-select-option>
-                </cv-select>
-            </cv-column>
-        </cv-row>
-        <cv-row>
-            <br/>
-            <cv-column :lg="12">
-                <br/>
-                <cv-button-set>
-                    <cv-button kind="primary" @click="submitForm">Apply filters</cv-button>
-                    <cv-button kind="secondary" @click="resetForm">Reset filters</cv-button>
+            <cv-column v-bind:key="index" v-for="(row, index) in actionButtons" :lg="row.lg">
+                <h3 v-if="row.header">{{ row.header }}</h3>
+                <cv-button-set v-else>
+                    <cv-button v-bind:key="buttonIndex" v-for="(button, buttonIndex) in row.buttons" :kind="button.kind" v-on:click="button.action">{{ button.label }}</cv-button>
                 </cv-button-set>
             </cv-column>
         </cv-row>
+
         <cv-row>
-            <cv-column :lg="12">
-                <h3>Summary</h3>
-            </cv-column>
-        </cv-row>
-        <cv-row>
-            <cv-column :lg="6">
-                <cv-text-input label="Awaiting Approval Requests" v-model="awaitingAmount"> </cv-text-input>
-                <cv-text-input label="Approved Requests" v-model="approvedAmount"> </cv-text-input>
-                <cv-text-input label="Other Requests" v-model="otherAmount"> </cv-text-input>
-            </cv-column>
-            <cv-column :lg="6">
-                <cv-text-input label="Awaiting Approval Hours" v-model="awaitingHours"> </cv-text-input>
-                <cv-text-input label="Approved Hours" v-model="approvedHours"> </cv-text-input>
-                <cv-text-input label="Other Hours" v-model="otherHours"> </cv-text-input>
+            <cv-column v-bind:key="index" v-for="(row, index) in summary" :lg="row.lg">
+                <h3 v-if="row.header">{{ row.header }}</h3>
+                <div v-bind:key="inputsIndex" v-for="(input, inputsIndex) in row.inputs" >
+                    <div v-if="getLoadedMapByType(input.type)">
+                        <cv-text-input v-if="row.type === 'amount'" :value="getRecordsCountByType(input.type)" :label="input.label"></cv-text-input>
+                        <cv-text-input v-else-if="row.type === 'hours'" :value="getHoursCountByType(input.type)" :label="input.label"></cv-text-input>
+                    </div>
+                    <div v-else>
+                        <label class="bx--label">{{ input.label }}</label>
+                        <cv-skeleton-text></cv-skeleton-text>
+                    </div>
+                </div>
             </cv-column>
         </cv-row>
 
         <cv-row>
             <cv-column :lg="12">
                 <br/>
-                <cv-content-switcher 
-                    @selected="actionSelected"
-                    :light="true"
-                    :size="size"
-                >
-                    <cv-content-switcher-button owner-id="csb-awaiting" :selected="isSelected('awaiting')">Awaiting Approval Requests</cv-content-switcher-button>
-                    <cv-content-switcher-button owner-id="csb-approved" :selected="isSelected('approved')">Approved Requests</cv-content-switcher-button>
-                    <cv-content-switcher-button owner-id="csb-other" :selected="isSelected('other')">Other Requests</cv-content-switcher-button>
+                <cv-content-switcher v-on:selected="actionSelected" :light="true" :size="size">
+                    <cv-content-switcher-button :owner-id="getOwnerId(table.id)" :selected="isSelected(table.id)" v-bind:key="index" v-for="(table, index) in dataTables">{{ table.label }}</cv-content-switcher-button>
                 </cv-content-switcher>
-
                 <section style="margin: 10px 0;">
-                    <cv-content-switcher-content owner-id="csb-awaiting">
-                        <data-table-skeleton :loading="loadingAwaiting" :columns="columns" title="Awaiting Overtime Requests List" helper-text="helperText"/>
-                        <data-table type="awaiting" :columns="columns" title="Awaiting Overtime Requests List" helper-text="helperText" :loadData="loadAwaiting"/>
-                    </cv-content-switcher-content>
-                    <cv-content-switcher-content owner-id="csb-approved">
-                        <data-table-skeleton :loading="loadingApproved" :columns="columns" title="Approved Overtime Requests List" helper-text="helperText"/>
-                        <data-table type="approved" :columns="columns" title="Approved Overtime Requests List" helper-text="helperText" :loadData="loadApproved"/>
-                    </cv-content-switcher-content>
-                    <cv-content-switcher-content owner-id="csb-other">
-                        <data-table-skeleton :loading="loadingOther" :columns="columns" title="Other Overtime Requests List" helper-text="helperText"/>
-                        <data-table type="other" :columns="columns" title="Other Overtime Requests List" helper-text="helperText" :loadData="loadOther"/>                        
-                    </cv-content-switcher-content>
+                    <cv-content-switcher-content :owner-id="getOwnerId(table.id)" v-bind:key="index" v-for="(table, index) in dataTables" >
+                        <data-table :columns="getColumnsMapByType(table.id)" :type="table.id" :data-table-data="getRecordsMapByType(table.id)" :title="table.title" :helper-text="table.helperText" :loading="getLoadingMapByType(table.id)" :loaded="getLoadedMapByType(table.id)"/>
+                    </cv-content-switcher-content>                    
                 </section>
             </cv-column>
         </cv-row>
@@ -168,172 +62,374 @@
 </template>
 
 <script>
-    import { mapState } from 'vuex';
+    import store from '../../../store/'
 
-    import store from '../../../store/';
+    import { mapState } from 'vuex'
+    import { mapMutations } from 'vuex'
+    import { mapActions } from 'vuex'
+    import { mapGetters } from 'vuex'
 
-    import DataTableSkeleton from '../../elements/DataTableSkeleton';
-    import DataTable from '../../elements/DataTable';
+    import DataTable from '../../elements/DataTable'
 
     export default {
+        name: 'requestList',
         components: {
-            DataTableSkeleton,
             DataTable
         },
-
-        computed: {
-            ...mapState({
-                accounts: state => state.requests.accounts,
-                reasons: state => state.requests.reasons,
-                names: state => state.requests.names,
-                types: state => state.requests.types,
-
-                competencies: state => state.requests.competencies,
-                statuses: state => state.requests.statuses,
-                requestors: state => state.requests.requestors,
-                locations: state => state.requests.locations,
-
-                weekendStart: state => state.requests.weekendStart,
-                weekendEnd: state => state.requests.weekendEnd,
-                imports: state => state.requests.imports,
-
-                firstApprovers: state => state.requests.firstApprovers,
-                secondApprovers: state => state.requests.secondApprovers,
-                thirdApprovers: state => state.requests.thirdApprovers,
-
-                approvalModes: state => state.requests.approvalModes,
-                squadLeaders: state => state.requests.squadLeaders,
-                tribeLeaders: state => state.requests.tribeLeaders,
-            }),
+        props: {
+            testProperty: String
         },
-
         data() {
             return {
 
-                // data sources
-                getAwaiting: 'fetchAwaitingRequests',
-                getApproved: 'fetchApprovedRequests',
-                getOther: 'fetchOtherRequests',
+                // filters settings
+                filtersDefaultValue: 'Choose an option',
+                filters: [
+                    {
+                        lg: 12,
+                        header: 'List Filters'
+                    },
+                    {
+                        lg: 4,
+                        selects: [
+                            { id: 'accounts', dataKey: 'account', label: 'Accounts' },
+                            { id: 'reasons', dataKey: 'nature', label: 'Reason' },
+                            { id: 'names', dataKey: 'worker', label: 'Name' },
+                            { id: 'types', dataKey: 'approvaltype', label: 'Type' }
+                        ]
+                    },
+                    {
+                        lg: 4,
+                        selects: [
+                            { id: 'competencies', dataKey: 'competency', label: 'Service Line' },
+                            { id: 'statuses', dataKey: 'status', label: 'Status' },
+                            { id: 'requestors', dataKey: 'requestor', label: 'Requestor' },
+                            { id: 'locations', dataKey: 'location', label: 'Location' }
+                        ]
+                    },
+                    {
+                        lg: 4,
+                        selects: [
+                            { id: 'weekendStart', dataKey: 'weekendstart', label: 'Weekend Start' },
+                            { id: 'weekendEnd', dataKey: 'weekendend', label: 'Weekend End' },
+                            { id: 'imports', dataKey: 'import', label: 'Import' }
+                        ]
+                    },
+                    {
+                        lg: 12,
+                        header: 'Approvers'
+                    },
+                    {
+                        lg: 4,
+                        selects: [
+                            { id: 'firstApprovers', dataKey: 'approver_first_level', label: '1st Level Approver' }
+                        ]
+                    },
+                    {
+                        lg: 4,
+                        selects: [
+                            { id: 'secondApprovers', dataKey: 'approver_second_level', label: '2nd Level Approver' }
+                        ]
+                    },
+                    {
+                        lg: 4,
+                        selects: [
+                            { id: 'thirdApprovers', dataKey: 'approver_third_level', label: '3rd Level Approver' }
+                        ]
+                    },
+                    {
+                        lg: 12,
+                        header: 'Approval Flow'
+                    },
+                    {
+                        lg: 4,
+                        selects: [
+                            { id: 'approvalModes', dataKey: 'approval_mode', label: 'Approval Mode' }
+                        ]
+                    },
+                    {
+                        lg: 4,
+                        selects: [
+                            { id: 'squadLeaders', dataKey: 'approver_squad_leader', label: 'Squad Leader' }
+                        ]
+                    },
+                    {
+                        lg: 4,
+                        selects: [
+                            { id: 'tribeLeaders', dataKey: 'approver_tribe_leader', label: 'Tribe Leader' }
+                        ]
+                    }
+                ],
 
-                // initial table state
-                loadAwaiting: true,
-                loadApproved: false,
-                loadOther: false,
+                actionButtons: [
+                    {
+                        lg: 12,
+                        header: 'Action Buttons'
+                    },
+                    {
+                        lg: 12,
+                        buttons: [
+                            { id: 'applyFilters', label: 'Apply filters', kind: 'primary', action: this.submitForm },
+                            { id: 'resetFilters', label: 'Reset filters', kind: 'secondary', action: this.resetForm }
+                        ]
+                    }
+                ],
 
-                // skeleton options
-                loadingAwaiting: false,
-                loadingApproved: false,
-                loadingOther: false,
+                summaryDefaultValue: 10,
+                summary: [
+                    {
+                        lg: 12,
+                        header: 'Summary'
+                    },
+                    {
+                        lg: 6,
+                        type: 'amount',
+                        inputs: [
+                            { id: 'awaitingAmount', type: 'awaiting', label: 'Awaiting Approval Requests', value: '0' },
+                            { id: 'approvedAmount', type: 'approved', label: 'Approved Requests', value: '0' },
+                            { id: 'otherAmount', type: 'other', label: 'Other Requests', value: '0' }
+                        ]
+                    },
+                    {
+                        lg: 6,
+                        type: 'hours',
+                        inputs: [
+                            { id: 'awaitingHours', type: 'awaiting', label: 'Awaiting Approval Hours', value: '0' },
+                            { id: 'approvedHours', type: 'approved', label: 'Approved Hours', value: '0' },
+                            { id: 'otherHours', type: 'other', label: 'Other Hours', value: '0' }
+                        ]
+                    }
+                ],
+
+                dataTables: [
+                    {
+                        id: 'awaiting',
+                        title: 'Awaiting Overtime Requests List',
+                        label: 'Awaiting Approval',
+                        helperText: 'List below provides a possibility to approve or reject selected items'
+                    },
+                    {
+                        id: 'approved',
+                        title: 'Approved Overtime Requests List',
+                        label: 'Approved',
+                        helperText: 'List below provides a possibility to approve or reject selected items'
+                    },
+                    {
+                        id: 'other',
+                        title: 'Other Overtime Requests List',
+                        label: 'Other',
+                        helperText: 'List below provides a possibility to approve or reject selected items'
+                    }
+                ],
 
                 pageHeader: 'Request List',
-                size: 'xl',
-
-                awaitingAmount: "0",
-                approvedAmount: "0",
-                otherAmount: "0",
-                awaitingHours: "0",
-                approvedHours: "0",
-                otherHours: "0",
-
-                columns: [
-                    "Ref",
-                    "Account",
-                    "Service Line",
-                    "Reason",
-                    "Title",
-                    "Details",
-                    "Week Ending",
-                    "Name",
-                    "Serial",
-                    "Country",
-                    "Hours",
-                    "Status",
-                    "1st Level Approval",
-                    "2nd Level Approval",
-                    "3rd Level Approval",
-                    "Requestor",
-                    "Approval",
-                    "Squad Leader",
-                    "Tribe Leader",
-                    "Pre",
-                    "Post",
-                    "Claim Acc",
-                    "Created"
-                ],
-                helperText: "List below provides a possibility to approve or reject selected items"
+                size: 'xl'
             }
         },
-        methods: {
-            submitForm() {
-                alert('apply filters and refresh lists');
-            },
-            resetForm() {
-                alert('reset filters and refresh lists');
-            },
-            // content switcher
-            actionSelected(event) {
-                console.log(event);
-                switch(type) {
-                    case 'csb-awaiting':
-                        
-                        return true;
-                    break;
-                    case 'csb-approved':
-                        
-                        return false;
-                    break;
-                    case 'csb-other':
-                        
-                        return false;
-                    break;
-                    default:
-                        return false;
-                }
-            },
-            isSelected(type) {
-                switch(type) {
-                    case 'awaiting':
-                        return true;
-                    break;
-                    case 'approved':
-                        return false;
-                    break;
-                    case 'other':
-                        return false;
-                    break;
-                    default:
-                        return false;
-                }
-            }
+        /*
+        watch: {
+
+            // whenever question changes, this function will run
+            // question: function (newQuestion, oldQuestion) {
+            //     this.answer = 'Waiting for you to stop typing...'
+            //     this.debouncedGetAnswer()
+            // },
         },
-        init() {
-            console.log('List Component initialized.')
+        */
+        // computed variables are cached !!!
+        computed: {
+
+            // accountsLength() {
+            //     return this.getFilterMapDataById('accounts').length
+            // },
+
+            ...mapState(
+                {
+                    // loadingFilters: state => state.requests.loadingFilters
+                }
+            ),
+
+            /*
+            // without aliases
+            ...mapGetters([
+                'firstName',
+                'lastName',
+            ]),
+            */
+
+            // with aliases
+            ...mapGetters({
+
+                getFilterMapDataById: 'requests/getFilterDataById',
+                getFilterMapStateById: 'requests/getFilterLoadedStateById',
+                getFilterMapSelectedById: 'requests/getFilterSelectedValueById',
+
+                getColumnsMapByType: 'requests/getColumnsByType',
+                getRecordsMapByType: 'requests/getRecordsByType',
+                getLoadingMapByType: 'requests/getLoadingByType',
+                getLoadedMapByType: 'requests/getLoadedByType',
+
+                getRecordsCountByType: 'requests/getRecordsCountByType',
+                getHoursCountByType: 'requests/getRecordsHoursCountByType'
+            })
         },
         beforCreate() {
-            console.log('List Component before create.')
+            // console.log('List Component before create.')
         },
         created() {
-            console.log('List Component created.')
+            // console.log('List Component created.')
 
-            store.dispatch('fetchFiltesData').then(() => { this.loading = false; });
+            // dispatch with a payload
+            /*
+            store.dispatch('incrementAsync', {
+                amount: 10
+            })
+            */
+
+            // dispatch with an object
+            /*
+            store.dispatch({
+                type: 'incrementAsync',
+                amount: 10
+            })
+            */
+
+            // fetch fiters
+            this.getFiltersData().then(() => {
+            
+            })
+
+            // store.dispatch('fetchFiltersData').then(() => {
+            //     this.loading = false 
+            // })
+
         },
         beforeMount() {
-            console.log('List Component before mount.')
+            // console.log('List Component before mount.')
         },
         mounted() {
-            console.log('List Component mounted.')
+            // console.log('List Component mounted.')
         },
         beforeUpdate() {
-            console.log('List Component before update.')
+            // console.log('List Component before update.')
         }, 
         updated() {
-            console.log('List Component updated.')
+            // console.log('List Component updated.')
         },
         beforeDestroy() {
-            console.log('List Component before destroy.')
+            // console.log('List Component before destroy.')
         }, 
         destroyed() {
-            console.log('List Component destroyed.')
+            // console.log('List Component destroyed.')
+        },
+        methods: {
+
+            // walkaround replaced by getters map
+            /*
+            getObjectPropertyByName (property) {
+                if (this[property] !== undefined ) {              
+                    return this[property]
+                }
+                return
+            },
+            */
+
+            // walkaround replaced by getters map
+            /*
+            getObjectDataPropertyByName: function (property) {
+                if (this.$data.hasOwnProperty(property)) {
+                    return this.$data[property]
+                }
+                return
+            },
+            */
+
+            /*
+            ...mapActions([
+                'increment', // map `this.increment()` to `this.$store.dispatch('increment')`
+
+                // `mapActions` also supports payloads:
+                'incrementBy' // map `this.incrementBy(amount)` to `this.$store.dispatch('incrementBy', amount)`
+            ]),
+            */
+            ...mapActions({
+                // add: 'increment' // map `this.add()` to `this.$store.dispatch('increment')`
+                getFiltersData: 'requests/fetchFiltersData',
+                getTableData: 'requests/fetchTableData'
+            }),
+
+            /*
+            ...mapMutations([
+                'search', // map `this.increment()` to `this.$store.commit('search')`
+
+                // `mapMutations` also supports payloads:
+                'searchBy' // map `this.incrementBy(amount)` to `this.$store.commit('searchBy', amount)`
+                ]),
+                ...mapMutations({
+                find: 'search' // map `this.add()` to `this.$store.commit('search')`
+            })
+            */
+
+            // An arrow function without this 
+            getOwnerId: type => {
+                return 'csb-'+type
+            },
+
+            updateLists() {
+                alert('we need to update lists content')
+                this.summaryDefaultValue = 'aaa'
+            },
+
+            submitForm() {
+                alert('apply filters and refresh lists')
+            },
+            resetForm() {
+                alert('reset filters and refresh lists')
+            },
+            
+            loadTable: function (type) {
+                var loaded = this.getLoadedMapByType(type)
+                if (loaded === false) {
+                    this.getTableData(type).then(() => {
+
+                    })
+                }
+            },
+
+            // content switcher
+            actionSelected: function (type) {
+                switch(type) {
+                    case 'csb-awaiting':
+                        this.loadTable('awaiting')
+                        return true
+                    break
+                    case 'csb-approved':
+                        this.loadTable('approved')
+                        return false
+                    break
+                    case 'csb-other':
+                        this.loadTable('other')
+                        return false
+                    break
+                    default:
+                        return false
+                }
+            },
+            
+            isSelected: function (type) {
+                switch(type) {
+                    case 'awaiting':
+                        this.loadTable('awaiting')
+                        return true
+                    break
+                    case 'approved':
+                    case 'other':
+                        return false
+                    break
+                    default:
+                        return false
+                }
+            }
         }
     }
 </script>

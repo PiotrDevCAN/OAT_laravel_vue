@@ -14,15 +14,6 @@
             columns: Array,
             title: String,
             helperText: String
-        },
-        data() {
-            return {
-                // skeleton options
-                // loading: true,
-                // columns: [],
-                // title: 'initial',
-                // helperText: 'initial'
-            }
         }
     }
 </script>

@@ -138,7 +138,7 @@
                     <cv-side-nav-menu-item to="/OAT_laravel_vue/competency/create">
                         Create
                     </cv-side-nav-menu-item>
-                    <cv-side-nav-menu-item to="j/OAT_laravel_vue/competency/list">
+                    <cv-side-nav-menu-item to="/OAT_laravel_vue/competency/list">
                         List
                     </cv-side-nav-menu-item>
                 </cv-side-nav-menu>
@@ -174,7 +174,7 @@
                     </cv-side-nav-menu-item>
                 </cv-side-nav-menu>
                 <cv-side-nav-link to="/OAT_laravel_vue/access/my">
-                    <template v-slot:nav-icon><User16 /></template>
+                    <template v-slot:nav-icon><UserProfile20 /></template>
                     My Access
                 </cv-side-nav-link>
                 <cv-side-nav-link to="/OAT_laravel_vue/login">
@@ -236,6 +236,7 @@
 <script>
     import Notification20 from '@carbon/icons-vue/es/notification/20';
     import UserAvatar20 from '@carbon/icons-vue/es/user--avatar/20';
+    import UserProfile20 from '@carbon/icons-vue/es/user--profile/20';
     import AppSwitcher20 from '@carbon/icons-vue/es/app-switcher/20';
     import Fade16 from '@carbon/icons-vue/es/fade/16';
     import Home16 from '@carbon/icons-vue/es/home/16';
@@ -250,7 +251,8 @@
         name: 'PageHeader',
         components: {
             Notification20, 
-            UserAvatar20, 
+            UserAvatar20,
+            UserProfile20,
             AppSwitcher20,
             Fade16,
             Home16,
@@ -281,46 +283,6 @@
             actionAppSwitcher() {
 
             }
-        },
-        mounted () {
-            /*
-            // console.log('PageHeader '+this.title)
-            // state example
-            console.log(this.$store.state.user.username)
-            // getter example
-            console.log(this.$store.getters.firstName)
-            // in our component
-            console.log(this.$store.getters.lastName)
-            // in our component
-            console.log(this.$store.getters.prefixedName("Mr."))
-
-            // commit example 1
-            this.$store.commit("changeNameByValue", "New Name")
-            // value changed
-            console.log(this.$store.state.user.fullName)
-
-            // commit example 2
-            this.$store.commit("changeName", {
-                newName: "New Name 1",
-            })
-            // value changed
-            console.log(this.$store.state.user.fullName)
-            
-            // commit example 3
-            this.$store.commit({
-                type: "changeName",
-                newName: "New Name 2"
-            })
-            // value changed
-            console.log(this.$store.state.user.fullName)
-
-            // action dispach example
-            this.$store.dispatch("changeName", {
-                newName: "New Name from Action"
-            })
-            // value changed
-            console.log(this.$store.state.user.fullName)
-            */
         }
     };
 </script>

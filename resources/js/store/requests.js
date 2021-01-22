@@ -1,186 +1,211 @@
 export default {
+    namespaced: true,
     state: {
 
+        // loadingFilters: true,
+
         // filters data
-        accounts: [],
-        reasons: [],
-        names: [],
-        types: [],
+        filters: {
+            accounts: {
+                data: [],
+                loaded: false
+            },
+            reasons: {
+                data: [],
+                loaded: false
+            },
+            names: {
+                data: [],
+                loaded: false
+            },
+            types: {
+                data: [],
+                loaded: false
+            },
 
-        competencies: [],
-        statuses: [],
-        requestors: [],
-        locations: [],
+            competencies: {
+                data: [],
+                loaded: false
+            },
+            statuses: {
+                data: [],
+                loaded: false
+            },
+            requestors: {
+                data: [],
+                loaded: false
+            },
+            locations: {
+                data: [],
+                loaded: false
+            },
 
-        weekendStart: [],
-        weekendEnd: [],
-        imports: [],
+            weekendStart: {
+                data: [],
+                loaded: false
+            },
+            weekendEnd: {
+                data: [],
+                loaded: false
+            },
+            imports: {
+                data: [],
+                loaded: false
+            },
 
-        firstApprovers: [],
-        secondApprovers: [],
-        thirdApprovers: [],
+            firstApprovers: {
+                data: [],
+                loaded: false
+            },
+            secondApprovers: {
+                data: [],
+                loaded: false
+            },
+            thirdApprovers: {
+                data: [],
+                loaded: false
+            },
 
-        approvalModes: [],
-        squadLeaders: [],
-        tribeLeaders: [],
-
-        // list data
-        awaiting: [],
-        apporved: [],
-        other: []
-    },
-
-    getters: {
-        getCustomerById: state => id => {
-            return state.customers.find(customer => customer.id === id)
+            approvalModes: {
+                data: [],
+                loaded: false
+            },
+            squadLeaders: {
+                data: [],
+                loaded: false
+            },
+            tribeLeaders: {
+                data: [],
+                loaded: false
+            }
         },
-    },
-
-    actions: {
-
-        fetchFiltesData({ commit }) {
-            const baseURI = '/OAT_laravel_vue/api/request/filters';
-            return axios.post(baseURI)
-                .then(response => {
-
-                    var data = response.data;
-
-                    commit('setAccounts', data.accounts);
-                    commit('setReasons', data.reasons);
-                    commit('setNames', data.names);
-                    commit('setTypes', data.types);
-
-                    commit('setCompetecies', data.competencies);
-                    commit('setStatuses', data.statuses);
-                    commit('setRequestors', data.requestors);
-                    commit('setLocations', data.locations);
-
-                    commit('setWeekendStart', data.weekendStart);
-                    commit('setWeekendEnd', data.weekendEnd);
-                    commit('setImports', data.imports);
-
-                    commit('setFirstApprovers', data.firstApprovers);
-                    commit('setSecondApprovers', data.secondApprovers);
-                    commit('setThirdApprovers', data.thirdApprovers);
-
-                    commit('setApprovalModes', data.approvalModes);
-                    commit('setSquadLeaders', data.squadLeaders);
-                    commit('setTribeLeaders', data.tribeLeaders);
-                });
-        },
-        // in {} is a key available in an passed array
-        fetchRequests({ commit }, data ) {
-            const baseURI = '/OAT_laravel_vue/api/request/list';
-            return axios.post(baseURI, data)
-                .then(response => {
-                    commit('setAwaiting', response.data.data);
-                });
-        },
-
-        fetchAwaitingRequests({ commit }) {
-            const baseURI = '/OAT_laravel_vue/api/request/list';
-            
-            var data = {
-                requestType: "awaiting"
-            };
-
-            return axios.post(baseURI, data)
-                .then(response => {
-                    commit('setAwaiting', response.data.data);
-                });
-        },
-        fetchApprovedRequests({ commit }) {
-            const baseURI = '/OAT_laravel_vue/api/request/list';
-            
-            var data = {
-                requestType: "approved"
-            };
-
-            return axios.post(baseURI, data)
-                .then(response => {
-                    commit('setApporved', response.data.data);
-                });
-        },
-        fetchOtherRequests({ commit }) {
-            const baseURI = '/OAT_laravel_vue/api/request/list';
-
-            var data = {
-                requestType: "other"
-            };
-
-            return axios.post(baseURI, data)
-                .then(response => {
-                    commit('setOther', response.data.data);
-                });
-        },
+        // tables data and settings
+        tables: {
+            awaiting: {
+                columns: [],
+                records: [],
+                loading: false,
+                loaded: false
+            },
+            approved: {
+                columns: [],
+                records: [],
+                loading: false,
+                loaded: false
+            },
+            other: {
+                columns: [],
+                records: [],
+                loading: false,
+                loaded: false
+            }
+        }
     },
 
     mutations: {
-
-        setAccounts(state, records) {
-            state.accounts = records;
-        },
-        setReasons(state, records) {
-            state.reasons = records;
-        },
-        setNames(state, records) {
-            state.names = records;
-        },
-        setTypes(state, records) {
-            state.types = records;
+        // All filters option
+        setFilterData(state, {id, data, loaded }) {
+            state.filters[id].data = data
+            state.filters[id].loaded = loaded
         },
 
-        setCompetecies(state, records) {
-            state.competencies = records;
+        // Data Table section
+        setColumns(state, { type, columns }) {
+            state.tables[type].columns = columns
         },
-        setStatuses(state, records) {
-            state.statuses = records;
+        setRecords(state, { type, records }) {
+            state.tables[type].records = records
         },
-        setRequestors(state, records) {
-            state.requestors = records;
+        setLoading(state, { type, loading }) {
+            state.tables[type].loading = loading
         },
-        setLocations(state, records) {
-            state.locations = records;
+        setLoaded(state, { type, loaded }) {
+            state.tables[type].loaded = loaded
+        },
+    },
+    actions: {
+        // in {} is a key available in an passed array
+        fetchFiltersData({ state, commit, rootState }) {
+            const baseURI = rootState.baseUrl+'/api/request/filters'
+            return axios.post(baseURI)
+                .then(response => {
+
+                    var data = response.data
+                    for (const key in data) {
+                        let filterData = {
+                            id: key,
+                            data: data[key],
+                            loaded: true
+                        }
+                        commit('setFilterData', filterData)
+                    }
+                })
+        },
+        // in {} is a key available in an passed array
+        fetchTableData({ state, commit, rootState }, type ) {
+
+            var data = {
+                type: type,
+                loading: true
+            }
+            commit('setLoading', data)
+            
+            let params = {
+                requestType: type
+            }
+
+            const baseURI = rootState.baseUrl+'/api/request/list'
+            return axios.post(baseURI, params)
+                .then(response => {
+                    var data = {
+                        type: type,
+                        columns: response.data.columns,
+                        records: response.data.data,
+                        loading: false,
+                        loaded: true
+                    }
+                    commit('setColumns', data)
+                    commit('setRecords', data)
+                    
+                    commit('setLoading', data)
+                    commit('setLoaded', data)
+                })
+        }
+    },
+    getters: {
+
+        getFilterDataById: state => id => {
+            return state.filters[id].data
+        },
+        getFilterLoadedStateById: state => id => {
+            return state.filters[id].loaded
+        },
+        getFilterSelectedValueById: state => id => {
+            return state.filters[id].value
         },
 
-        setWeekendStart(state, records) {
-            state.weekendStart = records;
+        getColumnsByType: state => type => {
+            return state.tables[type].columns
         },
-        setWeekendEnd(state, records) {
-            state.weekendEnd = records;
+        getRecordsByType: state => type => {
+            return state.tables[type].records
         },
-        setImports(state, records) {
-            state.imports = records;
+        getLoadingByType: state => type => {
+            return state.tables[type].loading
         },
-
-        setFirstApprovers(state, records) {
-            state.firstApprovers = records;
-        },
-        setSecondApprovers(state, records) {
-            state.secondApprovers = records;
-        },
-        setThirdApprovers(state, records) {
-            state.thirdApprovers = records;
+        getLoadedByType: state => type => {
+            return state.tables[type].loaded
         },
 
-        setApprovalModes(state, records) {
-            state.approvalModes = records;
+        getRecordsCountByType: (state, getters) => type => {
+            return String(getters.getRecordsByType(type).length)
         },
-        setSquadLeaders(state, records) {
-            state.squadLeaders = records;
-        },
-        setTribeLeaders(state, records) {
-            state.tribeLeaders = records;
+        getRecordsHoursCountByType: (state, getters) => type => {
+            return String(getters.getRecordsByType(type).length)
         },
 
-        setAwaiting(state, records) {
-            state.awaiting = records;
-        },
-        setApporved(state, records) {
-            state.apporved = records;
-        },
-        setOther(state, records) {
-            state.other = records;
-        },
+        getCustomerById: state => id => {
+            return state.customers.find(customer => customer.id === id)
+        }
     }
 }

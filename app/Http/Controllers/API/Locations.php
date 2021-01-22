@@ -8,6 +8,19 @@ use App\Models\Location;
 
 class Locations extends Controller
 {
+    public function filters()
+    {
+        $locations = Location::locations();
+        $shores = Location::shores();
+
+        $records = array(
+            'locations' => $locations,
+            'shores' => $shores
+        );
+
+        return response()->json($records);
+    }
+
     /**
      * Store a newly created resource in storage.
      *

@@ -31,6 +31,8 @@ import access from './components/pages/access'
 import login from './components/pages/login'
 import logout from './components/pages/logout'
 
+import PageNotFound from './components/pages/pageNotFound'
+
 Vue.use(Router)
 
 const routes = [
@@ -85,7 +87,7 @@ const routes = [
 		component: delegateList
 	},
 	{
-		path: '/OAT_laravel_vue/logs/list',
+		path: '/OAT_laravel_vue/log/list',
 		name: 'logs-list',
 		component: logList
 	},
@@ -123,10 +125,16 @@ const routes = [
 		path: '/OAT_laravel_vue/logout',
 		name: 'logout',
 		component: logout
+	},
+	{ 
+		path: "*", 
+		name: '404',
+		component: PageNotFound 
 	}
 ]
 
 export default new Router({
 	mode: 'history',
+	base: __dirname,
 	routes
 })

@@ -23,9 +23,10 @@
 </head>
 <body>
 
-  <script>
-    // window.title = '{{ config('app.name', 'Laravel') }}'
-    // Vue.prototype.$appName = 'My App from LARAVEL'
+  <script type="text/javascript">
+    // window.appUrl = "{{ config('app.url', '') }}";
+    window.appUrl = "https://soiwapi-new.icds.ibm.com/OAT_laravel_vue";
+    window.appName = "{{ config('app.name', 'Laravel') }}";    
   </script>
   
     <noscript>
@@ -34,9 +35,7 @@
 	    </strong>
     </noscript>
     <div id="app">
-      <App
-        app-name="{{ config('app.name', 'Laravel') }}"
-      ></App>
+      <App></App>
     </div>
     <script src="{{ asset('js/app.js') }}" defer></script>
 </body>

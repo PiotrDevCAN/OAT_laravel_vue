@@ -40,6 +40,20 @@ class Log extends Model
     
     public static $limit = 10;
     
+    public static function logEntries()
+    {
+        $data = Cache::remember('Log.logEntries', 33660, function()
+        {
+            return DB::table('Log')
+                ->select('log_entry')
+                ->distinct()
+                ->limit(self::$limit)
+                ->get();
+        });
+        
+        return $data;
+    }
+
     public static function lastUpdates()
     {
         $data = Cache::remember('Log.lastUpdates', 33660, function()

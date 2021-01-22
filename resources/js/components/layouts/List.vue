@@ -32,7 +32,6 @@
             return {
                 areLeftTiles: true,
                 areRightTiles: true,
-            
                 title: 'Home Page from Home template',
                 light: false
             }
