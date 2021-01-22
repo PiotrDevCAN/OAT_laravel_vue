@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\BaseModel;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
-class Location extends Model
+class Location extends BaseModel
 {    
     /**
      * The table associated with the model.
@@ -37,6 +38,8 @@ class Location extends Model
     protected $attributes = [
     //         'delayed' => false,
     ];
+    
+    public static $limit = 10;
     
     public static function locations()
     {

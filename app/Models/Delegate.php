@@ -46,6 +46,8 @@ class Delegate extends BaseModel
 //         'delayed' => false,
     ];
     
+    public static $limit = 10;
+    
     public static function userIntranets()
     {
         $data = Cache::remember('Delegate.user_intranets', 33660, function()

@@ -46,6 +46,8 @@ class Competency extends BaseModel
 //         'delayed' => false,
     ];
     
+    public static $limit = 10;
+    
     public static function competenciesByAccount()
     {
         $data = Cache::remember('Competency.competenciesByAccount', 33660, function()

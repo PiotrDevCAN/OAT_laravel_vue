@@ -47,6 +47,8 @@ class Account extends BaseModel
 //         'delayed' => false,
     ];
     
+    public static $limit = 10;
+    
     public static function accountApproversByLocation($cc = 'UK')
     {
         $data = Cache::remember('Account.accountApproversByLocation'.$cc, 33660, function() use($cc)

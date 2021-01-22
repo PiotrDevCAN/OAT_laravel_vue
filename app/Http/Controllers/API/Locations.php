@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Location;
+use App\Http\Resources\LocationResourceCollection;
 
 class Locations extends Controller
 {
@@ -19,6 +20,71 @@ class Locations extends Controller
         );
 
         return response()->json($records);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function list(Request $request)
+    {
+        $draw = $request->post('draw', 1);
+
+        $columns = array(
+            "Ref",
+            "Account",
+            "Service Line",
+            "Reason",
+            "Title",
+            "Details",
+            "Week Ending",
+            "Name",
+            "Serial",
+            "Country",
+            "Hours",
+            "Status",
+            "1st Level Approval",
+            "2nd Level Approval",
+            "3rd Level Approval",
+            "Requestor",
+            "Approval",
+            "Squad Leader",
+            "Tribe Leader",
+            "Pre",
+            "Post",
+            "Claim Acc",
+            "Created"
+        );
+        
+        $start = $request->post('start', 0);
+        $length = $request->post('length', Location::$limit);
+        
+        $page = $start / $length + 1;
+        
+        $additionalInput = array('page' => $page);
+        $request->merge($additionalInput);
+        
+        $predicates = array();
+        
+        $recordsTotal = 0;
+        $recordsFiltered = 0;
+
+        $records = Location::getWithPredicates($predicates, $page);
+        
+        $recordsTotal = $records->total();
+        $recordsFiltered = $records->total();
+        
+        $resourceCollection = new LocationResourceCollection($records);
+        
+        $resourceCollection->additional([
+            'draw' => $draw,
+            'columns' => $columns,
+            'recordsTotal' => $recordsTotal,
+            'recordsFiltered' => $recordsFiltered
+        ]);
+        
+        return $resourceCollection;        
     }
 
     /**
