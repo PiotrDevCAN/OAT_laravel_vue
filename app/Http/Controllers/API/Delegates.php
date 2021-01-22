@@ -69,21 +69,15 @@ class Delegates extends Controller
         
         $predicates = array();
         
-        $recordsTotal = 0;
-        $recordsFiltered = 0;
-        
         $records = Delegate::getWithPredicates($predicates, $page);
-        
-        $recordsTotal = $records->total();
-        $recordsFiltered = $records->total();
         
         $resourceCollection = new DelegateResourceCollection($records);
         
         $resourceCollection->additional([
             'draw' => $draw,
             'columns' => $columns,
-            'recordsTotal' => $recordsTotal,
-            'recordsFiltered' => $recordsFiltered
+            'recordsTotal' => $records->total(),
+            'recordsFiltered' => $records->total()
         ]);
         
         return $resourceCollection;        

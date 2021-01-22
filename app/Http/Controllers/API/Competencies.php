@@ -72,16 +72,13 @@ class Competencies extends Controller
 
         $records = Competency::getWithPredicates($predicates, $page);
         
-        $recordsTotal = $records->total();
-        $recordsFiltered = $records->total();
-        
         $resourceCollection = new CompetencyResourceCollection($records);
         
         $resourceCollection->additional([
             'draw' => $draw,
             'columns' => $columns,
-            'recordsTotal' => $recordsTotal,
-            'recordsFiltered' => $recordsFiltered
+            'recordsTotal' => $records->total(),
+            'recordsFiltered' => $records->total()
         ]);
         
         return $resourceCollection;        

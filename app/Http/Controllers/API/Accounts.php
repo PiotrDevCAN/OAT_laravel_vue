@@ -71,21 +71,15 @@ class Accounts extends Controller
         
         $predicates = array();
         
-        $recordsTotal = 0;
-        $recordsFiltered = 0;
-        
         $records = Account::getWithPredicates($predicates, $page);
-        
-        $recordsTotal = $records->total();
-        $recordsFiltered = $records->total();
         
         $resourceCollection = new AccountResourceCollection($records);
         
         $resourceCollection->additional([
             'draw' => $draw,
             'columns' => $columns,
-            'recordsTotal' => $recordsTotal,
-            'recordsFiltered' => $recordsFiltered
+            'recordsTotal' => $records->total(),
+            'recordsFiltered' => $records->total()
         ]);
         
         return $resourceCollection;        

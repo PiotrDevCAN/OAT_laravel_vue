@@ -66,22 +66,16 @@ class Locations extends Controller
         $request->merge($additionalInput);
         
         $predicates = array();
-        
-        $recordsTotal = 0;
-        $recordsFiltered = 0;
 
         $records = Location::getWithPredicates($predicates, $page);
         
-        $recordsTotal = $records->total();
-        $recordsFiltered = $records->total();
-        
         $resourceCollection = new LocationResourceCollection($records);
-        
+
         $resourceCollection->additional([
             'draw' => $draw,
             'columns' => $columns,
-            'recordsTotal' => $recordsTotal,
-            'recordsFiltered' => $recordsFiltered
+            'recordsTotal' => $records->total(),
+            'recordsFiltered' => $records->total()
         ]);
         
         return $resourceCollection;        
