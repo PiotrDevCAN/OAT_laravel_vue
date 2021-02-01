@@ -74,15 +74,24 @@ class OvertimeRequests extends Controller
      */
     public function formData(Request $request)
     {
+        $accounts = OvertimeRequest::accounts();
+        $locations = OvertimeRequest::locations();
+        $worksInCenter = OvertimeRequest::worksInCenter();
+        $competencies = OvertimeRequest::competencies();
+        $recoverables = OvertimeRequest::recoverables();
+        $natures = OvertimeRequest::natures();
+        $weekending = OvertimeRequest::weekendDates();
+        $imports = OvertimeRequest::imports();
+
         $records = array(
-            'account' => array(),
-            'country' => array(),
-            'worksInCenter' => array(),
-            'competency' => array(),
-            'recoverable' => array(),
-            'nature' => array(),
-            'weekending' => array(),
-            'import' => array()
+            'account' => $accounts,
+            'country' => $locations,
+            'worksInCenter' => $worksInCenter,
+            'competency' => $competencies,
+            'recoverable' => $recoverables,
+            'nature' => $natures,
+            'weekending' => $weekending,
+            'import' => $imports
         );
 
         return response()->json($records);

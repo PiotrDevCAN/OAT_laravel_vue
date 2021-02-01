@@ -108,6 +108,14 @@ class OvertimeRequest extends Model
             (object) array ('recoverable' => 'Delivery Centre')
         ));
     }
+
+    public static function worksInCenter()
+    {
+        return collect(array(
+            (object) array ('worksInCenter' => 'Yes'),
+            (object) array ('worksInCenter' => 'No')
+        ));
+    }
     
     public static function natures()
     {

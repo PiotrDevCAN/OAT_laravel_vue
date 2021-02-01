@@ -3,31 +3,35 @@ export default {
     state: {
 
         form: {
-            accounts: {
+            account: {
                 data: [],
                 loaded: false
             },
-            countries: {
+            country: {
                 data: [],
                 loaded: false
             },
-            competencies: {
+            worksInCenter: {
                 data: [],
                 loaded: false
             },
-            recoverables: {
+            competency: {
                 data: [],
                 loaded: false
             },
-            natures: {
+            recoverable: {
                 data: [],
                 loaded: false
             },
-            weekendings: {
+            nature: {
                 data: [],
                 loaded: false
             },
-            imports: {
+            weekending: {
+                data: [],
+                loaded: false
+            },
+            import: {
                 data: [],
                 loaded: false
             }
@@ -138,9 +142,35 @@ export default {
         setFormData(state, {id, data, loaded }) {
             if (state.form.hasOwnProperty(id)) {
                 state.form[id].data = data
+                /*                [
+                    {
+                      value: '10 value',
+                      label: '10 label',
+                      name: 'Tens',
+                    },
+                    {
+                      value: '20s',
+                      label: '20s',
+                      name: 'Twenties',
+                    },
+                    {
+                      value: '30s',
+                      label: '30s',
+                      name: 'Thirties',
+                    },
+                    {
+                      value: '40s',
+                      label: '40s',
+                      name: 'Fourties',
+                    },
+                    {
+                      value: '50s',
+                      label: '50s',
+                      name: 'Fifties',
+                    },
+                ]
+                */
                 state.form[id].loaded = loaded
-            } else {
-                console.log(id)
             }
         },
 
