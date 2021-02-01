@@ -45,7 +45,8 @@ class Location extends BaseModel
     {
         $data = Cache::remember('Location.locations', 33660, function()
         {
-            return self::select('location')
+            return DB::table(self::$table)
+                ->select('location')
                 ->where('location', '<>', '')
                 ->distinct()
                 ->get();
@@ -58,7 +59,8 @@ class Location extends BaseModel
     {
         $data = Cache::remember('Location.shores', 33660, function()
         {
-            return self::select('shore')
+            return DB::table(self::$table)
+                ->select('shore')
                 ->where('shore', '<>', '')
                 ->distinct()
                 ->get();

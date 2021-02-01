@@ -19,8 +19,6 @@ class OvertimeRequestObserver
      */
     public function retrieved(OvertimeRequest $overtimeRequest)
     {
-        dd($overtimeRequest);
-        
         $to = '';
         Mail::to($to)
         //             ->cc($moreUsers)

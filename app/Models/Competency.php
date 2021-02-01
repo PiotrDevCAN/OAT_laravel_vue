@@ -52,7 +52,8 @@ class Competency extends BaseModel
     {
         $data = Cache::remember('Competency.competenciesByAccount', 33660, function()
         {
-            return self::select('approver','competency')
+            return DB::table(self::$table)
+                ->select('approver','competency')
                 ->distinct()
                 ->get();
         });
@@ -68,7 +69,8 @@ class Competency extends BaseModel
     {
         $data = Cache::remember('Competency.competencies', 33660, function()
         {
-            return self::select('competency')
+            return DB::table(self::$table)
+                ->select('competency')
                 ->where('competency', '<>', '')
                 ->distinct()
                 ->get();
@@ -81,7 +83,8 @@ class Competency extends BaseModel
     {
         $data = Cache::remember('Competency.approvers', 33660, function()
         {
-            return self::select('approver')
+            return DB::table(self::$table)
+                ->select('approver')
                 ->where('approver', '<>', '')
                 ->distinct()
                 ->get();
