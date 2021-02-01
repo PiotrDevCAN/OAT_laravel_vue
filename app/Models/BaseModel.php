@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\GetTableName;
 
 class BaseModel extends Model
 {
+    use GetTableName;
+    
     /**
      * Indicates if the IDs are auto-incrementing.
      *

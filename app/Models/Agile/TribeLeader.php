@@ -3,9 +3,12 @@
 namespace App\Models\Agile;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\GetTableName;
 
 class TribeLeader extends Model
 {
+    use GetTableName;
+    
     /**
      * The table associated with the model.
      *

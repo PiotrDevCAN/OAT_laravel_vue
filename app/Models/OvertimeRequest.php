@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
-use App\Traits\GetTableNameStatically;
+use App\Traits\GetTableName;
 
 class OvertimeRequest extends Model
 {
-    use GetTableNameStatically;
+    use GetTableName;
 
     /**
      * The table associated with the model.

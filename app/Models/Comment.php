@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\GetTableName;
 
 class Comment extends Model
-{    
+{
+    use GetTableName;
+    
     /**
      * The table associated with the model.
      *

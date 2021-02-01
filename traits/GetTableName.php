@@ -1,6 +1,6 @@
 <?php namespace App\Traits;
 
-trait GetTableNameStatically
+trait GetTableName
 {
     public static function tableName()
     {

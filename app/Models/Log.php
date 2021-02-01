@@ -5,9 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use App\Traits\GetTableName;
 
 class Log extends Model
 {
+    use GetTableName;
+    
     /**
      * The table associated with the model.
      *

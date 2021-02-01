@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\GetTableName;
 
 class SquadAssignment extends Model
 {
+    use GetTableName;
+    
     /**
      * The connection name for the model.
      *
