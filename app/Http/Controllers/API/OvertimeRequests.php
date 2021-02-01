@@ -93,7 +93,7 @@ class OvertimeRequests extends Controller
             'weekending' => $weekending,
             'import' => $imports
         );
-
+dd($records);
         // return response()->json($records);
     }
 
