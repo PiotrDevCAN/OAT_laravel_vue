@@ -362,7 +362,6 @@ class OvertimeRequest extends Model
             'App\Models\CommentLog',
             'request',
             'reference',
-            'reference',
             'comment'
         );
     }
@@ -376,7 +375,6 @@ class OvertimeRequest extends Model
             'App\Models\Comment',
             'App\Models\CommentLog',
             'request',
-            'reference',
             'reference',
             'comment'
             );

@@ -94,7 +94,7 @@ class OvertimeRequests extends Controller
             'import' => $imports
         );
 
-        return response()->json($records);
+        // return response()->json($records);
     }
 
     /**
