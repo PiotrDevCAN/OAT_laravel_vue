@@ -17,7 +17,7 @@ use App\Http\Resources\OvertimeRequestResource;
 
 class OvertimeRequests extends Controller
 {
-    public function filters($type)
+    public function filters($type = null)
     {
         $accounts = OvertimeRequest::accounts();
         $natures = OvertimeRequest::natures();
@@ -72,7 +72,7 @@ class OvertimeRequests extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function formData($type)
+    public function formData($type = null)
     {
         $accounts = OvertimeRequest::accounts();
         $locations = OvertimeRequest::locations();
@@ -93,8 +93,8 @@ class OvertimeRequests extends Controller
             'weekending' => $weekending,
             'import' => $imports
         );
-dd($records);
-        // return response()->json($records);
+
+        return response()->json($records);
     }
 
     /**
