@@ -1,9 +1,9 @@
 <template>
-    <twoColumns>
+    <twoColumns v-bind:app-name="appName">
         <template slot="left-tiles" v-if="areLeftTiles">
             <cv-tile :light="light" kind="expandable" expanded>
                 <template slot="default">
-                    <h1>Usage</h1>
+                    <h1 class="home_box__usage">Usage</h1>
                 </template>
                 <template slot="below">
                     <p>This tool is for managing the process for gaining approval for planned paid overtime that is NOT 'Stand-by', 'Shift'</p>
@@ -14,7 +14,7 @@
 
             <cv-tile :light="light" kind="expandable" expanded>
                 <template slot="default">
-                    <h1>Known Problems</h1>
+                    <h1 class="home_box__problems">Known Problems</h1>
                 </template>
                 <template slot="below">
                     <p>None.</p>
@@ -23,7 +23,7 @@
 
             <cv-tile :light="light" kind="expandable" expanded>
                 <template slot="default">
-                    <h1>Support</h1>
+                    <h1 class="home_box__support">Support</h1>
                 </template>
                 <template slot="below">
                     <p>The support team are contactable via their Taskid ukiops@uk.ibm.com</p>
@@ -34,7 +34,7 @@
 
             <cv-tile :light="light" kind="expandable" expanded>
                 <template slot="default">
-                    <h1>Names in the Tool</h1>
+                    <h1 class="home_box__names">Names in the Tool</h1>
                 </template>
                 <template slot="below">
                     <p>When you add names to the request the tool automatically picks up the Notes address as you start to enter a name. Give the tool time to populate and ensure you select the correct name from the list that appears. If you do not, your request will not complete correctly. Note that any person working overtime must be present in Bluepages in order for OAT to handle the request.</p>
@@ -43,7 +43,7 @@
 
             <cv-tile :light="light" kind="expandable" expanded>
                 <template slot="default">
-                    <h1>Access & Admin</h1>
+                    <h1 class="home_box__admin">Access & Admin</h1>
                 </template>
                 <template slot="below">
                     <p>No special access is required to raise a request. Anyone with access to the 9. network and an Intranet Logon id can use the tool. There is a small admin team, who can approve/reject any request. They belong to a specific Bluegroup. For details on this group please refer to the FAQs section in the support Wiki (address above). Approvers require no special privileges on the system. They must always use the appropriate link in the email they receive, the system will confirm they are the requested approver before it processes their approval/rejection. One approver can Reject - that does not prevent the other from Approving, however the request will remain in the REJECTED status, until the rejector approves the request.</p>
@@ -53,7 +53,7 @@
         <template slot="right-tiles" v-if="areRightTiles">
             <cv-tile :light="light" kind="expandable" expanded>
                 <template slot="default">
-                    <h1>OAT News</h1>
+                    <h1 class="home_box__news">OAT News</h1>
                 </template>
                 <template slot="below">
                     <p>Updates and news items will be listed here:</p>
@@ -118,5 +118,25 @@
 </script>
 
 <style lang="scss">
+@import '../../styles/_carbon-utils';
 
+.home_box__usage {
+    @include carbon--type-style('productive-heading-03');
+}
+.home_box__problems {
+    // @include type-style('body-long-01');
+    @include carbon--type-style('productive-heading-03');
+}
+.home_box__support {
+    @include carbon--type-style('productive-heading-03');
+}
+.home_box__names {
+    @include carbon--type-style('productive-heading-03');
+}
+.home_box__admin {
+    @include carbon--type-style('productive-heading-03');
+}
+.home_box__news {
+    @include carbon--type-style('productive-heading-03');
+}
 </style>

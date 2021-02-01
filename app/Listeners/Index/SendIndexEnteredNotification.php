@@ -27,7 +27,8 @@ class SendIndexEnteredNotification
      */
     public function handle(IndexEntered $event)
     {
-        Mail::to('piotr.tajanowicz@ibm.com')
+        $to = '';
+        Mail::to($to)
 //             ->cc($moreUsers)
 //             ->bcc($evenMoreUsers)
         ->send(new \App\Mail\Index\IndexEntered());

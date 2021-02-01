@@ -20,6 +20,10 @@ import competencyList from './components/pages/competency/list'
 import delegateCreate from './components/pages/delegate/create'
 import delegateList from './components/pages/delegate/list'
 
+// my delegate
+import myDelegateCreate from './components/pages/myDelegate/create'
+import myDelegateList from './components/pages/myDelegate/list'
+
 // log
 import logList from './components/pages/log/list'
 
@@ -104,12 +108,12 @@ const routes = [
 	{
 		path: '/OAT_laravel_vue/delegate/my/create',
 		name: 'delegate-my-create',
-		component: delegateCreate
+		component: myDelegateCreate
 	},
 	{
 		path: '/OAT_laravel_vue/delegate/my/list',
 		name: 'rdelegate-my-list',
-		component: delegateList
+		component: myDelegateList
 	},
 	{
 		path: '/OAT_laravel_vue/access/my',

@@ -15,9 +15,8 @@ import axios from 'axios';
 import upperFirst from 'lodash/upperFirst'
 import camelCase from 'lodash/camelCase'
 
-import 'carbon-components/css/carbon-components.css';
-import CarbonComponentsVue from '@carbon/vue/src/index';
-
+// import CarbonComponentsVue from '@carbon/vue/src/index';
+import CarbonComponentsVue from "@carbon/vue";
 Vue.use(CarbonComponentsVue);
 
 /**

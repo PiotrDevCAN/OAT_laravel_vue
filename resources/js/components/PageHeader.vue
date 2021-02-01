@@ -54,7 +54,7 @@
                 List
             </cv-header-menu-item>
         </cv-header-menu>
-        <cv-header-menu-item to="/OAT_laravel_vue/logs/list">
+        <cv-header-menu-item to="/OAT_laravel_vue/log/list">
             Logs
         </cv-header-menu-item>
         <cv-header-menu aria-label="My Delegates" title="My Delegates">
@@ -66,7 +66,8 @@
             </cv-header-menu-item>
         </cv-header-menu>
         <cv-header-menu-item to="/OAT_laravel_vue/access/my">My Access</cv-header-menu-item>
-        <cv-header-menu-item to="/OAT_laravel_vue/login">Log on</cv-header-menu-item>
+        <cv-header-menu-item v-if="logged" to="/OAT_laravel_vue/login">Log on</cv-header-menu-item>
+        <cv-header-menu-item v-else to="/OAT_laravel_vue/login">Log out</cv-header-menu-item>
     </cv-header-nav>
 
     <template slot="header-global">
@@ -177,10 +178,14 @@
                     <template v-slot:nav-icon><UserProfile20 /></template>
                     My Access
                 </cv-side-nav-link>
-                <cv-side-nav-link to="/OAT_laravel_vue/login">
-                    <template v-slot:nav-icon><Fade16 /></template>
+                <cv-side-nav-link v-if="logged" to="/OAT_laravel_vue/login">
+                    <template v-slot:nav-icon><Login16 /></template>
                     Log on
-                </cv-side-nav-link>           
+                </cv-side-nav-link>
+                <cv-side-nav-link v-else to="/OAT_laravel_vue/logout">
+                    <template v-slot:nav-icon><Logout16 /></template>
+                    Log out
+                </cv-side-nav-link>
             </cv-side-nav-items>
         </cv-side-nav>
     </template>
@@ -246,6 +251,9 @@
     import Branch16 from '@carbon/icons-vue/es/branch/16';
     import Archive16 from '@carbon/icons-vue/es/archive/16';
     import Location16 from '@carbon/icons-vue/es/location/16';
+    import Login16 from '@carbon/icons-vue/es/login/16';
+    import Logout16 from '@carbon/icons-vue/es/logout/16';
+import Logout from './pages/logout.vue';
 
     export default {
         name: 'PageHeader',
@@ -261,13 +269,18 @@
             Stamp16,
             Branch16,
             Archive16,
-            Location16
+            Location16,
+            Login16,
+            Logout16
         },
         props: {
             appName: String
         },
         data() {
             return {
+
+                logged: true,
+
                 areLeftPanels: true,
                 areRightPanels: true,
                 header_nav_contents: true

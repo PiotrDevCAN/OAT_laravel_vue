@@ -52,5 +52,13 @@ export default {
 </script>
 
 <style lang="scss">
-// @import './styles/carbon';
+.bx--tile {
+    margin: 10px 0;
+}
+
+@import 'styles/_carbon-utils';
+
+.bx--tile h1 {
+    @include carbon--type-style('productive-heading-03');
+}
 </style>

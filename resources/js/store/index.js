@@ -23,7 +23,6 @@ export default new Vuex.Store({
     },
     state: {
         baseUrl: window.appUrl,
-        // baseUrl: 'https://soiwapi-new.icds.ibm.com/OAT_laravel_vue', 
         user: {
             username: 'matt',
             fullName: 'Matt Maribojoc'

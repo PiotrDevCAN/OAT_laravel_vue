@@ -2,6 +2,37 @@ export default {
     namespaced: true,
     state: {
 
+        form: {
+            accounts: {
+                data: [],
+                loaded: false
+            },
+            countries: {
+                data: [],
+                loaded: false
+            },
+            competencies: {
+                data: [],
+                loaded: false
+            },
+            recoverables: {
+                data: [],
+                loaded: false
+            },
+            natures: {
+                data: [],
+                loaded: false
+            },
+            weekendings: {
+                data: [],
+                loaded: false
+            },
+            imports: {
+                data: [],
+                loaded: false
+            }
+        },
+
         // loadingFilters: true,
 
         // filters data
@@ -103,27 +134,64 @@ export default {
     },
 
     mutations: {
+        // Form all fields
+        setFormData(state, {id, data, loaded }) {
+            if (state.form.hasOwnProperty(id)) {
+                state.form[id].data = data
+                state.form[id].loaded = loaded
+            } else {
+                console.log(id)
+            }
+        },
+
         // All filters option
         setFilterData(state, {id, data, loaded }) {
-            state.filters[id].data = data
-            state.filters[id].loaded = loaded
+            if (state.filters.hasOwnProperty(id)) {
+                state.filters[id].data = data
+                state.filters[id].loaded = loaded   
+            }
         },
 
         // Data Table section
         setColumns(state, { type, columns }) {
-            state.tables[type].columns = columns
+            if (state.tables.hasOwnProperty(type)) {
+                state.tables[type].columns = columns
+            }
         },
         setRecords(state, { type, records }) {
-            state.tables[type].records = records
+            if (state.tables.hasOwnProperty(type)) {
+                state.tables[type].records = records   
+            }
         },
         setLoading(state, { type, loading }) {
-            state.tables[type].loading = loading
+            if (state.tables.hasOwnProperty(type)) {
+                state.tables[type].loading = loading   
+            }
         },
         setLoaded(state, { type, loaded }) {
-            state.tables[type].loaded = loaded
+            if (state.tables.hasOwnProperty(type)) {
+                state.tables[type].loaded = loaded
+            }
         },
     },
     actions: {
+        // in {} is a key available in an passed array
+        fetchFormData({ state, commit, rootState }) {
+            const baseURI = rootState.baseUrl+'/api/request/formData'
+            return axios.post(baseURI)
+                .then(response => {
+
+                    var data = response.data
+                    for (const key in data) {
+                        let filterData = {
+                            id: key,
+                            data: data[key],
+                            loaded: true
+                        }
+                        commit('setFormData', filterData)
+                    }
+                })
+        },
         // in {} is a key available in an passed array
         fetchFiltersData({ state, commit, rootState }) {
             const baseURI = rootState.baseUrl+'/api/request/filters'
@@ -173,28 +241,92 @@ export default {
         }
     },
     getters: {
+        
+        // if (id in state.form)
+        // if ('data' in state.form[id])
+
+        getFormDataById: state => id => {
+            if (state.form.hasOwnProperty(id)) {
+                if (state.form[id].hasOwnProperty('data')) {
+                    return state.form[id].data
+                }
+                return []
+            }
+            return []
+        },
+        getFormLoadedStateById: state => id => {
+            if (state.form.hasOwnProperty(id)) {
+                if (state.form[id].hasOwnProperty('loaded')) {
+                    return state.form[id].loaded
+                }
+                return false
+            }
+            return false
+        },
 
         getFilterDataById: state => id => {
-            return state.filters[id].data
+            if (state.filters.hasOwnProperty(id)) {
+                if (state.filters[id].hasOwnProperty('data')) {
+                    return state.filters[id].data
+                }
+                return []
+            }
+            return []
         },
         getFilterLoadedStateById: state => id => {
-            return state.filters[id].loaded
+            if (state.filters.hasOwnProperty(id)) {
+                if (state.filters[id].hasOwnProperty('loaded')) {
+                    return state.filters[id].loaded
+                }
+                return false
+            }
+            return false
         },
         getFilterSelectedValueById: state => id => {
-            return state.filters[id].value
+            if (state.filters.hasOwnProperty(id)) {
+                if (state.filters[id].hasOwnProperty('value')) {
+                    return state.filters[id].value
+                }
+                return ''
+            }
+            return ''
         },
 
         getColumnsByType: state => type => {
-            return state.tables[type].columns
+            if (state.tables.hasOwnProperty(type)) {
+                if (state.tables[type].hasOwnProperty('columns')) {
+                    return state.tables[type].columns
+                }
+                return []
+            }
+            return []
         },
         getRecordsByType: state => type => {
-            return state.tables[type].records
+            if (state.tables.hasOwnProperty(type)) {
+                if (state.tables[type].hasOwnProperty('records')) {
+                    return state.tables[type].records
+                }
+                return []
+            }
+            return []
         },
         getLoadingByType: state => type => {
-            return state.tables[type].loading
+            if (state.tables.hasOwnProperty(type)) {
+                if (state.tables[type].hasOwnProperty('loading')) {
+                    return state.tables[type].loading
+                }
+                return false
+            }
+            return false
         },
         getLoadedByType: state => type => {
-            return state.tables[type].loaded
+            if (state.tables.hasOwnProperty(type)) {
+                if (state.tables[type].hasOwnProperty('loaded')) {
+                    return state.tables[type].loaded
+                }
+                return false
+            }
+            return false
         },
 
         getRecordsCountByType: (state, getters) => type => {

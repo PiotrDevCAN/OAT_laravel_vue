@@ -17,7 +17,7 @@ use App\Http\Resources\OvertimeRequestResource;
 
 class OvertimeRequests extends Controller
 {
-    public function filters()
+    public function filters($type)
     {
         $accounts = OvertimeRequest::accounts();
         $natures = OvertimeRequest::natures();
@@ -62,6 +62,27 @@ class OvertimeRequests extends Controller
             'approvalModes' => $approvalModes,
             'squadLeaders' => $approverSquadLeaders,
             'tribeLeaders' => $approverTribeLeaders
+        );
+
+        return response()->json($records);
+    }
+
+    /**
+     * Returns data for form fields
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function formData(Request $request)
+    {
+        $records = array(
+            'account' => array(),
+            'country' => array(),
+            'worksInCenter' => array(),
+            'competency' => array(),
+            'recoverable' => array(),
+            'nature' => array(),
+            'weekending' => array(),
+            'import' => array()
         );
 
         return response()->json($records);

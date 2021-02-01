@@ -4,56 +4,111 @@
     <!-- @ is v-on Shorthand -->
 
     <cv-grid>
-        <cv-row>
-            <cv-column v-bind:key="index" v-for="(row, index) in filters" :lg="row.lg">
-                <h3 v-if="row.header">{{ row.header }}</h3>
-                <div v-bind:key="selectsIndex" v-for="(select, selectsIndex) in row.selects" >
-                    <cv-select v-if="getFilterMapStateById(select.id)" v-model="select.selected" v-on:change="updateLists" :label="select.label">
-                        <cv-select-option disabled selected hidden>{{ filtersDefaultValue }}</cv-select-option>
-                        <cv-select-option v-bind:key="optionIndex" v-for="(option, name, optionIndex ) in getFilterMapDataById(select.id)" :value="option[select.dataKey]">{{ option[select.dataKey] }}</cv-select-option>
-                    </cv-select>
-                    <div v-else>
-                        <label class="bx--label">{{ select.label }}</label>
-                        <cv-skeleton-text></cv-skeleton-text>
-                    </div>
-                </div>
-            </cv-column>
-        </cv-row>
+        <cv-form @submit.prevent="actionSubmit">
+            <cv-row class="bx--row-padding">
+                <cv-column v-bind:key="index" v-for="(row, index) in filters" :lg="row.lg">
+                    <h3 v-if="row.header">{{ row.header }}</h3>
+                    <div v-bind:key="fieldIndex" v-for="(field, fieldIndex) in row.fields" >
+                        <div v-if="field.type='select'">
+                            <cv-select v-if="getFilterMapStateById(field.id)"
+                                v-on:change="updateLists" 
+                                :label="field.label">
+                                <cv-select-option disabled selected hidden>{{ filtersDefaultValue }}</cv-select-option>
+                                <cv-select-option 
+                                    v-bind:key="optionIndex" 
+                                    v-for="(option, name, optionIndex ) in getFilterMapDataById(field.id)" 
+                                    :value="option[field.dataKey]">
+                                    {{ option[field.dataKey] }}
+                                </cv-select-option>
+                            </cv-select>
+                            <div v-else>
+                                <label class="bx--label">{{ field.label }}</label>
+                                <cv-skeleton-text></cv-skeleton-text>
+                            </div>
+                        </div>
 
-        <cv-row>
+                        <div v-else-if="field.type='combo'">
+                            <cv-combo-box v-if="getFilterMapStateById(field.id)"
+                                :light="field.light"
+                                :label="field.label"
+                                :helper-text="field.helperText"
+                                :invalid-message="field.invalidMessage"
+                                :title="field.title"
+                                :disabled="field.disabled"
+                                :auto-filter="field.autoFilter"
+                                :auto-highlight="field.autoHighlight"
+                                :value="field.value"
+                                :options="field.options">
+                            </cv-combo-box>
+                            <div v-else>
+                                <label class="bx--label">{{ field.label }}</label>
+                                <cv-skeleton-text></cv-skeleton-text>
+                            </div> 
+                        </div>                   
+                    </div>
+                </cv-column>
+            </cv-row>
+        </cv-form>
+
+        <cv-row class="bx--row-padding">
             <cv-column v-bind:key="index" v-for="(row, index) in actionButtons" :lg="row.lg">
                 <h3 v-if="row.header">{{ row.header }}</h3>
                 <cv-button-set v-else>
-                    <cv-button v-bind:key="buttonIndex" v-for="(button, buttonIndex) in row.buttons" :kind="button.kind" v-on:click="button.action">{{ button.label }}</cv-button>
+                    <cv-button v-bind:key="fieldIndex" 
+                        v-for="(field, fieldIndex) in row.fields" 
+                        :kind="field.kind" 
+                        v-on:click="field.action">
+                    {{ field.label }}</cv-button>
                 </cv-button-set>
             </cv-column>
         </cv-row>
 
-        <cv-row>
+        <cv-row class="bx--row-padding">
             <cv-column v-bind:key="index" v-for="(row, index) in summary" :lg="row.lg">
                 <h3 v-if="row.header">{{ row.header }}</h3>
-                <div v-bind:key="inputsIndex" v-for="(input, inputsIndex) in row.inputs" >
-                    <div v-if="getLoadedMapByType(input.type)">
-                        <cv-text-input v-if="row.type === 'amount'" :value="getRecordsCountByType(input.type)" :label="input.label"></cv-text-input>
-                        <cv-text-input v-else-if="row.type === 'hours'" :value="getHoursCountByType(input.type)" :label="input.label"></cv-text-input>
-                    </div>
-                    <div v-else>
-                        <label class="bx--label">{{ input.label }}</label>
-                        <cv-skeleton-text></cv-skeleton-text>
+                <div v-bind:key="fieldIndex" v-for="(field, fieldIndex) in row.fields" >
+                    <div v-if="field.type='input'">
+                        <div v-if="getLoadedMapByType(field.dataType)">
+                            <cv-text-input v-if="row.type === 'amount'" 
+                                :value="getRecordsCountByType(field.dataType)" 
+                                :label="field.label">
+                            </cv-text-input>
+                            <cv-text-input v-else-if="row.type === 'hours'" 
+                                :value="getHoursCountByType(field.dataType)" 
+                                :label="field.label">
+                            </cv-text-input>
+                        </div>
+                        <div v-else>
+                            <label class="bx--label">{{ field.label }}</label>
+                            <cv-skeleton-text></cv-skeleton-text>
+                        </div>
                     </div>
                 </div>
             </cv-column>
         </cv-row>
 
-        <cv-row>
+        <cv-row class="bx--row-padding">
             <cv-column :lg="12">
                 <br/>
                 <cv-content-switcher v-on:selected="actionSelected" :light="true" :size="size">
-                    <cv-content-switcher-button :owner-id="getOwnerId(table.id)" :selected="isSelected(table.id)" v-bind:key="index" v-for="(table, index) in dataTables">{{ table.label }}</cv-content-switcher-button>
+                    <cv-content-switcher-button :owner-id="getOwnerId(table.id)" 
+                        :selected="isSelected(table.id)" 
+                        v-bind:key="index" 
+                        v-for="(table, index) in dataTables">
+                        {{ table.label }}
+                    </cv-content-switcher-button>
                 </cv-content-switcher>
                 <section style="margin: 10px 0;">
-                    <cv-content-switcher-content :owner-id="getOwnerId(table.id)" v-bind:key="index" v-for="(table, index) in dataTables" >
-                        <data-table :columns="getColumnsMapByType(table.id)" :type="table.id" :data-table-data="getRecordsMapByType(table.id)" :title="table.title" :helper-text="table.helperText" :loading="getLoadingMapByType(table.id)" :loaded="getLoadedMapByType(table.id)"/>
+                    <cv-content-switcher-content :owner-id="getOwnerId(table.id)" 
+                        v-bind:key="index" 
+                        v-for="(table, index) in dataTables" >
+                        <data-table :columns="getColumnsMapByType(table.id)" 
+                            :type="table.id" 
+                            :data-table-data="getRecordsMapByType(table.id)" 
+                            :title="table.title" 
+                            :helper-text="table.helperText" 
+                            :loading="getLoadingMapByType(table.id)" 
+                            :loaded="getLoadedMapByType(table.id)"/>
                     </cv-content-switcher-content>                    
                 </section>
             </cv-column>
@@ -91,28 +146,28 @@
                     },
                     {
                         lg: 4,
-                        selects: [
-                            { id: 'accounts', dataKey: 'account', label: 'Accounts' },
-                            { id: 'reasons', dataKey: 'nature', label: 'Reason' },
-                            { id: 'names', dataKey: 'worker', label: 'Name' },
-                            { id: 'types', dataKey: 'approvaltype', label: 'Type' }
+                        fields: [
+                            { id: 'accounts', dataKey: 'account', label: 'Accounts', type: 'select' },
+                            { id: 'reasons', dataKey: 'nature', label: 'Reason', type: 'combo' },
+                            { id: 'names', dataKey: 'worker', label: 'Name', type: 'select' },
+                            { id: 'types', dataKey: 'approvaltype', label: 'Type', type: 'select' }
                         ]
                     },
                     {
                         lg: 4,
-                        selects: [
-                            { id: 'competencies', dataKey: 'competency', label: 'Service Line' },
-                            { id: 'statuses', dataKey: 'status', label: 'Status' },
-                            { id: 'requestors', dataKey: 'requestor', label: 'Requestor' },
-                            { id: 'locations', dataKey: 'location', label: 'Location' }
+                        fields: [
+                            { id: 'competencies', dataKey: 'competency', label: 'Service Line', type: 'select' },
+                            { id: 'statuses', dataKey: 'status', label: 'Status', type: 'select' },
+                            { id: 'requestors', dataKey: 'requestor', label: 'Requestor', type: 'select' },
+                            { id: 'locations', dataKey: 'location', label: 'Location', type: 'select' }
                         ]
                     },
                     {
                         lg: 4,
-                        selects: [
-                            { id: 'weekendStart', dataKey: 'weekendstart', label: 'Weekend Start' },
-                            { id: 'weekendEnd', dataKey: 'weekendend', label: 'Weekend End' },
-                            { id: 'imports', dataKey: 'import', label: 'Import' }
+                        fields: [
+                            { id: 'weekendStart', dataKey: 'weekendstart', label: 'Weekend Start', type: 'select' },
+                            { id: 'weekendEnd', dataKey: 'weekendend', label: 'Weekend End', type: 'select' },
+                            { id: 'imports', dataKey: 'import', label: 'Import', type: 'select' }
                         ]
                     },
                     {
@@ -121,20 +176,20 @@
                     },
                     {
                         lg: 4,
-                        selects: [
-                            { id: 'firstApprovers', dataKey: 'approver_first_level', label: '1st Level Approver' }
+                        fields: [
+                            { id: 'firstApprovers', dataKey: 'approver_first_level', label: '1st Level Approver', type: 'select' }
                         ]
                     },
                     {
                         lg: 4,
-                        selects: [
-                            { id: 'secondApprovers', dataKey: 'approver_second_level', label: '2nd Level Approver' }
+                        fields: [
+                            { id: 'secondApprovers', dataKey: 'approver_second_level', label: '2nd Level Approver', type: 'select' }
                         ]
                     },
                     {
                         lg: 4,
-                        selects: [
-                            { id: 'thirdApprovers', dataKey: 'approver_third_level', label: '3rd Level Approver' }
+                        fields: [
+                            { id: 'thirdApprovers', dataKey: 'approver_third_level', label: '3rd Level Approver', type: 'select' }
                         ]
                     },
                     {
@@ -143,20 +198,20 @@
                     },
                     {
                         lg: 4,
-                        selects: [
-                            { id: 'approvalModes', dataKey: 'approval_mode', label: 'Approval Mode' }
+                        fields: [
+                            { id: 'approvalModes', dataKey: 'approval_mode', label: 'Approval Mode', type: 'select' }
                         ]
                     },
                     {
                         lg: 4,
-                        selects: [
-                            { id: 'squadLeaders', dataKey: 'approver_squad_leader', label: 'Squad Leader' }
+                        fields: [
+                            { id: 'squadLeaders', dataKey: 'approver_squad_leader', label: 'Squad Leader', type: 'select' }
                         ]
                     },
                     {
                         lg: 4,
-                        selects: [
-                            { id: 'tribeLeaders', dataKey: 'approver_tribe_leader', label: 'Tribe Leader' }
+                        fields: [
+                            { id: 'tribeLeaders', dataKey: 'approver_tribe_leader', label: 'Tribe Leader', type: 'select' }
                         ]
                     }
                 ],
@@ -168,14 +223,13 @@
                     },
                     {
                         lg: 12,
-                        buttons: [
-                            { id: 'applyFilters', label: 'Apply filters', kind: 'primary', action: this.submitForm },
-                            { id: 'resetFilters', label: 'Reset filters', kind: 'secondary', action: this.resetForm }
+                        fields: [
+                            { id: 'applyFilters', label: 'Apply filters', kind: 'primary', action: this.submitForm, type: 'button' },
+                            { id: 'resetFilters', label: 'Reset filters', kind: 'secondary', action: this.resetForm, type: 'button' }
                         ]
                     }
                 ],
 
-                summaryDefaultValue: 10,
                 summary: [
                     {
                         lg: 12,
@@ -184,19 +238,19 @@
                     {
                         lg: 6,
                         type: 'amount',
-                        inputs: [
-                            { id: 'awaitingAmount', type: 'awaiting', label: 'Awaiting Approval Requests', value: '0' },
-                            { id: 'approvedAmount', type: 'approved', label: 'Approved Requests', value: '0' },
-                            { id: 'otherAmount', type: 'other', label: 'Other Requests', value: '0' }
+                        fields: [
+                            { id: 'awaitingAmount', dataType: 'awaiting', label: 'Awaiting Approval Requests', value: '0', type: 'input' },
+                            { id: 'approvedAmount', dataType: 'approved', label: 'Approved Requests', value: '0', type: 'input' },
+                            { id: 'otherAmount', dataType: 'other', label: 'Other Requests', value: '0', type: 'input' }
                         ]
                     },
                     {
                         lg: 6,
                         type: 'hours',
-                        inputs: [
-                            { id: 'awaitingHours', type: 'awaiting', label: 'Awaiting Approval Hours', value: '0' },
-                            { id: 'approvedHours', type: 'approved', label: 'Approved Hours', value: '0' },
-                            { id: 'otherHours', type: 'other', label: 'Other Hours', value: '0' }
+                        fields: [
+                            { id: 'awaitingHours', dataType: 'awaiting', label: 'Awaiting Approval Hours', value: '0', type: 'input' },
+                            { id: 'approvedHours', dataType: 'approved', label: 'Approved Hours', value: '0', type: 'input' },
+                            { id: 'otherHours', dataType: 'other', label: 'Other Hours', value: '0', type: 'input' }
                         ]
                     }
                 ],
@@ -377,7 +431,6 @@
 
             updateLists() {
                 alert('we need to update lists content')
-                this.summaryDefaultValue = 'aaa'
             },
 
             submitForm() {

@@ -1,6 +1,6 @@
 <template>
     <cv-grid>
-        <cv-row>
+        <cv-row class="bx--row-padding">
             <cv-column :lg='12'>
                 <p>404 - page not found</p>
             </cv-column>

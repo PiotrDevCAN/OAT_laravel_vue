@@ -19,10 +19,11 @@ class OvertimeRequestObserver
      */
     public function retrieved(OvertimeRequest $overtimeRequest)
     {
-//         Mail::to('piotr.tajanowicz@ibm.com')
+        $to = '';
+        Mail::to($to)
         //             ->cc($moreUsers)
         //             ->bcc($evenMoreUsers)
-//         ->send(new OvertimeRequestRetrieved($overtimeRequest));
+        ->send(new OvertimeRequestRetrieved($overtimeRequest));
     }
     
     /**
@@ -33,7 +34,8 @@ class OvertimeRequestObserver
      */
     public function created(OvertimeRequest $overtimeRequest)
     {
-        Mail::to('piotr.tajanowicz@ibm.com')
+        $to = '';
+        Mail::to($to)
         //             ->cc($moreUsers)
         //             ->bcc($evenMoreUsers)
         ->send(new OvertimeRequestCreated($overtimeRequest));
@@ -47,7 +49,8 @@ class OvertimeRequestObserver
      */
     public function updated(OvertimeRequest $overtimeRequest)
     {
-        Mail::to('piotr.tajanowicz@ibm.com')
+        $to = '';
+        Mail::to($to)
         //             ->cc($moreUsers)
         //             ->bcc($evenMoreUsers)
         ->send(new OvertimeRequestUpdated($overtimeRequest));
@@ -61,7 +64,8 @@ class OvertimeRequestObserver
      */
     public function deleted(OvertimeRequest $overtimeRequest)
     {
-        Mail::to('piotr.tajanowicz@ibm.com')
+        $to = '';
+        Mail::to($to)
         //             ->cc($moreUsers)
         //             ->bcc($evenMoreUsers)
         ->send(new OvertimeRequestDeleted($overtimeRequest));

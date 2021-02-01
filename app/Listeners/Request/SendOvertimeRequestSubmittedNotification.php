@@ -27,7 +27,8 @@ class SendOvertimeRequestSubmittedNotification
      */
     public function handle(OvertimeRequestSubmitted $event)
     {
-        Mail::to('piotr.tajanowicz@ibm.com')
+        $to = '';
+        Mail::to($to)
 //             ->cc($moreUsers)
 //             ->bcc($evenMoreUsers)
             ->send(new \App\Mail\Request\OvertimeRequestSubmitted($event->request));

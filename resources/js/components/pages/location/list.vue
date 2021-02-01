@@ -4,7 +4,7 @@
     <!-- @ is v-on Shorthand -->
 
     <cv-grid>
-        <cv-row>
+        <cv-row class="bx--row-padding">
             <cv-column v-bind:key="index" v-for="(row, index) in filters" :lg="row.lg">
                 <h3 v-if="row.header">{{ row.header }}</h3>
                 <div v-bind:key="selectsIndex" v-for="(select, selectsIndex) in row.selects" >
@@ -20,7 +20,7 @@
             </cv-column>
         </cv-row>
 
-        <cv-row>
+        <cv-row class="bx--row-padding">
             <cv-column v-bind:key="index" v-for="(row, index) in actionButtons" :lg="row.lg">
                 <h3 v-if="row.header">{{ row.header }}</h3>
                 <cv-button-set v-else>
@@ -29,7 +29,7 @@
             </cv-column>
         </cv-row>
 
-        <cv-row>
+        <cv-row class="bx--row-padding">
             <cv-column v-bind:key="index" v-for="(row, index) in summary" :lg="row.lg">
                 <h3 v-if="row.header">{{ row.header }}</h3>
                 <div v-bind:key="inputsIndex" v-for="(input, inputsIndex) in row.inputs" >
@@ -45,7 +45,7 @@
             </cv-column>
         </cv-row>
 
-        <cv-row>
+        <cv-row class="bx--row-padding">
             <cv-column :lg="12">
                 <br/>
                 <cv-content-switcher v-on:selected="actionSelected" :light="true" :size="size">
@@ -124,14 +124,7 @@
                         lg: 6,
                         type: 'amount',
                         inputs: [
-                            { id: 'awaitingAmount', type: 'location', label: 'Awaiting Approval Requests', value: '0' }
-                        ]
-                    },
-                    {
-                        lg: 6,
-                        type: 'hours',
-                        inputs: [
-                            { id: 'awaitingHours', type: 'location', label: 'Awaiting Approval Hours', value: '0' }
+                            { id: 'locationAmount', type: 'location', label: 'Location Requests', value: '0' }
                         ]
                     }
                 ],

@@ -79,7 +79,7 @@ export default {
             commit('setLoading', data)
             
             let params = {
-                requestType: type
+                // requestType: type
             }
 
             const baseURI = rootState.baseUrl+'/api/delegate/list'

@@ -1,6 +1,6 @@
 <template>
     <cv-grid>
-        <cv-row>
+        <cv-row class="bx--row-padding">
             <cv-column :lg="12">
                 <cv-form @submit.prevent="actionSubmit">
 
@@ -26,6 +26,14 @@
                             <cv-select-option value="cv-select-option3">cv-select-option 3</cv-select-option>
                             <cv-select-option value="cv-select-option4">cv-select-option 4</cv-select-option>
                         </cv-select>
+                    </cv-form-item>
+
+                    <p>Account Approver</p>
+                    <cv-form-item>
+                        <cv-text-input label="Account Name" v-model="modelValue"> </cv-text-input>
+                    </cv-form-item>
+                    <cv-form-item>
+                        <cv-text-input label="Account Name" v-model="modelValue"> </cv-text-input>
                     </cv-form-item>
 
                     <cv-button-set>

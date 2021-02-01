@@ -27,7 +27,8 @@ class SendOvertimeRequestFlowChangedNotification
      */
     public function handle(OvertimeRequestFlowChanged $event)
     {
-        Mail::to('piotr.tajanowicz@ibm.com')
+        $to = '';
+        Mail::to($to)
 //             ->cc($moreUsers)
 //             ->bcc($evenMoreUsers)
             ->send(new \App\Mail\Request\OvertimeRequestFlowChanged($event->request));

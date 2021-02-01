@@ -1,6 +1,6 @@
 <template>
     <cv-grid>
-        <cv-row>
+        <cv-row class="bx--row-padding">
             <cv-breadcrumb no-trailing-slash>
                 <cv-breadcrumb-item v-bind:key="index" v-for="(item, index) in items" v-bind:item="item">
                     <cv-link v-if="item.url" href="item.url" aria-current="page">{{ item.label }}</cv-link>

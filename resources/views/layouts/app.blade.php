@@ -24,8 +24,7 @@
 <body>
 
   <script type="text/javascript">
-    // window.appUrl = "{{ config('app.url', '') }}";
-    window.appUrl = "https://soiwapi-new.icds.ibm.com/OAT_laravel_vue";
+    window.appUrl = "{{ config('app.url', '') }}";
     window.appName = "{{ config('app.name', 'Laravel') }}";    
   </script>
   

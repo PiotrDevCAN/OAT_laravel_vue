@@ -39,10 +39,10 @@ class BluepagesUserProvider implements UserProvider
     public function retrieveById($identifier)
     {
         $user = array(
-            'cnum' => 'ZZ011O820',
-            'name' => 'Piotr Tajanowicz',
-            'email' => 'Piotr.Tajanowicz@ibm.com',
-            'password' => Hash::make('kr324jbhj32ref64fd')
+            'cnum' => 'SAMPLE_CNUM',
+            'name' => 'SAMPLE_NAME',
+            'email' => 'SAMPLE_EMAIL',
+            'password' => Hash::make('SAMPLE_PW')
         );
 
         return $this->getUser($user);
@@ -59,10 +59,10 @@ class BluepagesUserProvider implements UserProvider
     {
         $user = $this->getUser(
             array(
-                'cnum' => 'ZZ011O820',
-                'name' => 'Piotr Tajanowicz',
-                'email' => 'Piotr.Tajanowicz@ibm.com',
-                'password' => Hash::make('kr324jbhj32ref64fd')
+                'cnum' => 'SAMPLE_CNUM',
+                'name' => 'SAMPLE_NAME',
+                'email' => 'SAMPLE_EMAIL',
+                'password' => Hash::make('SAMPLE_PW')
             )
         );
         
@@ -119,10 +119,10 @@ class BluepagesUserProvider implements UserProvider
                 // the given credentials. If not, we will just return nulls and indicate
                 // that there are no matching users for these given credential arrays.
                 $user = array(
-                    'cnum' => 'ZZ011O820',
-                    'name' => 'Piotr Tajanowicz',
-                    'email' => 'Piotr.Tajanowicz@ibm.com',
-                    'password' => Hash::make('kr324jbhj32ref64fd')
+                    'cnum' => 'SAMPLE_CNUM',
+                    'name' => 'SAMPLE_NAME',
+                    'email' => 'SAMPLE_EMAIL',
+                    'password' => Hash::make('SAMPLE_PW')
                 );
                 
                 return $this->getUser($user);

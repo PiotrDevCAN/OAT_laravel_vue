@@ -32,6 +32,12 @@ Route::prefix('request')->name('api.request.')->group(function () {
     Route::post('filters', [OvertimeRequests::class, 'filters'])
         ->name('filters');
 
+    Route::post('filters/{type?}', [OvertimeRequests::class, 'filters'])
+        ->name('filtersByType');
+
+    Route::post('formData', [OvertimeRequests::class, 'formData'])
+        ->name('formData');
+
     Route::match(['get', 'post'], 'list', [OvertimeRequests::class, 'list'])
         ->middleware('throttle:60,1')
         ->name('list');
@@ -64,6 +70,12 @@ Route::prefix('account')->name('api.account.')->group(function () {
     Route::post('filters', [Accounts::class, 'filters'])
         ->name('filters');
 
+    Route::post('filters/{type?}', [Accounts::class, 'filters'])
+        ->name('filtersByType');
+
+    Route::post('formData', [Accounts::class, 'formData'])
+        ->name('formData');
+
     Route::match(['get', 'post'], 'list', [Accounts::class, 'list'])
         ->middleware('throttle:60,1')
         ->name('list');
@@ -86,6 +98,12 @@ Route::prefix('delegate')->name('api.delegate.')->group(function () {
 
     Route::post('filters', [Delegates::class, 'filters'])
         ->name('filters');
+
+    Route::post('filters/{type?}', [Delegates::class, 'filters'])
+        ->name('filtersByType');
+
+    Route::post('formData', [Delegates::class, 'formData'])
+        ->name('formData');
 
     Route::match(['get', 'post'], 'list', [Delegates::class, 'list'])
         ->middleware('throttle:60,1')
@@ -110,6 +128,12 @@ Route::prefix('competency')->name('api.competency.')->group(function () {
     Route::post('filters', [Competencies::class, 'filters'])
         ->name('filters');
 
+    Route::post('filters/{type?}', [Competencies::class, 'filters'])
+        ->name('filtersByType');
+
+    Route::post('formData', [Competencies::class, 'formData'])
+        ->name('formData');
+
     Route::match(['get', 'post'], 'list', [Competencies::class, 'list'])
         ->middleware('throttle:60,1')
         ->name('list');
@@ -133,6 +157,12 @@ Route::prefix('location')->name('api.location.')->group(function () {
     Route::post('filters', [Locations::class, 'filters'])
         ->name('filters');
 
+    Route::post('filters/{type?}', [Locations::class, 'filters'])
+        ->name('filtersByType');
+
+    Route::post('formData', [Locations::class, 'formData'])
+        ->name('formData');
+
     Route::match(['get', 'post'], 'list', [Locations::class, 'list'])
         ->middleware('throttle:60,1')
         ->name('list');
@@ -155,6 +185,12 @@ Route::prefix('log')->name('api.log.')->group(function () {
 
     Route::post('filters', [Logs::class, 'filters'])
         ->name('filters');
+
+    Route::post('filters/{type?}', [Log::class, 'filters'])
+        ->name('filtersByType');
+
+    Route::post('formData', [Log::class, 'formData'])
+        ->name('formData');
 
     Route::match(['get', 'post'], 'list', [Logs::class, 'list'])
         ->middleware('throttle:60,1')
