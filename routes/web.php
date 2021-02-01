@@ -20,8 +20,10 @@ Route::prefix('request')
     ->group(function () {
 
         // Show the form for editing the specified resource.
-        Route::get('edit/{overtimeRequest}', [OvertimeRequests::class, 'edit'])
-            ->name('edit');
+        Route::get('edit/{overtimeRequest?}', function ($overtimeRequest = null) {
+            // return $name;
+        })
+        ->name('edit');
     
     });
 
