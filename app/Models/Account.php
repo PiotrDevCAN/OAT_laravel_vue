@@ -53,7 +53,7 @@ class Account extends BaseModel
     {
         $data = Cache::remember('Account.accountApproversByLocation'.$cc, 33660, function() use($cc)
         {
-            return DB::table(self::$table)
+            return DB::table(self::tableName())
                 ->select('approver','account')
                 ->distinct()
                 ->where('location', $cc)
@@ -71,7 +71,7 @@ class Account extends BaseModel
     {
         $data = Cache::remember('Account.verifiedAccountByLocation'.$cc, 33660, function() use($cc)
         {
-            return DB::table(self::$table)
+            return DB::table(self::tableName())
                 ->select('verified','account')
                 ->distinct()
                 ->where('location', $cc)
@@ -89,7 +89,7 @@ class Account extends BaseModel
     {
         $data = Cache::remember('Account.verifiedLocations', 33660, function()
         {
-            return DB::table(self::$table)
+            return DB::table(self::tableName())
                 ->select('location')
                 ->distinct()
                 ->where('verified', 'Yes')
@@ -108,7 +108,7 @@ class Account extends BaseModel
     {
         $data = Cache::remember('Account.accounts', 33660, function()
         {
-            return DB::table(self::$table)
+            return DB::table(self::tableName())
                 ->select('account')
                 ->where('account', '<>', '')
                 ->distinct()
@@ -122,7 +122,7 @@ class Account extends BaseModel
     {
         $data = Cache::remember('Account.approvers', 33660, function()
         {
-            return DB::table(self::$table)
+            return DB::table(self::tableName())
                 ->select('approver')
                 ->where('approver', '<>', '')
                 ->distinct()
@@ -136,7 +136,7 @@ class Account extends BaseModel
     {
         $data = Cache::remember('Account.verified', 33660, function()
         {
-            return DB::table(self::$table)
+            return DB::table(self::tableName())
                 ->select('verified')
                 ->where('verified', '<>', '')
                 ->distinct()
@@ -150,7 +150,7 @@ class Account extends BaseModel
     {
         $data = Cache::remember('Account.locations', 33660, function()
         {
-            return DB::table(self::$table)
+            return DB::table(self::tableName())
                 ->select('location')
                 ->where('location', '<>', '')
                 ->distinct()
