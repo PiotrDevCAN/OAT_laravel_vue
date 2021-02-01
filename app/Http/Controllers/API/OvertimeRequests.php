@@ -72,7 +72,7 @@ class OvertimeRequests extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function formData(Request $request)
+    public function formData($type)
     {
         $accounts = OvertimeRequest::accounts();
         $locations = OvertimeRequest::locations();

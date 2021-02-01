@@ -35,7 +35,7 @@ Route::prefix('request')->name('api.request.')->group(function () {
     Route::post('filters/{type?}', [OvertimeRequests::class, 'filters'])
         ->name('filtersByType');
 
-    Route::post('formData', [OvertimeRequests::class, 'formData'])
+    Route::match(['get', 'post'], 'formData/{type?}', [OvertimeRequests::class, 'formData'])
         ->name('formData');
 
     Route::match(['get', 'post'], 'list', [OvertimeRequests::class, 'list'])
