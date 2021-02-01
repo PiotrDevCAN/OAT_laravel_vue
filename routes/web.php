@@ -27,5 +27,59 @@ Route::prefix('request')
     
     });
 
+// Mailable
+Route::prefix('mailable')
+//     ->middleware('auth')
+    ->name('mailable.')
+    ->group(function () {
+        
+        Route::prefix('request')
+//             ->middleware('auth')
+            ->name('request.')
+            ->group(function () {
+               
+                Route::get('retrieved/{overtimeRequest}', function (OvertimeRequest $overtimeRequest) {
+                    return new App\Mail\Request\OvertimeRequestRetrieved($overtimeRequest);
+                })
+                ->name('retrieved');
+                
+                Route::get('created/{overtimeRequest}', function (OvertimeRequest $overtimeRequest) {
+                    return new App\Mail\Request\OvertimeRequestCreated($overtimeRequest);
+                })
+                ->name('created');
+                
+                Route::get('updated/{overtimeRequest}', function (OvertimeRequest $overtimeRequest) {
+                    return new App\Mail\Request\OvertimeRequestUpdated($overtimeRequest);
+                })
+                ->name('updated');
+                
+                Route::get('deleted/{overtimeRequest}', function (OvertimeRequest $overtimeRequest) {
+                    return new App\Mail\Request\OvertimeRequestDeleted($overtimeRequest);
+                })
+                ->name('deleted');
+                
+                Route::get('submitted/{overtimeRequest}', function (OvertimeRequest $overtimeRequest) {
+                    return new App\Mail\Request\OvertimeRequestSubmitted($overtimeRequest);
+                })
+                ->name('submitted');
+                
+                Route::get('approved/{overtimeRequest}', function (OvertimeRequest $overtimeRequest) {
+                    return new App\Mail\Request\OvertimeRequestApproved($overtimeRequest);
+                })
+                ->name('approved');
+                
+                Route::get('rejected/{overtimeRequest}', function (OvertimeRequest $overtimeRequest) {
+                    return new App\Mail\Request\OvertimeRequestRejected($overtimeRequest);
+                })
+                ->name('rejected');
+                
+                Route::get('flowChanged/{overtimeRequest}', function (OvertimeRequest $overtimeRequest) {
+                    return new App\Mail\Request\OvertimeRequestFlowChanged($overtimeRequest);
+                })
+                ->name('flowChanged');
+                
+            });
+    });
+
 // Vue
 Route::get('/{any}', [Index::class, 'index'])->where('any', '.*');
