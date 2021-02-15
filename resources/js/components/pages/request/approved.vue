@@ -8,6 +8,13 @@
             <cv-column v-bind:key="index" v-for="(row, index) in filters" :lg="row.lg">
                 <h3 v-if="row.header">{{ row.header }}</h3>
                 <div v-bind:key="selectsIndex" v-for="(select, selectsIndex) in row.selects" >
+                    <form-field
+                        :field="field" 
+                        :check-is-loaded="getFilterMapStateById"
+                        :options-data="getFilterMapDataById"
+                        v-on:created="handleFieldCreate">
+                    </form-field>
+
                     <cv-select v-if="getFilterMapStateById(select.id)" v-model="select.selected" v-on:change="updateLists" :label="select.label">
                         <cv-select-option disabled selected hidden>{{ filtersDefaultValue }}</cv-select-option>
                         <cv-select-option v-bind:key="optionIndex" v-for="(option, name, optionIndex ) in getFilterMapDataById(select.id)" :value="option[select.dataKey]">{{ option[select.dataKey] }}</cv-select-option>
@@ -80,7 +87,6 @@
             return {
 
                 // filters settings
-                filtersDefaultValue: 'Choose an option',
                 filters: [
                     {
                         lg: 12,
@@ -88,7 +94,7 @@
                     },
                     {
                         lg: 4,
-                        selects: [
+                        fields: [
                             { id: 'accounts', dataKey: 'account', label: 'Accounts' },
                             { id: 'reasons', dataKey: 'nature', label: 'Reason' },
                             { id: 'names', dataKey: 'worker', label: 'Name' },
@@ -97,7 +103,7 @@
                     },
                     {
                         lg: 4,
-                        selects: [
+                        fields: [
                             { id: 'competencies', dataKey: 'competency', label: 'Service Line' },
                             { id: 'statuses', dataKey: 'status', label: 'Status' },
                             { id: 'requestors', dataKey: 'requestor', label: 'Requestor' },
@@ -106,7 +112,7 @@
                     },
                     {
                         lg: 4,
-                        selects: [
+                        fields: [
                             { id: 'weekendStart', dataKey: 'weekendstart', label: 'Weekend Start' },
                             { id: 'weekendEnd', dataKey: 'weekendend', label: 'Weekend End' },
                             { id: 'imports', dataKey: 'import', label: 'Import' }
@@ -118,19 +124,19 @@
                     },
                     {
                         lg: 4,
-                        selects: [
+                        fields: [
                             { id: 'firstApprovers', dataKey: 'approver_first_level', label: '1st Level Approver' }
                         ]
                     },
                     {
                         lg: 4,
-                        selects: [
+                        fields: [
                             { id: 'secondApprovers', dataKey: 'approver_second_level', label: '2nd Level Approver' }
                         ]
                     },
                     {
                         lg: 4,
-                        selects: [
+                        fields: [
                             { id: 'thirdApprovers', dataKey: 'approver_third_level', label: '3rd Level Approver' }
                         ]
                     },
@@ -140,19 +146,19 @@
                     },
                     {
                         lg: 4,
-                        selects: [
+                        fields: [
                             { id: 'approvalModes', dataKey: 'approval_mode', label: 'Approval Mode' }
                         ]
                     },
                     {
                         lg: 4,
-                        selects: [
+                        fields: [
                             { id: 'squadLeaders', dataKey: 'approver_squad_leader', label: 'Squad Leader' }
                         ]
                     },
                     {
                         lg: 4,
-                        selects: [
+                        fields: [
                             { id: 'tribeLeaders', dataKey: 'approver_tribe_leader', label: 'Tribe Leader' }
                         ]
                     }
@@ -165,7 +171,7 @@
                     },
                     {
                         lg: 12,
-                        buttons: [
+                        fields: [
                             { id: 'applyFilters', label: 'Apply filters', kind: 'primary', action: this.submitForm },
                             { id: 'resetFilters', label: 'Reset filters', kind: 'secondary', action: this.resetForm }
                         ]
@@ -181,14 +187,14 @@
                     {
                         lg: 6,
                         type: 'amount',
-                        inputs: [
+                        fields: [
                             { id: 'approvedAmount', type: 'approved', label: 'Approved Requests', value: '0' }
                         ]
                     },
                     {
                         lg: 6,
                         type: 'hours',
-                        inputs: [
+                        fields: [
                             { id: 'approvedHours', type: 'approved', label: 'Approved Hours', value: '0' }
                         ]
                     }

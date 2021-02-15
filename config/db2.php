@@ -77,7 +77,7 @@ return [
 
 //        $conn_string = "DRIVER={IBM DB2 ODBC DRIVER};DATABASE=$system;HOSTNAME=$hostname;PORT=$port;PROTOCOL=TCPIP;UID=$userid;PWD=$pwd;";
 
-        'ibmi' => [
+        'ibmi-soiw-production' => [
             'driver' => 'db2_ibmi_ibm',
             // 'driver' => 'db2_ibmi_odbc',
             // or 'db2_ibmi_ibm' / 'db2_zos_odbc' / 'db2_expressc_odbc
@@ -85,12 +85,91 @@ return [
             'driverName' => '{IBM DB2 ODBC DRIVER}',
             // or '{iSeries Access ODBC Driver}' / '{IBM i Access ODBC Driver 64-bit}'
             'host' => env('DB_HOST', 'localhost'),
-            'username' => env('DB_USERNAME', ''),
-            'password' => env('DB_PASSWORD', ''),
-            'database' => env('DB_DATABASE', 'forge'),
+            'username' => env('DB_USERNAME_PROD', ''),
+            'password' => env('DB_PASSWORD_PROD', ''),
+            'database' => env('DB_DATABASE_PROD', ''),
             'prefix' => '',
             'schema' => 'OAT_V2',
-            'port' => env('DB_PORT', '60000'),
+            'port' => env('DB_PORT_PROD', '60000'),
+            'date_format' => 'Y-m-d H:i:s',
+            // or 'Y-m-d H:i:s.u' / 'Y-m-d-H.i.s.u'...
+            'odbc_keywords' => [
+                'SIGNON' => 3,
+                'SSL' => 0,
+                'CommitMode' => 2,
+                'ConnectionType' => 0,
+                'DefaultLibraries' => '',
+                'Naming' => 0,
+                'UNICODESQL' => 0,
+                'DateFormat' => 5,
+                'DateSeperator' => 0,
+                'Decimal' => 0,
+                'TimeFormat' => 0,
+                'TimeSeparator' => 0,
+                'TimestampFormat' => 0,
+                'ConvertDateTimeToChar' => 0,
+                'BLOCKFETCH' => 1,
+                'BlockSizeKB' => 32,
+                'AllowDataCompression' => 1,
+                'CONCURRENCY' => 0,
+                'LAZYCLOSE' => 0,
+                'MaxFieldLength' => 15360,
+                'PREFETCH' => 0,
+                'QUERYTIMEOUT' => 1,
+                'DefaultPkgLibrary' => 'QGPL',
+                'DefaultPackage' => 'A /DEFAULT(IBM),2,0,1,0',
+                'ExtendedDynamic' => 0,
+                'QAQQINILibrary' => '',
+                'SQDIAGCODE' => '',
+                'LANGUAGEID' => 'ENU',
+                'SORTTABLE' => '',
+                'SortSequence' => 0,
+                'SORTWEIGHT' => 0,
+                'AllowUnsupportedChar' => 0,
+                'CCSID' => 819,
+                'GRAPHIC' => 0,
+                'ForceTranslation' => 0,
+                'ALLOWPROCCALLS' => 0,
+                'DB2SQLSTATES' => 0,
+                'DEBUG' => 0,
+                'TRUEAUTOCOMMIT' => 0,
+                'CATALOGOPTIONS' => 3,
+                'LibraryView' => 0,
+                'ODBCRemarks' => 0,
+                'SEARCHPATTERN' => 1,
+                'TranslationDLL' => '',
+                'TranslationOption' => 0,
+                'MAXTRACESIZE' => 0,
+                'MultipleTraceFiles' => 1,
+                'TRACE' => 0,
+                'TRACEFILENAME' => '',
+                'ExtendedColInfo' => 0,
+            ],
+            'options' => [
+                PDO::ATTR_CASE => PDO::CASE_LOWER,
+                PDO::ATTR_PERSISTENT => false
+            ]
+            + (defined('PDO::I5_ATTR_DBC_SYS_NAMING') ? [PDO::I5_ATTI5_ATTR_DBC_SYS_NAMINGR_COMMIT => false] : [])
+            + (defined('PDO::I5_ATTR_COMMIT') ? [PDO::I5_ATTR_COMMIT => PDO::I5_TXN_NO_COMMIT] : [])
+            + (defined('PDO::I5_ATTR_JOB_SORT') ? [PDO::I5_ATTR_JOB_SORT => false] : [])
+            + (defined('PDO::I5_ATTR_DBC_LIBL') ? [PDO::I5_ATTR_DBC_LIBL => ''] : [])
+            + (defined('PDO::I5_ATTR_DBC_CURLIB') ? [PDO::I5_ATTR_DBC_CURLIB => ''] : [])
+        ],
+
+        'ibmi-soiw-development' => [
+            'driver' => 'db2_ibmi_ibm',
+            // 'driver' => 'db2_ibmi_odbc',
+            // or 'db2_ibmi_ibm' / 'db2_zos_odbc' / 'db2_expressc_odbc
+            // 'driverName' => '{IBM i Access ODBC Driver}',
+            'driverName' => '{IBM DB2 ODBC DRIVER}',
+            // or '{iSeries Access ODBC Driver}' / '{IBM i Access ODBC Driver 64-bit}'
+            'host' => env('DB_HOST', 'localhost'),
+            'username' => env('DB_USERNAME_DEV', ''),
+            'password' => env('DB_PASSWORD_DEV', ''),
+            'database' => env('DB_DATABASE_DEV', 'forge'),
+            'prefix' => '',
+            'schema' => 'OAT_LARAVEL',
+            'port' => env('DB_PORT_DEV', '60000'),
             'date_format' => 'Y-m-d H:i:s',
             // or 'Y-m-d H:i:s.u' / 'Y-m-d-H.i.s.u'...
             'odbc_keywords' => [

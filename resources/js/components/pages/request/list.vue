@@ -4,119 +4,37 @@
     <!-- @ is v-on Shorthand -->
 
     <cv-grid>
-        <cv-form @submit.prevent="actionSubmit">
-            <cv-row class="bx--row-padding">
-                <cv-column v-bind:key="index" v-for="(row, index) in filters" :lg="row.lg">
-                    <h3 v-if="row.header">{{ row.header }}</h3>
-                    <div v-bind:key="fieldIndex" v-for="(field, fieldIndex) in row.fields" >
-                        <div v-if="field.type='select'">
-                            <cv-select v-if="getFilterMapStateById(field.id)"
-                                v-on:change="updateLists" 
-                                :label="field.label">
-                                <cv-select-option disabled selected hidden>{{ filtersDefaultValue }}</cv-select-option>
-                                <cv-select-option 
-                                    v-bind:key="optionIndex" 
-                                    v-for="(option, name, optionIndex ) in getFilterMapDataById(field.id)" 
-                                    :value="option[field.dataKey]">
-                                    {{ option[field.dataKey] }}
-                                </cv-select-option>
-                            </cv-select>
-                            <div v-else>
-                                <label class="bx--label">{{ field.label }}</label>
-                                <cv-skeleton-text></cv-skeleton-text>
-                            </div>
-                        </div>
 
-                        <div v-else-if="field.type='combo'">
-                            <cv-combo-box v-if="getFilterMapStateById(field.id)"
-                                :light="field.light"
-                                :label="field.label"
-                                :helper-text="field.helperText"
-                                :invalid-message="field.invalidMessage"
-                                :title="field.title"
-                                :disabled="field.disabled"
-                                :auto-filter="field.autoFilter"
-                                :auto-highlight="field.autoHighlight"
-                                :value="field.value"
-                                :options="field.options">
-                            </cv-combo-box>
-                            <div v-else>
-                                <label class="bx--label">{{ field.label }}</label>
-                                <cv-skeleton-text></cv-skeleton-text>
-                            </div> 
-                        </div>                   
-                    </div>
-                </cv-column>
-            </cv-row>
-        </cv-form>
-
-        <cv-row class="bx--row-padding">
-            <cv-column v-bind:key="index" v-for="(row, index) in actionButtons" :lg="row.lg">
-                <h3 v-if="row.header">{{ row.header }}</h3>
-                <cv-button-set v-else>
-                    <cv-button v-bind:key="fieldIndex" 
-                        v-for="(field, fieldIndex) in row.fields" 
-                        :kind="field.kind" 
-                        v-on:click="field.action">
-                    {{ field.label }}</cv-button>
-                </cv-button-set>
-            </cv-column>
-        </cv-row>
-
-        <cv-row class="bx--row-padding">
-            <cv-column v-bind:key="index" v-for="(row, index) in summary" :lg="row.lg">
-                <h3 v-if="row.header">{{ row.header }}</h3>
-                <div v-bind:key="fieldIndex" v-for="(field, fieldIndex) in row.fields" >
-                    <div v-if="field.type='input'">
-                        <div v-if="getLoadedMapByType(field.dataType)">
-                            <cv-text-input v-if="row.type === 'amount'" 
-                                :value="getRecordsCountByType(field.dataType)" 
-                                :label="field.label">
-                            </cv-text-input>
-                            <cv-text-input v-else-if="row.type === 'hours'" 
-                                :value="getHoursCountByType(field.dataType)" 
-                                :label="field.label">
-                            </cv-text-input>
-                        </div>
-                        <div v-else>
-                            <label class="bx--label">{{ field.label }}</label>
-                            <cv-skeleton-text></cv-skeleton-text>
-                        </div>
-                    </div>
-                </div>
-            </cv-column>
-        </cv-row>
-
-        <cv-row class="bx--row-padding">
-            <cv-column :lg="12">
-                <br/>
-                <cv-content-switcher v-on:selected="actionSelected" :light="true" :size="size">
-                    <cv-content-switcher-button :owner-id="getOwnerId(table.id)" 
-                        :selected="isSelected(table.id)" 
-                        v-bind:key="index" 
-                        v-for="(table, index) in dataTables">
-                        {{ table.label }}
-                    </cv-content-switcher-button>
-                </cv-content-switcher>
-                <section style="margin: 10px 0;">
-                    <cv-content-switcher-content :owner-id="getOwnerId(table.id)" 
-                        v-bind:key="index" 
-                        v-for="(table, index) in dataTables" >
-                        <data-table :columns="getColumnsMapByType(table.id)" 
-                            :type="table.id" 
-                            :data-table-data="getRecordsMapByType(table.id)" 
-                            :title="table.title" 
-                            :helper-text="table.helperText" 
-                            :loading="getLoadingMapByType(table.id)" 
-                            :loaded="getLoadedMapByType(table.id)"/>
-                    </cv-content-switcher-content>                    
-                </section>
-            </cv-column>
-        </cv-row>
+        <list-with-filters 
+            :filters="filtersData"
+            :check-is-loaded="getFilterMapStateById"
+            :options-data="getFilterMapDataById">
+            </list-with-filters>
+        
+        <action-buttons 
+            :buttons="actionButtonsData">
+            </action-buttons>
+            
+        <summary 
+            :summary="summaryData">
+            </summary>
+        
+        <list-content 
+            :tables="dataTables"
+            :columns-data="getColumnsMapByType"
+            :table-data="getRecordsMapByType"
+            :loadTableData="getTableData"
+            :owner-data="getOwnerId"
+            :check-is-loading="getLoadingMapByType"
+            :check-is-loaded="getLoadedMapByType"
+            >
+            </list-content>
+        
     </cv-grid>
 </template>
 
 <script>
+
     import store from '../../../store/'
 
     import { mapState } from 'vuex'
@@ -124,22 +42,27 @@
     import { mapActions } from 'vuex'
     import { mapGetters } from 'vuex'
 
-    import DataTable from '../../elements/DataTable'
+    import ListWithFilters from '../../elements/ListWithFilters.vue'
+    import ActionButtons from '../../elements/ActionButtons.vue'
+    import Summary from '../../elements/Summary.vue'
+    import ListContent from '../../elements/ListContent.vue'
 
     export default {
         name: 'requestList',
         components: {
-            DataTable
+            ListWithFilters,
+            ActionButtons,
+            Summary,
+            ListContent
         },
         props: {
-            testProperty: String
+
         },
         data() {
             return {
 
                 // filters settings
-                filtersDefaultValue: 'Choose an option',
-                filters: [
+                filtersData: [
                     {
                         lg: 12,
                         header: 'List Filters'
@@ -148,7 +71,7 @@
                         lg: 4,
                         fields: [
                             { id: 'accounts', dataKey: 'account', label: 'Accounts', type: 'select' },
-                            { id: 'reasons', dataKey: 'nature', label: 'Reason', type: 'combo' },
+                            { id: 'reasons', dataKey: 'nature', label: 'Reason', type: 'select' },
                             { id: 'names', dataKey: 'worker', label: 'Name', type: 'select' },
                             { id: 'types', dataKey: 'approvaltype', label: 'Type', type: 'select' }
                         ]
@@ -216,7 +139,7 @@
                     }
                 ],
 
-                actionButtons: [
+                actionButtonsData: [
                     {
                         lg: 12,
                         header: 'Action Buttons'
@@ -230,7 +153,7 @@
                     }
                 ],
 
-                summary: [
+                summaryData: [
                     {
                         lg: 12,
                         header: 'Summary'
@@ -378,6 +301,10 @@
         },
         methods: {
 
+            handleFieldCreate(data) {
+                console.log('Child field has been created - LIST.');
+            },
+
             // walkaround replaced by getters map
             /*
             getObjectPropertyByName (property) {
@@ -438,50 +365,6 @@
             },
             resetForm() {
                 alert('reset filters and refresh lists')
-            },
-            
-            loadTable: function (type) {
-                var loaded = this.getLoadedMapByType(type)
-                if (loaded === false) {
-                    this.getTableData(type).then(() => {
-
-                    })
-                }
-            },
-
-            // content switcher
-            actionSelected: function (type) {
-                switch(type) {
-                    case 'csb-awaiting':
-                        this.loadTable('awaiting')
-                        return true
-                    break
-                    case 'csb-approved':
-                        this.loadTable('approved')
-                        return false
-                    break
-                    case 'csb-other':
-                        this.loadTable('other')
-                        return false
-                    break
-                    default:
-                        return false
-                }
-            },
-            
-            isSelected: function (type) {
-                switch(type) {
-                    case 'awaiting':
-                        this.loadTable('awaiting')
-                        return true
-                    break
-                    case 'approved':
-                    case 'other':
-                        return false
-                    break
-                    default:
-                        return false
-                }
             }
         }
     }

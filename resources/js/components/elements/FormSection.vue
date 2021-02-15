@@ -2,68 +2,25 @@
     <div>
         <h4>{{ section.heading }}</h4>
         <div v-bind:key="index" v-for="(field, index) in section.fields" >
-            <div v-if="field.type=='input'">
-                <cv-form-item>
-                    <cv-text-input 
-                        :label="field.label"
-                        :value="field.value"
-                        :readonly="field.readonly"> 
-                    </cv-text-input>
-                </cv-form-item>
-            </div>
-            <div v-else-if="field.type=='combo'">
-                
-                <cv-combo-box v-if="checkIsLoaded(field.id)"
-                    :light="field.light"
-                    :label="field.label"
-                    :helper-text="field.helperText"
-                    :invalid-message="field.invalidMessage"
-                    :title="field.title"
-                    :disabled="field.disabled"
-                    :auto-filter="field.autoFilter"
-                    :auto-highlight="field.autoHighlight"
-                    :value="field.value"
-                    :options="optionsData(field.id)">
-                </cv-combo-box>
-                <div v-else>
-                    <label class="bx--label">{{ field.title }}</label>
-                    <cv-skeleton-text></cv-skeleton-text>
-                </div>
-            </div>
-            <div v-else-if="field.type=='number'">
-                <cv-number-input
-                    :light="field.light"
-                    :label="field.label"
-                    :invalid-message="field.invalidMessage"
-                    :helper-text="field.elperText"
-                    :disabled="field.disabled"
-                    :value="field.value"
-                    :min="field.min"
-                    :max="field.max"
-                    :step="field.step"
-                    :mobile="field.mobile"
-                    @input="onInput">
-                </cv-number-input>
-            </div>
-            <div v-else-if="field.type=='textarea'">
-                <cv-text-area
-                    :light="field.light"
-                    :label="field.label"
-                    :value="field.value"
-                    :disabled="field.disabled"
-                    :placeholder="field.placeholder"
-                    :helper-text="field.helperText"
-                    :invalid-message="field.invalidMessage">
-                </cv-text-area>
-            </div>
+            <form-field v-if="checkIsLoaded(field.id)"
+                :field="field" 
+                :check-is-loaded="checkIsLoaded"
+                :options-data="optionsData"
+                v-on:created="handleFieldCreate">
+            </form-field>
         </div>
     </div>
 </template>
 
 <script>
 
+import FormField from '../elements/FormField'
+
 export default {
     name: 'formSection',
+    components: {
+        FormField
+    },
     props: {
         section: Object,
         checkIsLoaded: Function,
@@ -77,7 +34,10 @@ export default {
     methods: {
         onInput() {
 
-        }
+        },
+        handleFieldCreate(data) {
+            console.log('Child field has been created - FORM SECTION.');
+        },
     },
     created() {
         var data = []

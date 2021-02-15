@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'ibmi'),
+    'default' => env('DB_CONNECTION', 'ibmi-soiw-development'),
 
     /*
     |--------------------------------------------------------------------------

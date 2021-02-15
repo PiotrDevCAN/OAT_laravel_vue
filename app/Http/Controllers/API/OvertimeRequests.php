@@ -40,6 +40,13 @@ class OvertimeRequests extends Controller
         $approverSquadLeaders = OvertimeRequest::squadLeaders();
         $approverTribeLeaders = OvertimeRequest::tribeLeaders(); 
 
+        $accounts->transform(function ($item){
+            $item->value = $item->countOne + $item->countTwo;
+            $item->label = $item->countOne + $item->countTwo;
+            $item->name = $item->countOne + $item->countTwo;
+                return $item;
+        });
+
         $records = array(
             'accounts' => $accounts,
             'reasons' => $natures,
@@ -180,7 +187,7 @@ class OvertimeRequests extends Controller
             'recordsFiltered' => $recordsFiltered
         ]);
         
-        return $resourceCollection;        
+        return $resourceCollection;
     }
     
     /**

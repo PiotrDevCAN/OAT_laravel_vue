@@ -1,7 +1,6 @@
 <template>
     <cv-grid>
         <cv-form @submit.prevent="actionSubmit">
-
             <cv-row class="bx--row-padding">
                 <cv-column :lg="6">
                     <h1 class="page-title">Request for Overtime to be worked</h1>
@@ -10,16 +9,13 @@
                         :initial-step="initialStep"
                         :steps="steps"
                         :vertical="vertical"></cv-progress>
-
                     <form-section 
                         :section="formFields.section1" 
-                        v-on:created="handleCreate"
+                        v-on:created="handleSectionCreated"
                         :check-is-loaded="getFormMapStateById"
                         :options-data="getFormMapDataById"
                         ></form-section>
-
                 </cv-column>
-    
                 <cv-column :lg="6">
                     <cv-tile :light="light" kind="expandable" expanded>
                         <template slot="default">
@@ -48,7 +44,6 @@
                             </cv-list>
                         </template>
                     </cv-tile>
-
                     <cv-tile :light="light" kind="expandable" expanded>
                         <template slot="default">
                             <h1>Account Rationalisation</h1>
@@ -61,49 +56,40 @@
                     </cv-tile>
                 </cv-column>
             </cv-row>
-
             <cv-row class="bx--row-padding">
                 <cv-column :lg="6">
-
                     <form-section 
                         :section="formFields.section2" 
-                        v-on:created="handleCreate"
+                        v-on:created="handleSectionCreated"
                         :check-is-loaded="getFormMapStateById"
                         :options-data="getFormMapDataById"
                         ></form-section>
-
                 </cv-column>
                 <cv-column :lg="6">
-
                     <form-section 
                         :section="formFields.section3" 
-                        v-on:created="handleCreate"
+                        v-on:created="handleSectionCreated"
                         :check-is-loaded="getFormMapStateById"
                         :options-data="getFormMapDataById"
                         ></form-section>
-
                 </cv-column>
             </cv-row>
-
             <cv-row class="bx--row-padding">
                 <cv-column :lg="12">
                     <h3>Appropriate approval flow which will be applied to this Overtime request</h3>
                 </cv-column>
                 <cv-column :lg="6">
-
                     <form-section 
                         :section="formFields.section4" 
-                        v-on:created="handleCreate"
+                        v-on:created="handleSectionCreated"
                         :check-is-loaded="getFormMapStateById"
                         :options-data="getFormMapDataById"
                         ></form-section>
-
                     <p>New Squad Approvals info:</p>
                     <p>
                         Using data from the Europe Squadalog IBM Forms tool, pulled via API Add feature that gives user option to set approver based on their squad (default) or use the existing options by picking an account. 
                         Not all users are aligned to squads so upon login we can use the user id to look the person up in the squadalog. Lvl 1 will be auto approved, Lvl 2 approver will be the Squad leader, Lvl 3 the Tribe leader.
                     </p>
-
                     <cv-list :ordered="ordered">
                         <cv-list-item>
                             If the user is found, default to the squad approach but should have option to change to the old method.
@@ -112,19 +98,15 @@
                             If the user is not found in the squadalog data then just use the existing std approver setup.
                         </cv-list-item>
                     </cv-list>
-
                     <cv-button kind="primary" @click="checkLeaders">Check Leaders</cv-button>
-
                 </cv-column>
                 <cv-column :lg="6">
-
                     <form-section 
                         :section="formFields.section5" 
-                        v-on:created="handleCreate"
+                        v-on:created="handleSectionCreated"
                         :check-is-loaded="getFormMapStateById"
                         :options-data="getFormMapDataById"
                         ></form-section>
-
                     <cv-structured-list :condensed="condensed">
                         <template slot="items">
                             <cv-structured-list-item checked>
@@ -141,12 +123,9 @@
                             </cv-structured-list-item>
                         </template>
                     </cv-structured-list>
-
                     <cv-button kind="primary" @click="checkApprovers">Check Approvers</cv-button>
-
                 </cv-column>
             </cv-row>
-
             <cv-row class="bx--row-padding">
                 <cv-column :lg="12">
                     <h4>Click Submit to Create the Request.</h4>
@@ -157,7 +136,6 @@
                     </cv-button-set>
                 </cv-column>
             </cv-row>
-
         </cv-form>
     </cv-grid>    
 </template>
@@ -181,8 +159,6 @@
             return {
 
                 pageHeader: 'Request',
-
-                filtersDefaultValue: 'Choose an option',
 
                 // fields default values
                 intranetId: 'Piort.Tajanowicz@ibm.com',
@@ -238,7 +214,7 @@
                     section2: {
                         heading: null,
                         fields: [
-                            { id: 'account', title: 'Account', type: 'combo' },
+                            { id: 'account', label: 'Account', type: 'select' },
                             { id: 'claimCode', label: 'Claim Code/ Account Id', type: 'input' },
                             { id: 'hours', label: 'Hours required', type: 'number', 
                                 helperText: "",
@@ -248,18 +224,18 @@
                                 step: 0.1,
                                 value: 0 
                             },
-                            { id: 'country', title: 'IBM country of employment', type: 'combo' },
-                            { id: 'worksInCenter', title: 'Work in Client Innovation Center', type: 'combo' }
+                            { id: 'country', label: 'IBM country of employment', type: 'select' },
+                            { id: 'worksInCenter', label: 'Work in Client Innovation Center', type: 'select' }
                         ]
                     },
                     section3: {
                         heading: null,
                         fields: [
-                            { id: 'competency', title: 'Service Line of person working overtime', type: 'combo' },
-                            { id: 'recoverable', title: 'Recoverable', type: 'combo' },
-                            { id: 'nature', title: 'Nature', type: 'combo' },
-                            { id: 'weekending', title: 'Weekending', type: 'combo' },
-                            { id: 'import', title: 'Is worker an Import to SO Delivery ?', type: 'combo' }
+                            { id: 'competency', label: 'Service Line of person working overtime', type: 'select' },
+                            { id: 'recoverable', label: 'Recoverable', type: 'select' },
+                            { id: 'nature', label: 'Nature', type: 'select' },
+                            { id: 'weekending', label: 'Weekending', type: 'select' },
+                            { id: 'import', label: 'Is worker an Import to SO Delivery ?', type: 'select' }
                         ]
                     },
                     section4: {
@@ -297,8 +273,8 @@
                 getFormData: 'requests/fetchFormData'
             }),
 
-            handleCreate(data) {
-                console.log('Child has been created.');
+            handleSectionCreated(data) {
+                console.log('Child section has been created - FORM.');
                 // console.log(data)
             },
             

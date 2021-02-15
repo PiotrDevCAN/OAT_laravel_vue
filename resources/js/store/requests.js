@@ -291,7 +291,8 @@ export default {
                 }
                 return false
             }
-            return false
+            // field is loaded by default
+            return true
         },
 
         getFilterDataById: state => id => {
@@ -310,7 +311,8 @@ export default {
                 }
                 return false
             }
-            return false
+            // field is loaded by default
+            return true
         },
         getFilterSelectedValueById: state => id => {
             if (state.filters.hasOwnProperty(id)) {
@@ -356,7 +358,8 @@ export default {
                 }
                 return false
             }
-            return false
+            // field is loaded by default
+            return true
         },
 
         getRecordsCountByType: (state, getters) => type => {
