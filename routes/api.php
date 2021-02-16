@@ -38,29 +38,29 @@ Route::prefix('request')->name('api.request.')->group(function () {
     Route::match(['get', 'post'], 'formData/{type?}', [OvertimeRequests::class, 'formData'])
         ->name('formData');
 
-    Route::match(['get', 'post'], 'list', [OvertimeRequests::class, 'list'])
+    Route::match(['get', 'post'], 'list', [OvertimeRequests::class, 'index'])
         ->middleware('throttle:60,1')
         ->name('list');
 
-    Route::get('store', [OvertimeRequests::class, 'store'])
+    Route::post('store', [OvertimeRequests::class, 'store'])
         ->name('store');
 
-    Route::get('show/{overtimeRequest}', [OvertimeRequests::class, 'show'])
+    Route::post('show/{overtimeRequest}', [OvertimeRequests::class, 'show'])
         ->name('show');
 
-    Route::get('update/{overtimeRequest}', [OvertimeRequests::class, 'update'])
+    Route::post('update/{overtimeRequest}', [OvertimeRequests::class, 'update'])
         ->name('update');
 
-    Route::get('destroy/{overtimeRequest}', [OvertimeRequests::class, 'destroy'])
+    Route::post('destroy/{overtimeRequest}', [OvertimeRequests::class, 'destroy'])
         ->name('destroy');
 
-    Route::get('approve/{overtimeRequest}/cat/{lvl?}/status/{status?}/via/{via?}', [OvertimeRequests::class, 'approve'])
+    Route::post('approve/{overtimeRequest}/cat/{lvl?}/status/{status?}/via/{via?}', [OvertimeRequests::class, 'approve'])
         ->name('approve');
 
-    Route::get('reject/{overtimeRequest}/cat/{lvl?}/status/{status?}/via/{via?}', [OvertimeRequests::class, 'reject'])
+    Route::post('reject/{overtimeRequest}/cat/{lvl?}/status/{status?}/via/{via?}', [OvertimeRequests::class, 'reject'])
         ->name('reject');
     
-    Route::get('changeFlow/{overtimeRequest}/cat/{lvl?}/status/{status?}/via/{via?}', [OvertimeRequests::class, 'changeFlow'])
+    Route::post('changeFlow/{overtimeRequest}/cat/{lvl?}/status/{status?}/via/{via?}', [OvertimeRequests::class, 'changeFlow'])
         ->name('changeFlow');
 });
 
@@ -76,20 +76,20 @@ Route::prefix('account')->name('api.account.')->group(function () {
     Route::post('formData', [Accounts::class, 'formData'])
         ->name('formData');
 
-    Route::match(['get', 'post'], 'list', [Accounts::class, 'list'])
+    Route::match(['get', 'post'], 'list', [Accounts::class, 'index'])
         ->middleware('throttle:60,1')
         ->name('list');
     
-    Route::get('store', [Accounts::class, 'store'])
+    Route::post('store', [Accounts::class, 'store'])
         ->name('store');
     
-    Route::get('show/{Account}/{location}', [Accounts::class, 'show'])
+    Route::post('show/{Account}/{location}', [Accounts::class, 'show'])
         ->name('show');
         
-    Route::get('update/{Account}/{location}', [Accounts::class, 'update'])
+    Route::post('update/{Account}/{location}', [Accounts::class, 'update'])
         ->name('update');
 
-    Route::get('destroy/{Account}/{location}', [Accounts::class, 'destroy'])
+    Route::post('destroy/{Account}/{location}', [Accounts::class, 'destroy'])
         ->name('destroy');
 });
 
@@ -105,20 +105,20 @@ Route::prefix('delegate')->name('api.delegate.')->group(function () {
     Route::post('formData', [Delegates::class, 'formData'])
         ->name('formData');
 
-    Route::match(['get', 'post'], 'list', [Delegates::class, 'list'])
+    Route::match(['get', 'post'], 'list', [Delegates::class, 'index'])
         ->middleware('throttle:60,1')
         ->name('list');
     
-    Route::get('store', [Delegates::class, 'store'])
+    Route::post('store', [Delegates::class, 'store'])
         ->name('store');
         
-    Route::get('show/{user_intranet}/{delegate_intranet}', [Delegates::class, 'show'])
+    Route::post('show/{user_intranet}/{delegate_intranet}', [Delegates::class, 'show'])
         ->name('show');
         
-    Route::get('update/{user_intranet}/{delegate_intranet}', [Delegates::class, 'update'])
+    Route::post('update/{user_intranet}/{delegate_intranet}', [Delegates::class, 'update'])
         ->name('update');
 
-    Route::get('destroy/{user_intranet}/{delegate_intranet}', [Delegates::class, 'destroy'])
+    Route::post('destroy/{user_intranet}/{delegate_intranet}', [Delegates::class, 'destroy'])
         ->name('destroy');
 });
 
@@ -134,20 +134,20 @@ Route::prefix('competency')->name('api.competency.')->group(function () {
     Route::post('formData', [Competencies::class, 'formData'])
         ->name('formData');
 
-    Route::match(['get', 'post'], 'list', [Competencies::class, 'list'])
+    Route::match(['get', 'post'], 'list', [Competencies::class, 'index'])
         ->middleware('throttle:60,1')
         ->name('list');
     
-    Route::get('store', [Competencies::class, 'store'])
+    Route::post('store', [Competencies::class, 'store'])
         ->name('store');
 
-    Route::get('show/{competency}/{approver}', [Competencies::class, 'show'])
+    Route::post('show/{competency}/{approver}', [Competencies::class, 'show'])
         ->name('show');
 
-    Route::get('update/{competency}/{approver}', [Competencies::class, 'update'])
+    Route::post('update/{competency}/{approver}', [Competencies::class, 'update'])
         ->name('update');
 
-    Route::get('destroy/{competency}/{approver}', [Competencies::class, 'destroy'])
+    Route::post('destroy/{competency}/{approver}', [Competencies::class, 'destroy'])
         ->name('destroy');
 });
 
@@ -163,20 +163,20 @@ Route::prefix('location')->name('api.location.')->group(function () {
     Route::post('formData', [Locations::class, 'formData'])
         ->name('formData');
 
-    Route::match(['get', 'post'], 'list', [Locations::class, 'list'])
+    Route::match(['get', 'post'], 'list', [Locations::class, 'index'])
         ->middleware('throttle:60,1')
         ->name('list');
     
-    Route::get('store', [Locations::class, 'store'])
+    Route::post('store', [Locations::class, 'store'])
         ->name('store');
 
-    Route::get('show/{location}/{approver}', [Locations::class, 'show'])
+    Route::post('show/{location}/{approver}', [Locations::class, 'show'])
         ->name('show');
 
-    Route::get('update/{location}/{approver}', [Locations::class, 'update'])
+    Route::post('update/{location}/{approver}', [Locations::class, 'update'])
         ->name('update');
 
-    Route::get('destroy/{location}/{approver}', [Locations::class, 'destroy'])
+    Route::post('destroy/{location}/{approver}', [Locations::class, 'destroy'])
         ->name('destroy');
 });
 
@@ -192,19 +192,19 @@ Route::prefix('log')->name('api.log.')->group(function () {
     Route::post('formData', [Log::class, 'formData'])
         ->name('formData');
 
-    Route::match(['get', 'post'], 'list', [Logs::class, 'list'])
+    Route::match(['get', 'post'], 'list', [Logs::class, 'index'])
         ->middleware('throttle:60,1')
         ->name('list');
     
-    Route::get('store', [Logs::class, 'store'])
+    Route::post('store', [Logs::class, 'store'])
         ->name('store');
     
-    Route::get('show/{competency}/{approver}', [Logs::class, 'show'])
+    Route::post('show/{competency}/{approver}', [Logs::class, 'show'])
         ->name('show');
     
-    Route::get('update/{competency}/{approver}', [Logs::class, 'update'])
+    Route::post('update/{competency}/{approver}', [Logs::class, 'update'])
         ->name('update');
     
-    Route::get('destroy/{competency}/{approver}', [Logs::class, 'destroy'])
+    Route::post('destroy/{competency}/{approver}', [Logs::class, 'destroy'])
         ->name('destroy');
 });

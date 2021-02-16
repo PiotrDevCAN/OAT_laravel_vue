@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\GetTableName;
 
 class EmailLog extends Model
 {
-    use GetTableName;
+    use GetTableName, HasFactory;
     
     /**
      * The table associated with the model.

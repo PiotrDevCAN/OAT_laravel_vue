@@ -18,21 +18,21 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
         
-        'App\Events\IndexEntered' => [
+        'App\Events\Index\IndexEntered' => [
             'App\Listeners\Index\SendIndexEnteredNotification',
         ],
         
-        'App\Events\OvertimeRequestSubmitted' => [
-            'App\Listeners\Request\SendOvertimeRequestSubmittedNotification',
+        'App\Events\Request\Submitted' => [
+            'App\Listeners\Request\SendSubmittedNotification',
         ],
-        'App\Events\OvertimeRequestApproved' => [
-            'App\Listeners\Request\SendOvertimeRequestApprovedNotification',
+        'App\Events\Request\Approved' => [
+            'App\Listeners\Request\SendApprovedNotification',
         ],
-        'App\Events\OvertimeRequestRejected' => [
-            'App\Listeners\Request\SendOvertimeRequestRejectedNotification',
+        'App\Events\Request\Rejected' => [
+            'App\Listeners\Request\SendRejectedNotification',
         ],
-        'App\Events\OvertimeRequestFlowChanged' => [
-            'App\Listeners\Request\SendOvertimeRequestFlowChangedNotification',
+        'App\Events\Request\FlowChanged' => [
+            'App\Listeners\Request\SendNotification',
         ],
         
         'Illuminate\Cache\Events\CacheHit' => [

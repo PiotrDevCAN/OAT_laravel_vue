@@ -29,7 +29,7 @@ class Delegates extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function list(Request $request)
+    public function index(Request $request)
     {
         $draw = $request->post('draw', 1);
 
@@ -71,14 +71,11 @@ class Delegates extends Controller
      */
     public function store(Request $request)
     {
-        $delegate = new Delegate([
-            'user_intranet' => $request->get('user_intranet'),
-            'delegate_intranet' => $request->get('delegate_intranet'),
-            'delegate_notesid'  => $request->get('delegate_notesid')
+        $delegate = Delegate::create($request->post());
+        return response()->json([
+            'message'=>'Delegate Created Successfully!!',
+            'delegate'=>$delegate
         ]);
-        $delegate->save();
-        
-        return response()->json($delegate);
     }
 
     /**
@@ -101,12 +98,11 @@ class Delegates extends Controller
      */
     public function update(Request $request, Delegate $delegate)
     {
-        $delegate->user_intranet = $request->get('user_intranet');
-        $delegate->delegate_intranet = $request->get('delegate_intranet');
-        $delegate->delegate_notesid = $request->get('delegate_notesid');
-        $delegate->save();
-        
-        return response()->json($delegate);
+        $delegate->fill($request->post())->save();
+        return response()->json([
+            'message'=>'Delegate Updated Successfully!!',
+            'delegate'=>$delegate
+        ]);
     }
 
     /**
@@ -118,6 +114,8 @@ class Delegates extends Controller
     public function destroy(Delegate $delegate)
     {
         $delegate->delete();
-        return response()->json(['message' => 'Delegate deleted']);
+        return response()->json([
+            'message'=>'Delegate Deleted Successfully!!'
+        ]);
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Events\IndexEntered;
+use App\Events\Index\IndexEntered;
 use Illuminate\Support\Facades\Auth;
 
 class Index extends Controller

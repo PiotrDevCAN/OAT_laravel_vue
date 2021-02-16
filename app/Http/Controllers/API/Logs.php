@@ -29,7 +29,7 @@ class Logs extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function list(Request $request)
+    public function index(Request $request)
     {
         $draw = $request->post('draw', 1);
         
@@ -71,13 +71,11 @@ class Logs extends Controller
      */
     public function store(Request $request)
     {
-        $log = new Log([
-            'log_entry' => $request->get('log_entry'),
-            'last_updater' => $request->get('last_updater'),
-            'last_updated'  => $request->get('last_updated')
+        $log = Log::create($request->post());
+        return response()->json([
+            'message'=>'Log Created Successfully!!',
+            'log'=>$log
         ]);
-        $log->save();
-        return response()->json($log);
     }
 
     /**
@@ -100,12 +98,11 @@ class Logs extends Controller
      */
     public function update(Request $request, Log $log)
     {
-        $log->log_entry = $request->get('log_entry');
-        $log->last_updater = $request->get('last_updater');
-        $log->last_updated = $request->get('last_updated');
-        $log->save();
-        
-        return response()->json($log);
+        $log->fill($request->post())->save();
+        return response()->json([
+            'message'=>'Log Updated Successfully!!',
+            'log'=>$log
+        ]);
     }
 
     /**
@@ -117,6 +114,8 @@ class Logs extends Controller
     public function destroy(Log $log)
     {
         $log->delete();
-        return response()->json(['message' => 'Log deleted']);
+        return response()->json([
+            'message'=>'Log Deleted Successfully!!'
+        ]);
     }
 }

@@ -27,7 +27,7 @@ class Competencies extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function list(Request $request)
+    public function index(Request $request)
     {
         $draw = $request->post('draw', 1);
 
@@ -73,15 +73,11 @@ class Competencies extends Controller
      */
     public function store(Request $request)
     {
-        $competency = new Competency([
-            'competency' => $request->get('competency'),
-            'approver' => $request->get('approver'),
-            'last_updater'  => $request->get('last_updater'),
-            'last_updated'  => $request->get('last_updated')
+        $competency = Competency::create($request->post());
+        return response()->json([
+            'message'=>'Competency Created Successfully!!',
+            'competency'=>$competency
         ]);
-        $competency->save();
-        
-        return response()->json($competency);
     }
 
     /**
@@ -104,13 +100,11 @@ class Competencies extends Controller
      */
     public function update(Request $request, Competency $competency)
     {
-        $competency->competency = $request->get('competency');
-        $competency->approver = $request->get('approver');
-        $competency->last_updater = $request->get('last_updater');
-        $competency->last_updated = $request->get('last_updated');
-        $competency->save();
-        
-        return response()->json($account);
+        $competency->fill($request->post())->save();
+        return response()->json([
+            'message'=>'Competency Updated Successfully!!',
+            'competency'=>$competency
+        ]);
     }
 
     /**
@@ -122,6 +116,8 @@ class Competencies extends Controller
     public function destroy(Competency $competency)
     {
         $competency->delete();
-        return response()->json(['message' => 'Competency deleted']);
+        return response()->json([
+            'message'=>'Competency Deleted Successfully!!'
+        ]);
     }
 }

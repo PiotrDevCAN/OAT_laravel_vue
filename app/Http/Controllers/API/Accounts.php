@@ -31,7 +31,7 @@ class Accounts extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function list(Request $request)
+    public function index(Request $request)
     {
         $draw = $request->post('draw', 1);
 
@@ -76,15 +76,11 @@ class Accounts extends Controller
      */
     public function store(Request $request)
     {
-        $account = new Account([
-            'name' => $request->get('name'),
-            'price' => $request->get('price'),
-            'description'  => $request->get('description'),
-            'active'  => $request->get('active')
+        $account = Account::create($request->post());
+        return response()->json([
+            'message'=>'Account Created Successfully!!',
+            'account'=>$account
         ]);
-        $account->save();
-        
-        return response()->json($account);
     }
 
     /**
@@ -107,13 +103,11 @@ class Accounts extends Controller
      */
     public function update(Request $request, Account $account)
     {
-        $account->name = $request->get('name');
-        $account->price = $request->get('price');
-        $account->description = $request->get('description');
-        $account->active = $request->get('active');
-        $account->save();
-        
-        return response()->json($account);
+        $account->fill($request->post())->save();
+        return response()->json([
+            'message'=>'Account Updated Successfully!!',
+            'account'=>$account
+        ]);
     }
 
     /**
@@ -125,6 +119,8 @@ class Accounts extends Controller
     public function destroy(Account $account)
     {
         $account->delete();
-        return response()->json(['message' => 'Account deleted']);
+        return response()->json([
+            'message'=>'Account Deleted Successfully!!'
+        ]);
     }
 }

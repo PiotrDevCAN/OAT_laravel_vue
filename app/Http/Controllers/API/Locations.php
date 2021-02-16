@@ -27,7 +27,7 @@ class Locations extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function list(Request $request)
+    public function index(Request $request)
     {
         $draw = $request->post('draw', 1);
 
@@ -68,13 +68,11 @@ class Locations extends Controller
      */
     public function store(Request $request)
     {
-        $location = new Location([
-            'location' => $request->get('location'),
-            'shore' => $request->get('shore')
+        $location = Location::create($request->post());
+        return response()->json([
+            'message'=>'Location Created Successfully!!',
+            'location'=>$location
         ]);
-        $location->save();
-        
-        return response()->json($location);
     }
 
     /**
@@ -97,11 +95,11 @@ class Locations extends Controller
      */
     public function update(Request $request, Location $location)
     {
-        $location->location = $request->get('location');
-        $location->shore = $request->get('shore');
-        $location->save();
-        
-        return response()->json($location);
+        $location->fill($request->post())->save();
+        return response()->json([
+            'message'=>'Location Updated Successfully!!',
+            'location'=>$location
+        ]);
     }
 
     /**
@@ -113,6 +111,8 @@ class Locations extends Controller
     public function destroy(Location $location)
     {
         $location->delete();
-        return response()->json(['message' => 'Location deleted']);
+        return response()->json([
+            'message'=>'Location Deleted Successfully!!'
+        ]);
     }
 }

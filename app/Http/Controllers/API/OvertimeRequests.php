@@ -4,14 +4,14 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\OvertimeRequest;
-use App\Events\OvertimeRequestApproved;
-use App\Events\OvertimeRequestRejected;
+use App\Models\Request\OvertimeRequest;
+use App\Events\Request\Approved;
+use App\Events\Request\Rejected;
 use App\Http\Requests\CreateOvertimeRequest;
 use App\Http\Requests\ApproveOvertimeRequest;
 use App\Http\Requests\RejectOvertimeRequest;
 use App\Http\Resources\OvertimeRequestResourceCollection;
-use App\Events\OvertimeRequestFlowChanged;
+use App\Events\FlowChanged;
 use App\Http\Requests\ChangeFlowOvertimeRequest;
 use App\Http\Resources\OvertimeRequestResource;
 
@@ -109,7 +109,7 @@ class OvertimeRequests extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function list(Request $request)
+    public function index(Request $request)
     {
         $draw = $request->post('draw', 1);
 
@@ -198,17 +198,11 @@ class OvertimeRequests extends Controller
      */
     public function store(CreateOvertimeRequest $request)
     {
-        $overtimeRequest = new OvertimeRequest();
-        
-//         $overtimeRequest = new OvertimeRequest([
-//             'name' => $request->get('name'),
-//             'price' => $request->get('price'),
-//             'description'  => $request->get('description'),
-//             'active'  => $request->get('active')
-//         ]);
-//         $overtimeRequest->save();
-        
-        return response()->json($overtimeRequest);
+        $overtimeRequest = OvertimeRequest::create($request->post());
+        return response()->json([
+            'message'=>'Overtime Request Created Successfully!!',
+            'overtimeRequest'=>$overtimeRequest
+        ]);
     }
     
     /**
@@ -217,11 +211,9 @@ class OvertimeRequests extends Controller
      * @param  OvertimeRequest $overtimeRequest
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, OvertimeRequest $overtimeRequest)
+    public function show(OvertimeRequest $overtimeRequest)
     {
-        $resource = new OvertimeRequestResource($overtimeRequest);
-        
-        return $resource;
+        return response()->json($overtimeRequest);
     }
     
     /**
@@ -233,13 +225,11 @@ class OvertimeRequests extends Controller
      */
     public function update(Request $request, OvertimeRequest $overtimeRequest)
     {
-//         $overtimeRequest->name = $request->get('name');
-//         $overtimeRequest->price = $request->get('price');
-//         $overtimeRequest->description = $request->get('description');
-//         $overtimeRequest->active = $request->get('active');
-//         $overtimeRequest->save();
-        
-        return response()->json($overtimeRequest);
+        $overtimeRequest->fill($request->post())->save();
+        return response()->json([
+            'message'=>'Overtime Request Updated Successfully!!',
+            'overtimeRequest'=>$overtimeRequest
+        ]);
     }
     
     /**
@@ -248,10 +238,12 @@ class OvertimeRequests extends Controller
      * @param  OvertimeRequest $overtimeRequest
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, OvertimeRequest $overtimeRequest)
+    public function destroy(OvertimeRequest $overtimeRequest)
     {
         $overtimeRequest->delete();
-        return response()->json(['message' => 'Overtime Request deleted']);
+        return response()->json([
+            'message'=>'Overtime Request Deleted Successfully!!'
+        ]);
     }
     
     public function approve(ApproveOvertimeRequest $request, $ref, $lvl, $status, $via)
@@ -264,9 +256,11 @@ class OvertimeRequests extends Controller
 
 //         $flight->save();
         
-        event(new OvertimeRequestApproved($overtimeRequest));
+        event(new Approved($overtimeRequest));
         
-        return response()->json(['message' => 'Overtime Request has been approved']);
+        return response()->json([
+            'message' => 'Overtime Request Has Been Approved Successfully!!'
+        ]);
     }
 
     public function reject(RejectOvertimeRequest $request, $ref, $lvl, $status, $via)
@@ -279,9 +273,11 @@ class OvertimeRequests extends Controller
         
 //         $flight->save();
         
-        event(new OvertimeRequestRejected($overtimeRequest));
+        event(new Rejected($overtimeRequest));
         
-        return response()->json(['message' => 'Overtime Request has been rejected']);
+        return response()->json([
+            'message' => 'Overtime Request Has Been Rejected Successfully!!
+        ']);
     }
     
     public function changeFlow(ChangeFlowOvertimeRequest $request, $ref, $lvl, $status, $via)
@@ -294,8 +290,10 @@ class OvertimeRequests extends Controller
         
         //         $flight->save();
         
-        event(new OvertimeRequestFlowChanged($overtimeRequest));
+        event(new FlowChanged($overtimeRequest));
         
-        return response()->json(['message' => 'Approval Flow in Overtime Request has been changed']);
+        return response()->json([
+            'message' => 'Approval Flow In Overtime Request Has Been Changed Successfully!!
+        ']);
     }
 }

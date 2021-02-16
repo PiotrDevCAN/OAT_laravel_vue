@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\GetTableName;
 
 class BaseModel extends Model
 {
-    use GetTableName;
+    use GetTableName, HasFactory;
     
     /**
      * Indicates if the IDs are auto-incrementing.

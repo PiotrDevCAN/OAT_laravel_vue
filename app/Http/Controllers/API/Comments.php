@@ -16,15 +16,11 @@ class Comments extends Controller
      */
     public function store(Request $request)
     {
-        $comment = new Comment([
-            'reference' => $request->get('reference'),
-            'text' => $request->get('text'),
-            'creator'  => $request->get('creator'),
-            'created'  => $request->get('created')
+        $comment = Comment::create($request->post());
+        return response()->json([
+            'message'=>'Comment Created Successfully!!',
+            'comment'=>$comment
         ]);
-        $comment->save();
-        
-        return response()->json($comment);
     }
 
     /**
@@ -47,13 +43,11 @@ class Comments extends Controller
      */
     public function update(Request $request, Comment $comment)
     {
-        $comment->reference = $request->get('reference');
-        $comment->text = $request->get('text');
-        $comment->creator = $request->get('creator');
-        $comment->created = $request->get('created');
-        $comment->save();
-        
-        return response()->json($comment);
+        $comment->fill($request->post())->save();
+        return response()->json([
+            'message'=>'Comment Updated Successfully!!',
+            'comment'=>$comment
+        ]);
     }
 
     /**
@@ -65,6 +59,8 @@ class Comments extends Controller
     public function destroy(Comment $comment)
     {
         $comment->delete();
-        return response()->json(['message' => 'Comment deleted']);
+        return response()->json([
+            'message'=>'Comment Deleted Successfully!!'
+        ]);
     }
 }
