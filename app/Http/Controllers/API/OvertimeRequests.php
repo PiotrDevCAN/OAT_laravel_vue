@@ -12,6 +12,7 @@ use App\Events\Request\RejectedEvent;
 use App\Events\Request\FlowChangedEvent;
 
 use App\Http\Requests\Request\CreateRequest;
+use App\Http\Requests\Request\UpdateRequest;
 use App\Http\Requests\Request\ApproveRequest;
 use App\Http\Requests\Request\RejectRequest;
 use App\Http\Requests\Request\ChangeFlowRequest;
@@ -197,7 +198,7 @@ class OvertimeRequests extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Request\CreateRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(CreateRequest $request)
@@ -223,11 +224,11 @@ class OvertimeRequests extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Request\UpdateRequest $request
      * @param  OvertimeRequest $overtimeRequest
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, OvertimeRequest $overtimeRequest)
+    public function update(UpdateRequest $request, OvertimeRequest $overtimeRequest)
     {
         $overtimeRequest->fill($request->post())->save();
         return response()->json([
@@ -250,6 +251,13 @@ class OvertimeRequests extends Controller
         ]);
     }
     
+    /**
+     * Approve record.
+     *
+     * @param  \App\Http\Requests\Request\ApproveRequest $request
+     * @param  OvertimeRequest $overtimeRequest
+     * @return \Illuminate\Http\Response
+     */
     public function approve(ApproveRequest $request, $ref, $lvl, $status, $via)
     {
         // Request approval logic...
@@ -267,6 +275,13 @@ class OvertimeRequests extends Controller
         ]);
     }
 
+    /**
+     * Reject record.
+     *
+     * @param  \App\Http\Requests\Request\RejectRequest $request
+     * @param  OvertimeRequest $overtimeRequest
+     * @return \Illuminate\Http\Response
+     */
     public function reject(RejectRequest $request, $ref, $lvl, $status, $via)
     {
         // Request rejection logic...
@@ -284,6 +299,13 @@ class OvertimeRequests extends Controller
         ']);
     }
     
+    /**
+     * Change flow in record.
+     *
+     * @param  \App\Http\Requests\Request\ChangeFlowRequest $request
+     * @param  OvertimeRequest $overtimeRequest
+     * @return \Illuminate\Http\Response
+     */
     public function changeFlow(ChangeFlowRequest $request, $ref, $lvl, $status, $via)
     {
         // Request rejection logic...

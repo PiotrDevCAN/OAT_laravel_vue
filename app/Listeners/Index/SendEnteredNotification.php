@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class SendIndexEnteredNotification
+class SendEnteredNotification
 {
     /**
      * Create the event listener.

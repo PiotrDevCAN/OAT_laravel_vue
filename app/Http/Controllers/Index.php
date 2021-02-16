@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Events\Index\IndexEnteredEvent;
+use App\Events\Index\EnteredEvent;
 use Illuminate\Support\Facades\Auth;
 
 class Index extends Controller
@@ -17,7 +17,7 @@ class Index extends Controller
      */
     public function index(Request $request)
     {
-        // event(new IndexEnteredEvent());
+        // event(new EnteredEvent());
 
         return view('main');
     }
