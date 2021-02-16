@@ -2,7 +2,7 @@
 
 namespace App\Listeners\Request;
 
-use App\Events\RejectedEvent;
+use App\Events\Request\RejectedEvent;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
