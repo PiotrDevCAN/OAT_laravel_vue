@@ -39,42 +39,42 @@ Route::prefix('mailable')
             ->group(function () {
                
                 Route::get('retrieved/{overtimeRequest}', function (OvertimeRequest $overtimeRequest) {
-                    return new App\Mail\Request\Retrieved($overtimeRequest);
+                    return new App\Mail\Request\RetrievedMail($overtimeRequest);
                 })
                 ->name('retrieved');
                 
                 Route::get('created/{overtimeRequest}', function (OvertimeRequest $overtimeRequest) {
-                    return new App\Mail\Request\Created($overtimeRequest);
+                    return new App\Mail\Request\CreatedMail($overtimeRequest);
                 })
                 ->name('created');
                 
                 Route::get('updated/{overtimeRequest}', function (OvertimeRequest $overtimeRequest) {
-                    return new App\Mail\Request\Updated($overtimeRequest);
+                    return new App\Mail\Request\UpdatedMail($overtimeRequest);
                 })
                 ->name('updated');
                 
                 Route::get('deleted/{overtimeRequest}', function (OvertimeRequest $overtimeRequest) {
-                    return new App\Mail\Request\Deleted($overtimeRequest);
+                    return new App\Mail\Request\DeletedMail($overtimeRequest);
                 })
                 ->name('deleted');
                 
                 Route::get('submitted/{overtimeRequest}', function (OvertimeRequest $overtimeRequest) {
-                    return new App\Mail\Request\Submitted($overtimeRequest);
+                    return new App\Mail\Request\SubmittedMail($overtimeRequest);
                 })
                 ->name('submitted');
                 
                 Route::get('approved/{overtimeRequest}', function (OvertimeRequest $overtimeRequest) {
-                    return new App\Mail\Request\Approved($overtimeRequest);
+                    return new App\Mail\Request\ApprovedMail($overtimeRequest);
                 })
                 ->name('approved');
                 
                 Route::get('rejected/{overtimeRequest}', function (OvertimeRequest $overtimeRequest) {
-                    return new App\Mail\Request\Rejected($overtimeRequest);
+                    return new App\Mail\Request\RejectedMail($overtimeRequest);
                 })
                 ->name('rejected');
                 
                 Route::get('flowChanged/{overtimeRequest}', function (OvertimeRequest $overtimeRequest) {
-                    return new App\Mail\Request\FlowChanged($overtimeRequest);
+                    return new App\Mail\Request\FlowChangedMail($overtimeRequest);
                 })
                 ->name('flowChanged');
                 

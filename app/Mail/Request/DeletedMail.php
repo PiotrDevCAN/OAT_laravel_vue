@@ -2,7 +2,7 @@
 
 namespace App\Mail\Request;
 
-class Deleted extends Base
+class DeletedMail extends Base
 {
     /**
      * Build the message.

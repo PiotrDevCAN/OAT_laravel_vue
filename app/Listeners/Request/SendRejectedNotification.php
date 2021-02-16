@@ -3,6 +3,7 @@
 namespace App\Listeners\Request;
 
 use App\Events\Request\RejectedEvent;
+use App\Mail\Request\RejectedMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -31,6 +32,6 @@ class SendRejectedNotification
         Mail::to($to)
 //             ->cc($moreUsers)
 //             ->bcc($evenMoreUsers)
-            ->send(new \App\Mail\Request\Rejected($event->request));
+            ->send(new RejectedMail($event->request));
     }
 }

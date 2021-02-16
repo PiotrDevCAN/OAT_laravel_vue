@@ -3,6 +3,7 @@
 namespace App\Listeners\Request;
 
 use App\Events\Request\ApprovedEvent;
+use App\Mail\Request\ApprovedMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -31,6 +32,6 @@ class SendApprovedNotification
         Mail::to($to)
 //             ->cc($moreUsers)
 //             ->bcc($evenMoreUsers)
-            ->send(new \App\Mail\Request\Approved($event->request));
+            ->send(new ApprovedMail($event->request));
     }
 }

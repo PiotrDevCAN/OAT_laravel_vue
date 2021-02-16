@@ -2,7 +2,7 @@
 
 namespace App\Mail\Request;
 
-class Approved extends Base
+class ApprovedMail extends Base
 {
     /**
      * Build the message.

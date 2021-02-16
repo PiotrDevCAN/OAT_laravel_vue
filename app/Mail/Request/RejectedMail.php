@@ -2,7 +2,7 @@
 
 namespace App\Mail\Request;
 
-class Rejected extends Base
+class RejectedMail extends Base
 {
     /**
      * Build the message.

@@ -2,7 +2,7 @@
 
 namespace App\Mail\Request;
 
-class Updated extends Base
+class UpdatedMail extends Base
 {
     /**
      * Build the message.

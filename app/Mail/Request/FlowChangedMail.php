@@ -2,7 +2,7 @@
 
 namespace App\Mail\Request;
 
-class FlowChanged extends Base
+class FlowChangedMail extends Base
 {
     /**
      * Build the message.

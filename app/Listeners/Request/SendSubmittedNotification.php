@@ -3,6 +3,7 @@
 namespace App\Listeners\Request;
 
 use App\Events\Request\SubmittedEvent;
+use App\Mail\Request\SubmittedMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -31,6 +32,6 @@ class SendSubmittedNotification
         Mail::to($to)
 //             ->cc($moreUsers)
 //             ->bcc($evenMoreUsers)
-            ->send(new \App\Mail\Request\Submitted($event->request));
+            ->send(new SubmittedMail($event->request));
     }
 }

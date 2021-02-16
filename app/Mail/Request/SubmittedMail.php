@@ -2,7 +2,7 @@
 
 namespace App\Mail\Request;
 
-class Submitted extends Base
+class SubmittedMail extends Base
 {
     /**
      * Build the message.

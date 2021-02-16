@@ -18,8 +18,8 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
         
-        'App\Events\Index\IndexEnteredEvent' => [
-            'App\Listeners\Index\SendIndexEnteredNotification',
+        'App\Events\Index\EnteredEvent' => [
+            'App\Listeners\Index\SendEnteredNotification',
         ],
         
         'App\Events\Request\SubmittedEvent' => [

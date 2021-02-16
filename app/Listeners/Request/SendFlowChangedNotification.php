@@ -3,6 +3,7 @@
 namespace App\Listeners\Request;
 
 use App\Events\Request\FlowChangedEvent;
+use App\Mail\Request\FlowChangedMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -31,6 +32,6 @@ class SendFlowChangedNotification
         Mail::to($to)
 //             ->cc($moreUsers)
 //             ->bcc($evenMoreUsers)
-            ->send(new \App\Mail\Request\FlowChanged($event->request));
+            ->send(new FlowChangedMail($event->request));
     }
 }
