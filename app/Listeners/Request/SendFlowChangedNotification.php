@@ -2,7 +2,7 @@
 
 namespace App\Listeners\Request;
 
-use App\Events\FlowChanged;
+use App\Events\FlowChangedEvent;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -22,10 +22,10 @@ class SendFlowChangedNotification
     /**
      * Handle the event.
      *
-     * @param  FlowChanged  $event
+     * @param  FlowChangedEvent  $event
      * @return void
      */
-    public function handle(FlowChanged $event)
+    public function handle(FlowChangedEvent $event)
     {
         $to = '';
         Mail::to($to)

@@ -2,7 +2,7 @@
 
 namespace App\Listeners\Request;
 
-use App\Events\Rejected;
+use App\Events\RejectedEvent;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -22,10 +22,10 @@ class SendRejectedNotification
     /**
      * Handle the event.
      *
-     * @param  Rejected  $event
+     * @param  RejectedEvent  $event
      * @return void
      */
-    public function handle(Rejected $event)
+    public function handle(RejectedEvent $event)
     {
         $to = '';
         Mail::to($to)

@@ -11,7 +11,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\OvertimeRequest;
 
-class Approved
+class FlowChangedEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 

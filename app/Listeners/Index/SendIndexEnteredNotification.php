@@ -2,7 +2,7 @@
 
 namespace App\Listeners\Index;
 
-use App\Events\Index\IndexEntered;
+use App\Events\Index\IndexEnteredEvent;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -22,15 +22,15 @@ class SendIndexEnteredNotification
     /**
      * Handle the event.
      *
-     * @param  IndexEntered  $event
+     * @param  IndexEnteredEvent  $event
      * @return void
      */
-    public function handle(IndexEntered $event)
+    public function handle(IndexEnteredEvent $event)
     {
         $to = '';
         Mail::to($to)
 //             ->cc($moreUsers)
 //             ->bcc($evenMoreUsers)
-        ->send(new \App\Mail\Index\IndexEntered());
+        ->send(new \App\Mail\Index\Entered());
     }
 }

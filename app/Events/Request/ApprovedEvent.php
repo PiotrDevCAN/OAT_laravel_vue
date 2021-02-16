@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events\Index;
+namespace App\Events\Request;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -9,19 +9,22 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use App\Models\OvertimeRequest;
 
-class IndexEntered
+class ApprovedEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $request;
+    
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(OvertimeRequest $overtimeRequest)
     {
-        //
+        $this->request = $overtimeRequest;
     }
 
     /**

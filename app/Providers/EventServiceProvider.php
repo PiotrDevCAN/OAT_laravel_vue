@@ -18,20 +18,20 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
         
-        'App\Events\Index\IndexEntered' => [
+        'App\Events\Index\IndexEnteredEvent' => [
             'App\Listeners\Index\SendIndexEnteredNotification',
         ],
         
-        'App\Events\Request\Submitted' => [
+        'App\Events\Request\SubmittedEvent' => [
             'App\Listeners\Request\SendSubmittedNotification',
         ],
-        'App\Events\Request\Approved' => [
+        'App\Events\Request\ApprovedEvent' => [
             'App\Listeners\Request\SendApprovedNotification',
         ],
-        'App\Events\Request\Rejected' => [
+        'App\Events\Request\RejectedEvent' => [
             'App\Listeners\Request\SendRejectedNotification',
         ],
-        'App\Events\Request\FlowChanged' => [
+        'App\Events\Request\FlowChangedEvent' => [
             'App\Listeners\Request\SendNotification',
         ],
         

@@ -11,7 +11,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\OvertimeRequest;
 
-class Rejected
+class SubmittedEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     

@@ -2,7 +2,7 @@
 
 namespace App\Listeners\Request;
 
-use App\Events\Submitted;
+use App\Events\SubmittedEvent;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -22,10 +22,10 @@ class SendSubmittedNotification
     /**
      * Handle the event.
      *
-     * @param  Submitted  $event
+     * @param  SubmittedEvent  $event
      * @return void
      */
-    public function handle(Submitted $event)
+    public function handle(SubmittedEvent $event)
     {
         $to = '';
         Mail::to($to)

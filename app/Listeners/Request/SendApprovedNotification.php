@@ -2,7 +2,7 @@
 
 namespace App\Listeners\Request;
 
-use App\Events\Request\Approved;
+use App\Events\Request\ApprovedEvent;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -22,10 +22,10 @@ class SendApprovedNotification
     /**
      * Handle the event.
      *
-     * @param  Approved  $event
+     * @param  ApprovedEvent  $event
      * @return void
      */
-    public function handle(Approved $event)
+    public function handle(ApprovedEvent $event)
     {
         $to = '';
         Mail::to($to)

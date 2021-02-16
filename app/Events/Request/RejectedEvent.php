@@ -11,10 +11,10 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\OvertimeRequest;
 
-class FlowChanged
+class RejectedEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-
+    
     public $request;
     
     /**
