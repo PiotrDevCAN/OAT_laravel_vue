@@ -25,7 +25,6 @@
             </cv-combo-box>
         </div>
         <div v-else-if="field.type=='select'">
-            SELECT FIELD
             <cv-select
                 :label="field.label">
                 <cv-select-option disabled selected hidden>{{ filtersDefaultValue }}</cv-select-option>

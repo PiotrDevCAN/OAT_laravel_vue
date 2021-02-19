@@ -6,7 +6,8 @@
                 <cv-button v-bind:key="fieldIndex" 
                     v-for="(field, fieldIndex) in row.fields" 
                     :kind="field.kind" 
-                    v-on:click="field.action">
+                    :id="field.id"
+                    v-on:click="handlaButtonClick">
                 {{ field.label }}</cv-button>
             </cv-button-set>
         </cv-column>
@@ -23,6 +24,12 @@
             return {
 
             }
+        },
+        methods: {
+            handlaButtonClick(data) {
+                this.$emit('button-click', data)
+            
+            }            
         }
     }
 </script>

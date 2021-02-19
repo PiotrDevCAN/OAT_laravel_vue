@@ -6,11 +6,17 @@
 
 require('./bootstrap');
 
-import Vue from 'vue';
+import vue from 'vue'
+window.Vue = vue;
+
 import App from './App.vue';
 import router from './router';
-import store from "./store";
+
+import VueAxios from 'vue-axios';
 import axios from 'axios';
+Vue.use(VueAxios, axios);
+
+import store from "./store";
 
 import upperFirst from 'lodash/upperFirst'
 import camelCase from 'lodash/camelCase'
@@ -40,9 +46,9 @@ Vue.use(CarbonComponentsVue);
 
 // instance variables
 // Vue.prototype.$blogName = 'LogRocket'
-Vue.prototype.$http = axios
+// Vue.prototype.$http = VueAxios
 
-Vue.prototype.$prototypeVariableExample = 'Prototype Variable Example'
+// Vue.prototype.$prototypeVariableExample = 'Prototype Variable Example'
 
 // store object
 // this.$store

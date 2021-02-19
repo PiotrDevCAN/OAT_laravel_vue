@@ -56,7 +56,7 @@
             <template v-if="use_expandingSlottedData" slot="data">
                 <cv-data-table-row v-for="(row, rowIndex) in dataTableData" :key="`${rowIndex}`" :value="`${rowIndex}`" :expanded="rowIndex === rowExpanded" aria-label-expand-row="Go large" aria-label-collapse-row="Go small">
                     <cv-data-table-cell v-for="(cell, cellIndex) in row" :key="`${cellIndex}`" :value="`${cellIndex}`" v-html="cell"></cv-data-table-cell>
-                    <template slot="expandedContent">A variety of content types can live here. Be sure to follow Carbon design guidelines for spacing and alignment.</template>
+                    <template v-if="expandedContent" slot="expandedContent">{{ expandedContent }}</template>
                 </cv-data-table-row>
             </template>
 
@@ -82,7 +82,8 @@
             dataTableData: Array,
             type: String,
             title: String,
-            helperText: String
+            helperText: String,
+            expandedContent: String
         },
         data() {
             return {

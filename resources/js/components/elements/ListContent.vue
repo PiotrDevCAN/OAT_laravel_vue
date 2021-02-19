@@ -9,7 +9,7 @@
                 <cv-content-switcher-button :owner-id="ownerData(table.id)" 
                     :selected="isSelected(table.id)" 
                     v-bind:key="index" 
-                    v-for="(table, index) in dataTables">
+                    v-for="(table, index) in tables">
                     {{ table.label }}
                 </cv-content-switcher-button>
             </cv-content-switcher>
@@ -23,7 +23,9 @@
                         :title="table.title" 
                         :helper-text="table.helperText" 
                         :loading="checkIsLoading(table.id)" 
-                        :loaded="checkIsLoaded(table.id)"/>
+                        :loaded="checkIsLoaded(table.id)"
+                        :expandedContent="table.expandedContent" 
+                    />
                 </cv-content-switcher-content>                    
             </section>
         </cv-column>
@@ -50,20 +52,20 @@
         },
         data() {
             return {
-
+                size: 'xl'
             }
         },
         methods: {
             handleFieldCreate(data) {
-                console.log('Child field has been created - LIST.');
+                console.log('Child field has been created - LIST HERE 2');
             },
             
             loadTable: function (type) {
                 var loaded = this.checkIsLoaded(type)
                 if (loaded === false) {
-                    this.loadTableData(type).then(() => {
+                    // this.loadTableData(type).then(() => {
 
-                    })
+                    // })
                 }
             },
 

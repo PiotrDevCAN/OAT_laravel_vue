@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Request\OvertimeRequest;
+use App\Models\OvertimeRequest;
 
 use App\Events\Request\SubmittedEvent;
 use App\Events\Request\ApprovedEvent;

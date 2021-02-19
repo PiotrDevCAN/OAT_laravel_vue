@@ -41,7 +41,7 @@
         },
         methods: {
             handleFieldCreate(data) {
-                console.log('Child field has been created - LIST.');
+                // console.log('Child field has been created - LIST HERE 3.');
             }
         }
     }

@@ -32,7 +32,9 @@
         "carbon-components": "^10.26.0",
         "carbon-icons": "7.0.7",
         "es6-promise": "^4.2.8",
+        "vue-axios": "^3.2.4",
         "vue-router": "^3.4.9",
-        "vuex": "^3.6.0"
+        "vuex": "^3.6.0",
+        "vuex-intern": "^0.1.0"
     }
 }

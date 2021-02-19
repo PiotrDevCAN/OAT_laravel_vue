@@ -65,7 +65,7 @@ class Accounts extends Controller
             'recordsFiltered' => $records->total()
         ]);
         
-        return $resourceCollection;        
+        return $resourceCollection;
     }
 
     /**

@@ -4,62 +4,33 @@
     <!-- @ is v-on Shorthand -->
 
     <cv-grid>
-
-        <list-with-filters 
-            :filters="filtersData"
-            :check-is-loaded="getFilterMapStateById"
-            :options-data="getFilterMapDataById">
-            </list-with-filters>
         
-        <action-buttons 
-            :buttons="actionButtonsData">
-            </action-buttons>
-            
-        <summary 
-            :summary="summaryData">
-            </summary>
-        
-        <list-content 
-            :tables="dataTables"
-            :columns-data="getColumnsMapByType"
-            :table-data="getRecordsMapByType"
-            :loadTableData="getTableData"
-            :owner-data="getOwnerId"
-            :check-is-loading="getLoadingMapByType"
-            :check-is-loaded="getLoadedMapByType"
+        <list-template
+            :store-name="storeName"
+            :filters-data="filtersData"
+            :action-buttons-data="actionButtonsData"
+            :summary-data="summaryData"
+            :data-tables="dataTables"
+            :page-header="pageHeader"
             >
-            </list-content>
+        </list-template>
         
     </cv-grid>
 </template>
 
 <script>
 
-    import store from '../../../store/'
-
-    import { mapState } from 'vuex'
-    import { mapMutations } from 'vuex'
-    import { mapActions } from 'vuex'
-    import { mapGetters } from 'vuex'
-
-    import ListWithFilters from '../../elements/ListWithFilters.vue'
-    import ActionButtons from '../../elements/ActionButtons.vue'
-    import Summary from '../../elements/Summary.vue'
-    import ListContent from '../../elements/ListContent.vue'
+    import ListTemplate from '../../elements/ListTemplate.vue'
 
     export default {
         name: 'requestList',
         components: {
-            ListWithFilters,
-            ActionButtons,
-            Summary,
-            ListContent
-        },
-        props: {
-
+            ListTemplate
         },
         data() {
             return {
+
+                storeName: 'requests',
 
                 // filters settings
                 filtersData: [
@@ -147,8 +118,8 @@
                     {
                         lg: 12,
                         fields: [
-                            { id: 'applyFilters', label: 'Apply filters', kind: 'primary', action: this.submitForm, type: 'button' },
-                            { id: 'resetFilters', label: 'Reset filters', kind: 'secondary', action: this.resetForm, type: 'button' }
+                            { id: 'applyFilters', label: 'Apply filters', kind: 'primary', type: 'button' },
+                            { id: 'resetFilters', label: 'Reset filters', kind: 'secondary', type: 'button' }
                         ]
                     }
                 ],
@@ -183,189 +154,33 @@
                         id: 'awaiting',
                         title: 'Awaiting Overtime Requests List',
                         label: 'Awaiting Approval',
-                        helperText: 'List below provides a possibility to approve or reject selected items'
+                        helperText: 'List below provides a possibility to approve or reject selected items',
+                        expandedContent: "A variety of content types can live here. Be sure to follow Carbon design guidelines for spacing and alignment."
                     },
                     {
                         id: 'approved',
                         title: 'Approved Overtime Requests List',
                         label: 'Approved',
-                        helperText: 'List below provides a possibility to approve or reject selected items'
+                        helperText: 'List below provides a possibility to approve or reject selected items',
+                        expandedContent: "A variety of content types can live here. Be sure to follow Carbon design guidelines for spacing and alignment."
                     },
                     {
                         id: 'other',
                         title: 'Other Overtime Requests List',
                         label: 'Other',
-                        helperText: 'List below provides a possibility to approve or reject selected items'
+                        helperText: 'List below provides a possibility to approve or reject selected items',
+                        expandedContent: "A variety of content types can live here. Be sure to follow Carbon design guidelines for spacing and alignment."
                     }
                 ],
 
-                pageHeader: 'Request List',
-                size: 'xl'
+                pageHeader: 'Request List'
             }
-        },
-        /*
-        watch: {
-
-            // whenever question changes, this function will run
-            // question: function (newQuestion, oldQuestion) {
-            //     this.answer = 'Waiting for you to stop typing...'
-            //     this.debouncedGetAnswer()
-            // },
-        },
-        */
-        // computed variables are cached !!!
-        computed: {
-
-            // accountsLength() {
-            //     return this.getFilterMapDataById('accounts').length
-            // },
-
-            ...mapState(
-                {
-                    // loadingFilters: state => state.requests.loadingFilters
-                }
-            ),
-
-            /*
-            // without aliases
-            ...mapGetters([
-                'firstName',
-                'lastName',
-            ]),
-            */
-
-            // with aliases
-            ...mapGetters({
-
-                getFilterMapDataById: 'requests/getFilterDataById',
-                getFilterMapStateById: 'requests/getFilterLoadedStateById',
-                getFilterMapSelectedById: 'requests/getFilterSelectedValueById',
-
-                getColumnsMapByType: 'requests/getColumnsByType',
-                getRecordsMapByType: 'requests/getRecordsByType',
-                getLoadingMapByType: 'requests/getLoadingByType',
-                getLoadedMapByType: 'requests/getLoadedByType',
-
-                getRecordsCountByType: 'requests/getRecordsCountByType',
-                getHoursCountByType: 'requests/getRecordsHoursCountByType'
-            })
-        },
-        beforCreate() {
-            // console.log('List Component before create.')
         },
         created() {
-            // console.log('List Component created.')
-
-            // dispatch with a payload
-            /*
-            store.dispatch('incrementAsync', {
-                amount: 10
-            })
-            */
-
-            // dispatch with an object
-            /*
-            store.dispatch({
-                type: 'incrementAsync',
-                amount: 10
-            })
-            */
-
-            // fetch fiters
-            this.getFiltersData().then(() => {
             
-            })
+            // this.$store.dispatch('requests/setAuthorizedUser')
 
-            // store.dispatch('fetchFiltersData').then(() => {
-            //     this.loading = false 
-            // })
-
-        },
-        beforeMount() {
-            // console.log('List Component before mount.')
-        },
-        mounted() {
-            // console.log('List Component mounted.')
-        },
-        beforeUpdate() {
-            // console.log('List Component before update.')
-        }, 
-        updated() {
-            // console.log('List Component updated.')
-        },
-        beforeDestroy() {
-            // console.log('List Component before destroy.')
-        }, 
-        destroyed() {
-            // console.log('List Component destroyed.')
-        },
-        methods: {
-
-            handleFieldCreate(data) {
-                console.log('Child field has been created - LIST.');
-            },
-
-            // walkaround replaced by getters map
-            /*
-            getObjectPropertyByName (property) {
-                if (this[property] !== undefined ) {              
-                    return this[property]
-                }
-                return
-            },
-            */
-
-            // walkaround replaced by getters map
-            /*
-            getObjectDataPropertyByName: function (property) {
-                if (this.$data.hasOwnProperty(property)) {
-                    return this.$data[property]
-                }
-                return
-            },
-            */
-
-            /*
-            ...mapActions([
-                'increment', // map `this.increment()` to `this.$store.dispatch('increment')`
-
-                // `mapActions` also supports payloads:
-                'incrementBy' // map `this.incrementBy(amount)` to `this.$store.dispatch('incrementBy', amount)`
-            ]),
-            */
-            ...mapActions({
-                // add: 'increment' // map `this.add()` to `this.$store.dispatch('increment')`
-                getFiltersData: 'requests/fetchFiltersData',
-                getTableData: 'requests/fetchTableData'
-            }),
-
-            /*
-            ...mapMutations([
-                'search', // map `this.increment()` to `this.$store.commit('search')`
-
-                // `mapMutations` also supports payloads:
-                'searchBy' // map `this.incrementBy(amount)` to `this.$store.commit('searchBy', amount)`
-                ]),
-                ...mapMutations({
-                find: 'search' // map `this.add()` to `this.$store.commit('search')`
-            })
-            */
-
-            // An arrow function without this 
-            getOwnerId: type => {
-                return 'csb-'+type
-            },
-
-            updateLists() {
-                alert('we need to update lists content')
-            },
-
-            submitForm() {
-                alert('apply filters and refresh lists')
-            },
-            resetForm() {
-                alert('reset filters and refresh lists')
-            }
+            // this.$store.dispatch('requests/setAuthToken')
         }
     }
 </script>

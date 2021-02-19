@@ -1,139 +1,200 @@
-export default {
-    namespaced: true,
-    state: {
 
-        // loadingFilters: true,
+// getters helpers
+import { findByKey } from 'vuex-intern'
+import { filterByKey } from 'vuex-intern'
 
-        // filters data
-        filters: {
-            logEntries: {
-                data: [],
-                loaded: false
-            },
-            lastUpdates: {
-                data: [],
-                loaded: false
-            },
-            lastUpdaters: {
-                data: [],
-                loaded: false
-            }
-        },
-        // tables data and settings
-        tables: {
-            log: {
-                columns: [],
-                records: [],
-                loading: false,
-                loaded: false
-            }
-        }
-    },
+// mutations helpers
+// import { adjustListIndex } from 'vuex-intern'
+// import { assignConstant } from 'vuex-intern'
+// import { extendRecordInList } from 'vuex-intern'
+// import { replaceRecordInList } from 'vuex-intern'
+import { set } from 'vuex-intern'
+// import { setPath } from 'vuex-intern'
+// import { setProp } from 'vuex-intern'
+// import { toggle } from 'vuex-intern'
+// import { without } from 'vuex-intern'
 
-    mutations: {
-        // All filters option
-        setFilterData(state, {id, data, loaded }) {
-            state.filters[id].data = data
-            state.filters[id].loaded = loaded
-        },
+const state = {
+    moduleType: 'log'
+}
 
-        // Data Table section
-        setColumns(state, { type, columns }) {
-            state.tables[type].columns = columns
-        },
-        setRecords(state, { type, records }) {
-            state.tables[type].records = records
-        },
-        setLoading(state, { type, loading }) {
-            state.tables[type].loading = loading
-        },
-        setLoaded(state, { type, loaded }) {
-            state.tables[type].loaded = loaded
-        },
-    },
-    actions: {
-        // in {} is a key available in an passed array
-        fetchFiltersData({ state, commit, rootState }) {
-            const baseURI = rootState.baseUrl+'/api/log/filters'
-            return axios.post(baseURI)
-                .then(response => {
+const mutations = {
+    SET_FORM: set('form'),
+    SET_FILTERS: set('filters'),
+    SET_TABLES: set('tables')
+}
 
-                    var data = response.data
-                    for (const key in data) {
-                        let filterData = {
-                            id: key,
-                            data: data[key],
-                            loaded: true
-                        }
-                        commit('setFilterData', filterData)
-                    }
-                })
-        },
-        // in {} is a key available in an passed array
-        fetchTableData({ state, commit, rootState }, type ) {
+const actions = {
+    // in {} is a key available in an passed array
+    async fetchFormData({ state, commit, rootState }) {
+        const baseURI = rootState.baseUrl + state.moduleType + '/formData'
+        return axios.post(baseURI)
+            .then(response => {
 
-            var data = {
-                type: type,
-                loading: true
-            }
-            commit('setLoading', data)
-            
-            let params = {
-                // requestType: type
-            }
-
-            const baseURI = rootState.baseUrl+'/api/log/list'
-            return axios.post(baseURI, params)
-                .then(response => {
-                    var data = {
-                        type: type,
-                        columns: response.data.columns,
-                        records: response.data.data,
-                        loading: false,
+                var data = response.data
+                for (const key in data) {
+                    let filterData = {
+                        id: key,
+                        data: data[key],
                         loaded: true
                     }
-                    commit('setColumns', data)
-                    commit('setRecords', data)
-                    
-                    commit('setLoading', data)
-                    commit('setLoaded', data)
-                })
-        }
+                    commit('SET_FORM', filterData)
+                }
+            })
     },
-    getters: {
+    // in {} is a key available in an passed array
+    async fetchFiltersData({ state, commit, rootState }) {
+        const baseURI = rootState.baseUrl + state.moduleType + '/filters'
+        return axios.post(baseURI)
+            .then(response => {
 
-        getFilterDataById: state => id => {
-            return state.filters[id].data
-        },
-        getFilterLoadedStateById: state => id => {
-            return state.filters[id].loaded
-        },
-        getFilterSelectedValueById: state => id => {
-            return state.filters[id].value
-        },
+                var data = response.data
+                var filtersData = {}
+                for (const key in data) {
+                    let filterData = {
+                        id: key,
+                        data: data[key],
+                        loaded: true
+                    }
+                    filtersData[key] = filterData
+                    // commit('SET_FILTER', filterData)
+                }
+                commit('SET_FILTERS', filtersData)
+            })
+    },
+    // in {} is a key available in an passed array
+    async fetchTableData({ state, commit, rootState }, type ) {
 
-        getColumnsByType: state => type => {
-            return state.tables[type].columns
-        },
-        getRecordsByType: state => type => {
-            return state.tables[type].records
-        },
-        getLoadingByType: state => type => {
-            return state.tables[type].loading
-        },
-        getLoadedByType: state => type => {
-            return state.tables[type].loaded
-        },
-
-        getRecordsCountByType: (state, getters) => type => {
-            return String(getters.getRecordsByType(type).length)
-        },
-        getRecordsHoursCountByType: (state, getters) => type => {
-            return String(getters.getRecordsByType(type).length)
-        },
-
-        getCustomerById: state => id => {
-            return state.customers.find(customer => customer.id === id)
+        // var data = {
+        //     type: type,
+        //     loading: true
+        // }
+        // commit('SET_LOADING', data)
+        
+        let params = {
+            requestType: type
         }
+
+        const baseURI = rootState.baseUrl + state.moduleType + '/list'
+        return axios.post(baseURI, params)
+            .then(response => {
+                var data = {
+                    type: type,
+                    columns: response.data.columns,
+                    records: response.data.data,
+                    loading: false,
+                    loaded: true
+                }
+                commit('SET_TABLES', data)
+            })
     }
+}
+
+const getters = {
+
+    // if (id in state.form)
+    // if ('data' in state.form[id])
+
+    getFormDataById: state => id => {
+        // if (state.form.hasOwnProperty(id)) {
+        //     if (state.form[id].hasOwnProperty('data')) {
+        //         return state.form[id].data
+        //     }
+        //     return []
+        // }
+        return []
+    },
+    getFormLoadedStateById: state => id => {
+        // if (state.form.hasOwnProperty(id)) {
+        //     if (state.form[id].hasOwnProperty('loaded')) {
+        //         return state.form[id].loaded
+        //     }
+        //     return false
+        // }
+        // field is loaded by default
+        return true
+    },
+
+    getFilterDataById: state => id => {
+        // if (state.filters.hasOwnProperty(id)) {
+        //     if (state.filters[id].hasOwnProperty('data')) {
+        //         return state.filters[id].data
+        //     }
+        //     return []
+        // }
+        return []
+    },
+    getFilterLoadedStateById: state => id => {
+        // if (state.filters.hasOwnProperty(id)) {
+        //     if (state.filters[id].hasOwnProperty('loaded')) {
+        //         return state.filters[id].loaded
+        //     }
+        //     return false
+        // }
+        // field is loaded by default
+        return true
+    },
+    getFilterSelectedValueById: state => id => {
+        // if (state.filters.hasOwnProperty(id)) {
+        //     if (state.filters[id].hasOwnProperty('value')) {
+        //         return state.filters[id].value
+        //     }
+        //     return ''
+        // }
+        return ''
+    },
+
+    getColumnsByType: state => type => {
+        // if (state.tables.hasOwnProperty(type)) {
+        //     if (state.tables[type].hasOwnProperty('columns')) {
+        //         return state.tables[type].columns
+        //     }
+        //     return []
+        // }
+        return []
+    },
+    getRecordsByType: state => type => {
+        // if (state.tables.hasOwnProperty(type)) {
+        //     if (state.tables[type].hasOwnProperty('records')) {
+        //         return state.tables[type].records
+        //     }
+        //     return []
+        // }
+        return []
+    },
+    getLoadingByType: state => type => {
+        // if (state.tables.hasOwnProperty(type)) {
+        //     if (state.tables[type].hasOwnProperty('loading')) {
+        //         return state.tables[type].loading
+        //     }
+        //     return false
+        // }
+        return false
+    },
+    getLoadedByType: state => type => {
+        // if (state.tables.hasOwnProperty(type)) {
+        //     if (state.tables[type].hasOwnProperty('loaded')) {
+        //         return state.tables[type].loaded
+        //     }
+        //     return false
+        // }
+        // field is loaded by default
+        return true
+    },
+
+    getRecordsCountByType: (state, getters) => type => {
+        return String(getters.getRecordsByType(type).length)
+    },
+    getRecordsHoursCountByType: (state, getters) => type => {
+        return String(getters.getRecordsByType(type).length)
+    }
+}
+
+export default {
+    name: 'logs',
+    namespaced: true,
+    state,
+    mutations,
+    actions,
+    getters
 }
