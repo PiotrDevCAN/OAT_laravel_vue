@@ -27,7 +27,8 @@ const mutations = {
 const actions = {
     // in {} is a key available in an passed array
     async fetchFormData({ state, commit, rootState }) {
-        const baseURI = rootState.baseUrl + state.moduleType + '/formData'
+        const source = 'formData'
+        const baseURI = rootGetters.getBaseUrl(state.moduleType, source)
         return axios.post(baseURI)
             .then(response => {
 
@@ -44,7 +45,8 @@ const actions = {
     },
     // in {} is a key available in an passed array
     async fetchFiltersData({ state, commit, rootState }) {
-        const baseURI = rootState.baseUrl + state.moduleType + '/filters'
+        const source = 'filters'
+        const baseURI = rootGetters.getBaseUrl(state.moduleType, source)
         return axios.post(baseURI)
             .then(response => {
 
@@ -75,7 +77,8 @@ const actions = {
             requestType: type
         }
 
-        const baseURI = rootState.baseUrl + state.moduleType + '/list'
+        const source = 'list'
+        const baseURI = rootGetters.getBaseUrl(state.moduleType, source)
         return axios.post(baseURI, params)
             .then(response => {
                 var data = {
