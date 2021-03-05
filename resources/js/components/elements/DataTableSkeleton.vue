@@ -9,6 +9,7 @@
 
 <script>
     export default {
+        name: 'DataTableSkeleton',
         props: {
             loading: Boolean,
             columns: Array,

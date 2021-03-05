@@ -156,27 +156,15 @@ class OvertimeRequests extends Controller
         
         $predicates = array();
         
-        $recordsTotal = 0;
-        $recordsFiltered = 0;
-
         switch ($status) {
             case 'awaiting':
                 $records = OvertimeRequest::awaiting($predicates, $page);
-                
-                $recordsTotal = $records->total();
-                $recordsFiltered = $records->total();
                 break;
             case 'approved':
                 $records = OvertimeRequest::approved($predicates, $page);
-
-                $recordsTotal = $records->total();
-                $recordsFiltered = $records->total();
                 break;
             case 'other':
                 $records = OvertimeRequest::other($predicates, $page);
-
-                $recordsTotal = $records->total();
-                $recordsFiltered = $records->total();
                 break;
             default:
                 $records = array();
@@ -187,9 +175,7 @@ class OvertimeRequests extends Controller
         
         $resourceCollection->additional([
             'draw' => $draw,
-            'columns' => $columns,
-            'recordsTotal' => $recordsTotal,
-            'recordsFiltered' => $recordsFiltered
+            'columns' => $columns
         ]);
         
         return $resourceCollection;

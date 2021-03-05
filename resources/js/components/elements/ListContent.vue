@@ -17,13 +17,13 @@
                 <cv-content-switcher-content :owner-id="ownerData(table.id)" 
                     v-bind:key="index" 
                     v-for="(table, index) in tables" >
-                    <data-table :columns="columnsData(table.id)" 
+                    <data-table :columns="columnsData(table.id, storeName)" 
                         :type="table.id" 
-                        :data-table-data="tableData(table.id)" 
+                        :data-table-data="tableData(table.id, storeName)" 
                         :title="table.title" 
                         :helper-text="table.helperText" 
-                        :loading="checkIsLoading(table.id)" 
-                        :loaded="checkIsLoaded(table.id)"
+                        :loading="checkIsLoading(table.id, storeName)" 
+                        :loaded="checkIsLoaded(table.id, storeName)"
                         :expandedContent="table.expandedContent" 
                     />
                 </cv-content-switcher-content>                    
@@ -42,6 +42,7 @@
             DataTable
         },
         props: {
+            storeName: String,  // for eg. accounts
             tables: Array,
             columnsData: Function,      // getColumnsMapByType
             tableData: Function,        // getRecordsMapByType
@@ -100,7 +101,7 @@
                         return false
                     break
                     default:
-                        return false
+                        return true
                 }
             }
         }

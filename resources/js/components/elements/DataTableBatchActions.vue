@@ -21,6 +21,7 @@
     import Download16 from '@carbon/icons-vue/es/download/16';
 
     export default {
+        name: 'DataTableBathActions',
         components: {
             TrashCan16, 
             Save16, 

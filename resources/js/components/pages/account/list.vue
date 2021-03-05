@@ -4,7 +4,6 @@
     <!-- @ is v-on Shorthand -->
 
     <cv-grid>
-
         <list-template
             :store-name="storeName"
             :filters-data="filtersData"
@@ -23,7 +22,7 @@
     import ListTemplate from '../../elements/ListTemplate.vue'
 
     export default {
-        name: 'accountList',
+        name: 'AccountList',
         components: {
             ListTemplate
         },
@@ -33,7 +32,6 @@
                 storeName: 'accounts',
 
                 // filters settings
-                filtersDefaultValue: 'Choose an option',
                 filtersData: [
                     {
                         lg: 12,
@@ -89,14 +87,14 @@
                         lg: 6,
                         type: 'amount',
                         fields: [
-                            { id: 'accountAmount', type: 'account', label: 'Account Requests', value: '0', type: 'input' }
+                            { id: 'accountAmount', dataType: 'accounts', label: 'Account Requests', value: '0', type: 'input' }
                         ]
                     }
                 ],
 
                 dataTables: [
                     {
-                        id: 'account',
+                        id: 'accounts',
                         title: 'Accounts List',
                         label: 'Accounts',
                         helperText: 'List below provides a possibility to approve or reject selected items'
@@ -105,6 +103,42 @@
 
                 pageHeader: 'Accounts List'
             }
+        },
+        // computed variables are cached !!!
+        computed: {
+
+        },
+        beforeCreate() {
+            // order 1
+            // console.log('List Component before create.')            
+        },
+        created() {
+            // order 2
+            // console.log('List Component created.')
+        },
+        beforeMount () {
+            // order 3
+            // console.log('List Component before mount.')  
+        },
+        mounted() {
+            // order 4
+            // console.log('List Component mounted.')            
+        },
+        beforeUpdate() {
+            // order 5
+            // console.log('List Component before update.')
+        }, 
+        updated() {
+            // order 6
+            // console.log('List Component updated.')
+        },
+        beforeDestroy() {
+            // order 7
+            // console.log('List Component before destroy.')
+        }, 
+        destroyed() {
+            // order 8
+            // console.log('List Component destroyed.')
         }
     }
 </script>

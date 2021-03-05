@@ -35,9 +35,9 @@ export default {
     },
     breadcrumbs() {
       var initial =  [
-        { label: 'Home', url: this.appUrl }
-        // { label: 'bbb from APP.vue', url: '/bbb' },
-        // { label: 'ccc'}
+        { label: 'Home', url: this.appUrl },
+        { label: 'Section'},
+        { label: 'Page'}
       ];
       return initial
     }

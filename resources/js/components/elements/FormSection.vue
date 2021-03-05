@@ -17,7 +17,7 @@
 import FormField from '../elements/FormField'
 
 export default {
-    name: 'formSection',
+    name: 'FormSection',
     components: {
         FormField
     },

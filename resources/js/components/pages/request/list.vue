@@ -23,7 +23,7 @@
     import ListTemplate from '../../elements/ListTemplate.vue'
 
     export default {
-        name: 'requestList',
+        name: 'RequestList',
         components: {
             ListTemplate
         },

@@ -7,35 +7,39 @@
     <!-- store.commit - calls a mutation in action -->
 
     <cv-grid>
-        
-        <list-with-filters 
+
+        <inline-notifications></inline-notifications>
+
+        <list-with-filters
+            :store-name="storeName"
             :filters="filtersData"
             :check-is-loaded="getFilterMapStateById"
             :options-data="getFilterMapDataById">
         </list-with-filters>
         
-        <action-buttons 
+        <action-buttons
+            :store-name="storeName"
             :buttons="actionButtonsData"
             v-on:button-click="handlaActionButtonClick">
         </action-buttons>
         
         <summary-box
+            :store-name="storeName"
             :summary="summaryData"
             :check-is-loaded="getLoadedMapByType"
             :get-records-count="getRecordsCountByType"
-            :get-hours-count="getHoursCountByType"
-            >
+            :get-hours-count="getHoursCountByType">
         </summary-box>
         
         <list-content
+            :store-name="storeName"
             :tables="dataTables"
             :columns-data="getColumnsMapByType"
             :table-data="getRecordsMapByType"
             :load-table-data="getTableData"
             :owner-data="getOwnerId"
             :check-is-loading="getLoadingMapByType"
-            :check-is-loaded="getLoadedMapByType"
-            >
+            :check-is-loaded="getLoadedMapByType">
         </list-content>
         
     </cv-grid>
@@ -48,26 +52,32 @@
     import { mapActions } from 'vuex'
     // import { mapGetters } from 'vuex'
 
+    import { createNamespacedHelpers } from 'vuex'
+    const { mapGetters } = createNamespacedHelpers('common')
+
+    import InlineNotifications from './InlineNotifications.vue'
+
     import ListWithFilters from './ListWithFilters.vue'
     import ActionButtons from './ActionButtons.vue'
     import SummaryBox from './SummaryBox.vue'
     import ListContent from './ListContent.vue'
-
+    
     export default {
-        name: 'requestList',
+        name: 'ListTemplate',
         components: {
+            InlineNotifications,
             ListWithFilters,
             ActionButtons,
             SummaryBox,
             ListContent
         },
         props: {
-            storeName: String,
+            storeName: String,  // for eg. accounts
             filtersData: Array,
             actionButtonsData: Array,
             summaryData: Array,
             dataTables: Array,
-            pageHeader: String
+            pageHeader: String,
         },
         data() {
             return {
@@ -86,13 +96,12 @@
         */
         // computed variables are cached !!!
         computed: {
-            /*
-            ...mapState(
-                {
-                    // loadingFilters: state => state.requests.loadingFilters
-                }
-            ),
-            */
+            
+            // ...mapState(
+            //     {
+            //         loadingFilters: state => state.requests.loadingFilters
+            //     }
+            // ),
 
             /*
             // without aliases
@@ -103,56 +112,82 @@
             */
 
             // with aliases
-            /*
+            // ...mapGetters('common', {
+            //     getFilterMapDataById: 'getFilterDataById',
+            //     getFilterMapStateById: 'getFilterLoadedStateById',
+            //     getFilterMapSelectedById: 'getFilterSelectedValueById',
+
+            //     getColumnsMapByType: 'getColumnsByType',
+            //     getRecordsMapByType: 'getRecordsByType',
+            //     getLoadingMapByType: 'getLoadingByType',
+            //     getLoadedMapByType: 'getLoadedByType',
+
+            //     getRecordsCountByType: 'getRecordsCountByType',
+            //     getHoursCountByType: 'getRecordsHoursCountByType'
+            // }),
+
+            // store getters in common.js
             ...mapGetters({
+                getFilterMapDataById: 'getFilterDataById',
+                getFilterMapStateById: 'getFilterLoadedStateById',
+                getFilterMapSelectedById: 'getFilterSelectedValueById',
 
-                getFilterMapDataById: 'requests/getFilterDataById',
-                getFilterMapStateById: 'requests/getFilterLoadedStateById',
-                getFilterMapSelectedById: 'requests/getFilterSelectedValueById',
+                getColumnsMapByType: 'getColumnsByType',
+                getRecordsMapByType: 'getRecordsByType',
+                getMetaMapByType: 'getMetaByType',
+                getLoadingMapByType: 'getLoadingByType',
+                getLoadedMapByType: 'getLoadedByType',
 
-                getColumnsMapByType: 'requests/getColumnsByType',
-                getRecordsMapByType: 'requests/getRecordsByType',
-                getLoadingMapByType: 'requests/getLoadingByType',
-                getLoadedMapByType: 'requests/getLoadedByType',
-
-                getRecordsCountByType: 'requests/getRecordsCountByType',
-                getHoursCountByType: 'requests/getRecordsHoursCountByType'
+                getRecordsCountByType: 'getRecordsCountByType',
+                getHoursCountByType: 'getRecordsHoursCountByType'
             }),
-            */
-
+            
             // map action to specified module
-            getFilterMapDataById () {
-                return this.$store.getters[this.storeName+'/getFilterDataById']
-            },
-            getFilterMapStateById () {
-                return this.$store.getters[this.storeName+'/getFilterLoadedStateById']
-            },
-            getFilterMapSelectedById () {
-                return this.$store.getters[this.storeName+'/getFilterSelectedValueById']
-            },
-            getColumnsMapByType () {
-                return this.$store.getters[this.storeName+'/getColumnsByType']
-            },
-            getRecordsMapByType () {
-                return this.$store.getters[this.storeName+'/getRecordsByType']
-            },
-            getLoadingMapByType () {
-                return this.$store.getters[this.storeName+'/getLoadingByType']
-            },
-            getLoadedMapByType () {
-                return this.$store.getters[this.storeName+'/getLoadedByType']
-            },
-            getRecordsCountByType () {
-                return this.$store.getters[this.storeName+'/getRecordsCountByType']
-            },
-            getHoursCountByType () {
-                return this.$store.getters[this.storeName+'/getRecordsHoursCountByType']
-            }
+            // getFilterMapDataById () {
+            //     return this.$store.getters[this.storeName+'/getFilterDataById']
+            // },
+            // getFilterMapStateById () {
+            //     return this.$store.getters[this.storeName+'/getFilterLoadedStateById']
+            // },
+            // getFilterMapSelectedById () {
+            //     return this.$store.getters[this.storeName+'/getFilterSelectedValueById']
+            // },
+            // getColumnsMapByType () {
+            //     return this.$store.getters[this.storeName+'/getColumnsByType']
+            // },
+            // getRecordsMapByType () {
+            //     return this.$store.getters[this.storeName+'/getRecordsByType']
+            // },
+            // getLoadingMapByType () {
+            //     return this.$store.getters[this.storeName+'/getLoadingByType']
+            // },
+            // getLoadedMapByType () {
+            //     return this.$store.getters[this.storeName+'/getLoadedByType']
+            // },
+            // getRecordsCountByType () {
+            //     return this.$store.getters[this.storeName+'/getRecordsCountByType']
+            // },
+            // getHoursCountByType () {
+            //     return this.$store.getters[this.storeName+'/getRecordsHoursCountByType']
+            // },
+
+            // computed properties not functions
+            // getFiltersData () {
+            //     console.log('computed getFiltersData')
+            //     this.$store.dispatch(this.storeName+'/fetchFiltersData')
+            //     // return this.$store.getters[this.storeName+'/fetchFiltersData']
+            // },
+            // getTableData () {
+            //     console.log('computed getTableData')
+            //     this.$store.dispatch(this.storeName+'/fetchTableData')
+            //     // return this.$store.getters[this.storeName+'/fetchTableData']
+            // }
         },
         beforCreate() {
             // console.log('List Component before create.')
         },
         created() {
+
             // console.log(this.$store)
 
             // this.$store.dispatch('callModuleActionFromRoot')
@@ -181,29 +216,33 @@
                 amount: 10
             })
             */
-
-            // fetch fiters
-            // this.getFiltersData().then(() => {
             
+            // fetch fiters
+            this.getFiltersData(this.storeName).then(() => {
+            
+            })
+            // dispatch action
+            // this.$store.dispatch(this.storeName+'/fetchFiltersData').then(() => {
+            //     // this.loading = false 
             // })
 
-            // // fetch tables
-            // this.getTableData().then(() => {
+            // fetch tables
+            this.getTableData(this.storeName).then(() => {
 
+            })
+            // dispatch action
+            // this.$store.dispatch(this.storeName+'/fetchTableData').then(() => {
+            //     // this.loading = false 
             // })
-
-            this.$store.dispatch(this.storeName+'/fetchFiltersData').then(() => {
-                // this.loading = false 
-            })
-
-            this.$store.dispatch(this.storeName+'/fetchTableData').then(() => {
-                // this.loading = false 
-            })
-
         },
-        beforeMount() {
-            // console.log('List Component before mount.')
-        },
+        // async beforeMount() {
+        //     // console.log('List Component before mount.')
+        
+            // await this.$store.dispatch(this.storeName+'/fetchFiltersDataExample')
+            // await this.$store.dispatch(this.storeName+'/fetchFiltersDataExample')
+            // await this.$store.dispatch(this.storeName+'/fetchFiltersDataExample')
+
+        // },
         mounted() {
             // console.log('List Component mounted.')
         },
@@ -253,19 +292,28 @@
                 'incrementBy' // map `this.incrementBy(amount)` to `this.$store.dispatch('incrementBy', amount)`
             ]),
             */
+
             ...mapActions({
                 // add: 'increment' // map `this.add()` to `this.$store.dispatch('increment')`
+                // getFiltersData: 'fetchFiltersData',
+                // getTableData: 'fetchTableData'
                 // getFiltersData: 'accounts/fetchFiltersData',
                 // getTableData: 'accounts/fetchTableData'
+                getFiltersData: 'fetchFiltersData',
+                getTableData: 'fetchTableData'
             }),
 
-
-            getFiltersData () {
-                return this.$store.getters[this.storeName+'/fetchFiltersData']
-            },
-            getTableData () {
-                return this.$store.getters[this.storeName+'/fetchTableData']                
-            },
+            // methods
+            // getFiltersData () {
+            //     console.log('methods getFiltersData')
+            //     return this.$store.getters[this.storeName+'/fetchFiltersData']
+            //     return this.$store.getters['fetchFiltersData']
+            // },
+            // getTableData () {
+            //     console.log('methods getTableData')
+            //     return this.$store.getters[this.storeName+'/fetchTableData']
+            //     // return this.$store.getters['fetchTableData']
+            // },
 
             /*
             ...mapMutations([

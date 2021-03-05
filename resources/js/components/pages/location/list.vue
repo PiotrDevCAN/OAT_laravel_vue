@@ -23,7 +23,7 @@
     import ListTemplate from '../../elements/ListTemplate.vue'
 
     export default {
-        name: 'locationList',
+        name: 'LocationList',
         components: {
             ListTemplate
         },
@@ -33,7 +33,6 @@
                 storeName: 'locations',
 
                 // filters settings
-                filtersDefaultValue: 'Choose an option',
                 filtersData: [
                     {
                         lg: 12,
@@ -77,14 +76,14 @@
                         lg: 6,
                         type: 'amount',
                         fields: [
-                            { id: 'locationAmount', type: 'location', label: 'Location Requests', value: '0', type: 'input' }
+                            { id: 'locationAmount', dataType: 'locations', label: 'Location Requests', value: '0', type: 'input' }
                         ]
                     }
                 ],
 
                 dataTables: [
                     {
-                        id: 'location',
+                        id: 'locations',
                         title: 'Locations List',
                         label: 'Locations',
                         helperText: 'List below provides a possibility to approve or reject selected items'

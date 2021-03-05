@@ -1,5 +1,5 @@
 <template>
-    <div v-if="checkIsLoaded(field.id)">
+    <div v-if="checkIsLoaded(field.id, storeName)">
         <div v-if="field.type=='input'">
             <cv-form-item>
                 <cv-text-input 
@@ -10,7 +10,6 @@
             </cv-form-item>
         </div>
         <div v-else-if="field.type=='combo'">
-            COMBO FIELD
             <cv-combo-box
                 :light="field.light"
                 :label="field.label"
@@ -21,7 +20,7 @@
                 :auto-filter="field.autoFilter"
                 :auto-highlight="field.autoHighlight"
                 :value="field.value"
-                :options="optionsData(field.id)">
+                :options="optionsData(field.id, storeName)">
             </cv-combo-box>
         </div>
         <div v-else-if="field.type=='select'">
@@ -30,7 +29,7 @@
                 <cv-select-option disabled selected hidden>{{ filtersDefaultValue }}</cv-select-option>
                 <cv-select-option 
                     v-bind:key="optionIndex" 
-                    v-for="(option, name, optionIndex ) in optionsData(field.id)" 
+                    v-for="(option, name, optionIndex ) in optionsData(field.id, storeName)" 
                     :value="option[field.dataKey]">
                     {{ option[field.dataKey] }}
                 </cv-select-option>
@@ -74,6 +73,7 @@
 export default {
     name: 'formField',
     props: {
+        storeName: String,  // for eg. accounts
         field: Object,
         checkIsLoaded: Function,
         optionsData: Function

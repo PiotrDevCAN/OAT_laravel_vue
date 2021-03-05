@@ -18,6 +18,7 @@
     export default {
         name: 'ActionButtons',
         props: {
+            storeName: String,  // for eg. accounts
             buttons: Array
         },
         data() {

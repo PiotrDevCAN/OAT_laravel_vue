@@ -23,7 +23,7 @@
     import ListTemplate from '../../elements/ListTemplate.vue'
 
     export default {
-        name: 'logList',
+        name: 'LogList',
         components: {
             ListTemplate
         },
@@ -33,7 +33,6 @@
                 storeName: 'logs',
 
                 // filters settings
-                filtersDefaultValue: 'Choose an option',
                 filtersData: [
                     {
                         lg: 12,
@@ -83,14 +82,14 @@
                         lg: 6,
                         type: 'amount',
                         fields: [
-                            { id: 'logAmount', type: 'log', label: 'Log Requests', value: '0', type: 'input' }
+                            { id: 'logAmount', dataType: 'logs', label: 'Log Requests', value: '0', type: 'input' }
                         ]
                     }
                 ],
 
                 dataTables: [
                     {
-                        id: 'log',
+                        id: 'logs',
                         title: 'Logs List',
                         label: 'Logs',
                         helperText: 'List below provides a possibility to approve or reject selected items'

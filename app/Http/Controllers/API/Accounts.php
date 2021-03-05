@@ -60,9 +60,7 @@ class Accounts extends Controller
         
         $resourceCollection->additional([
             'draw' => $draw,
-            'columns' => $columns,
-            'recordsTotal' => $records->total(),
-            'recordsFiltered' => $records->total()
+            'columns' => $columns
         ]);
         
         return $resourceCollection;

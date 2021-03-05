@@ -9,6 +9,7 @@
                 <h3 v-if="row.header">{{ row.header }}</h3>
                 <div v-bind:key="fieldIndex" v-for="(field, fieldIndex) in row.fields" >
                     <form-field
+                        :store-name="storeName"
                         :field="field" 
                         :check-is-loaded="checkIsLoaded"
                         :options-data="optionsData"
@@ -25,11 +26,12 @@
     import FormField from '../elements/FormField'
 
     export default {
-        name: 'listWithFilters',
+        name: 'ListWithFilters',
         components: {
             FormField
         },
         props: {
+            storeName: String,  // for eg. accounts
             filters: Array,
             checkIsLoaded: Function,
             optionsData: Function

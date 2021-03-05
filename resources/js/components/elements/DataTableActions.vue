@@ -26,6 +26,7 @@
 
 <script>
     export default {
+        name: 'DataTableActions',
         data() {
             return {
                 use_actions: true

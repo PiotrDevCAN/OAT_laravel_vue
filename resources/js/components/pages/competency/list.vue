@@ -23,7 +23,7 @@
     import ListTemplate from '../../elements/ListTemplate.vue'
 
     export default {
-        name: 'competencyList',
+        name: 'CompetencyList',
         components: {
             ListTemplate
         },
@@ -33,7 +33,6 @@
                 storeName: 'competencies',
 
                 // filters settings
-                filtersDefaultValue: 'Choose an option',
                 filtersData: [
                     {
                         lg: 12,
@@ -77,14 +76,14 @@
                         lg: 6,
                         type: 'amount',
                         fields: [
-                            { id: 'competencyAmount', type: 'competency', label: 'Competency Requests', value: '0', type: 'input' }
+                            { id: 'competencyAmount', dataType: 'competencies', label: 'Competency Requests', value: '0', type: 'input' }
                         ]
                     }
                 ],
 
                 dataTables: [
                     {
-                        id: 'competency',
+                        id: 'competencies',
                         title: 'Service Lines List',
                         label: 'Service Lines',
                         helperText: 'List below provides a possibility to approve or reject selected items'

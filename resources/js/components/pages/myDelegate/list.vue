@@ -23,7 +23,7 @@
     import ListTemplate from '../../elements/ListTemplate.vue'
 
     export default {
-        name: 'delegateList',
+        name: 'MyDelegateList',
         components: {
             ListTemplate
         },
@@ -33,7 +33,6 @@
                 storeName: 'delegates',
 
                 // filters settings
-                filtersDefaultValue: 'Choose an option',
                 filtersData: [
                     {
                         lg: 12,
@@ -83,14 +82,14 @@
                         lg: 6,
                         type: 'amount',
                         fields: [
-                            { id: 'delegateAmount', type: 'delegate', label: 'Delegate Requests', value: '0', type: 'input' }
+                            { id: 'delegateAmount', dataType: 'delegates', label: 'Delegate Requests', value: '0', type: 'input' }
                         ]
                     }
                 ],
 
                 dataTables: [
                     {
-                        id: 'delegate',
+                        id: 'delegates',
                         title: 'Delegates List',
                         label: 'Delegates',
                         helperText: 'List below provides a possibility to approve or reject selected items'

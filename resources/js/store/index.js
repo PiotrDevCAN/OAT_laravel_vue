@@ -26,12 +26,25 @@ const actions = {
         console.log('callModuleActionFromRoot')
         console.log(context)
     }
+    // fetchFormData() {
+    //     console.log('index fetchFormData')
+    // },
+    // fetchFiltersData() {
+    //     console.log('index fetchFiltersData')
+    // },
+    // fetchTableData() {
+    //     console.log('index fetchTableData')
+    // }
 }
 
 const mutations = {
     SOME_MUTATION (state, data) {
         state.data = data
-    }
+    },
+    // SET_FILTERS: set('filters'),
+    SET_FILTERS (state, data) {
+        console.log('index SET_FILTERS mutation')
+    },
 }
 
 const getters = {
@@ -46,13 +59,32 @@ const getters = {
         return prefix + getters.lastName
     },
 
-    getBaseUrl: (state) => (moduleType, source) => {
-        return state.baseUrl + '/' + moduleType + '/' + source
+    getBaseUrl: (state) => (apiModuleName, source) => {
+        return state.baseUrl + '/' + apiModuleName + '/' + source
+    },
+
+    doneTodos: state => {
+        return state.todos.filter(todo => todo.done)
+    },
+
+    // returns value        
+    doneTodosCount: (state, getters) => {
+        return getters.doneTodos.length
+    },
+
+    // // returns function in VUE component
+    // doneTodosCount () {
+    //     return this.$store.getters.doneTodosCount
+    // },
+
+    getTodoById: (state) => (id) => {
+        return state.todos.find(todo => todo.id === id)
     },
 
     // if (id in state.form)
     // if ('data' in state.form[id])
 
+    /*
     getFormDataById: state => id => {
         if (state.form.hasOwnProperty(id)) {
             if (state.form[id].hasOwnProperty('data')) {
@@ -83,43 +115,9 @@ const getters = {
         return []
     },
 
-    doneTodos: state => {
-        return state.todos.filter(todo => todo.done)
-    },
-
-    // returns value        
-    doneTodosCount: (state, getters) => {
-        return getters.doneTodos.length
-    },
-
-    // // returns function in VUE component
-    // doneTodosCount () {
-    //     return this.$store.getters.doneTodosCount
-    // },
-
-    getTodoById: (state) => (id) => {
-        return state.todos.find(todo => todo.id === id)
-    },
-
     // getFilterLoadedStateById: state => id => {
     getFilterLoadedStateById (state, getters, rootState) {
 
-        console.log('index.getFilterLoadedStateById')
-        // console.log(this)
-        // console.log(state)
-        // console.log(id)
-
-        console.log('state')
-        console.log(state)
-        
-        console.log('getters')
-        console.log(getters)
-
-        console.log('rootState')
-        console.log(rootState)
-
-        return true
-        /*
         if (state.hasOwnProperty(filters)) {
             if (state.filters.hasOwnProperty(id)) {
                 if (state.filters[id].hasOwnProperty('loaded')) {
@@ -132,8 +130,8 @@ const getters = {
         } else {
             return true
         }
-        */
     },
+
     getFilterSelectedValueById: state => id => {
         if (state.filters.hasOwnProperty(id)) {
             if (state.filters[id].hasOwnProperty('value')) {
@@ -153,6 +151,7 @@ const getters = {
         }
         return []
     },
+
     getRecordsByType: state => type => {
         if (state.tables.hasOwnProperty(type)) {
             if (state.tables[type].hasOwnProperty('records')) {
@@ -162,6 +161,7 @@ const getters = {
         }
         return []
     },
+
     getLoadingByType: state => type => {
         if (state.tables.hasOwnProperty(type)) {
             if (state.tables[type].hasOwnProperty('loading')) {
@@ -171,6 +171,7 @@ const getters = {
         }
         return false
     },
+
     getLoadedByType: state => type => {
         if (state.tables.hasOwnProperty(type)) {
             if (state.tables[type].hasOwnProperty('loaded')) {
@@ -185,9 +186,11 @@ const getters = {
     getRecordsCountByType: (state, getters) => type => {
         return String(getters.getRecordsByType(type).length)
     },
+
     getRecordsHoursCountByType: (state, getters) => type => {
         return String(getters.getRecordsByType(type).length)
     }
+    */
 }
 
 export default new Vuex.Store({

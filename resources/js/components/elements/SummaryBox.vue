@@ -4,13 +4,13 @@
             <h3 v-if="row.header">{{ row.header }}</h3>
             <div v-bind:key="fieldIndex" v-for="(field, fieldIndex) in row.fields" >                    
                 <div v-if="field.type='input'">
-                    <div v-if="checkIsLoaded(field.dataType)">
+                    <div v-if="checkIsLoaded(field.dataType, storeName)">
                         <cv-text-input v-if="row.type === 'amount'" 
-                            :value="getRecordsCount(field.dataType)" 
+                            :value="getRecordsCount(field.dataType, storeName)" 
                             :label="field.label">
                         </cv-text-input>
                         <cv-text-input v-else-if="row.type === 'hours'" 
-                            :value="getHoursCount(field.dataType)" 
+                            :value="getHoursCount(field.dataType, storeName)" 
                             :label="field.label">
                         </cv-text-input>
                     </div>
@@ -28,6 +28,7 @@
     export default {
         name: 'SummaryBox',
         props: {
+            storeName: String,  // for eg. accounts
             summary: Array,
             checkIsLoaded: Function,
             getRecordsCount: Function,

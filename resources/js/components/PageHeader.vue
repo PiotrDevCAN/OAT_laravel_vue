@@ -72,7 +72,8 @@
 
     <template slot="header-global">
         <cv-header-global-action aria-label="Notifications" aria-controls="notifications-panel" @click="actionNotifications" >
-            <Notification20 />
+            <Notification20 v-if="getAllNotificationsCount===0"/>
+            <NotificationNew20 v-else/>
         </cv-header-global-action>
         <cv-header-global-action aria-label="User avatar" aria-controls="user-panel" @click="actionUserAvatar" >
             <UserAvatar20 />
@@ -192,7 +193,7 @@
 
     <template slot="right-panels" v-if="areRightPanels">
         <cv-header-panel  id="notifications-panel">
-            Put here all awaiting actions for logged user
+            <toast-notifications></toast-notifications>
         </cv-header-panel>
 
         <cv-header-panel  id="user-panel">
@@ -239,7 +240,15 @@
 </template>
 
 <script>
+
+    import { createNamespacedHelpers } from 'vuex'
+    const { mapGetters } = createNamespacedHelpers('common')
+
+    import ToastNotifications from './elements/ToastNotifications'
+
     import Notification20 from '@carbon/icons-vue/es/notification/20';
+    import NotificationNew20 from '@carbon/icons-vue/es/notification--new/20';
+    
     import UserAvatar20 from '@carbon/icons-vue/es/user--avatar/20';
     import UserProfile20 from '@carbon/icons-vue/es/user--profile/20';
     import AppSwitcher20 from '@carbon/icons-vue/es/app-switcher/20';
@@ -253,12 +262,14 @@
     import Location16 from '@carbon/icons-vue/es/location/16';
     import Login16 from '@carbon/icons-vue/es/login/16';
     import Logout16 from '@carbon/icons-vue/es/logout/16';
-import Logout from './pages/logout.vue';
+    import Logout from './pages/logout.vue';
 
     export default {
         name: 'PageHeader',
         components: {
-            Notification20, 
+            ToastNotifications,
+            Notification20,
+            NotificationNew20,
             UserAvatar20,
             UserProfile20,
             AppSwitcher20,
@@ -286,16 +297,26 @@ import Logout from './pages/logout.vue';
                 header_nav_contents: true
             }
         },
+        // computed variables are cached !!!
+        computed: {
+            // store getters in common.js
+            ...mapGetters({
+                getAllNotificationsCount: 'countNotifications',
+            }),
+        },
         methods: {
             actionNotifications() {
-
+                // alert('actionNotifications')
             },
             actionUserAvatar() {
-
+                // alert('actionUserAvatar')
             },
             actionAppSwitcher() {
-
+                // alert('actionAppSwitcher')
             }
+        },
+        mounted() {
+
         }
     };
 </script>
